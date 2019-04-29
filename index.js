@@ -129,7 +129,7 @@ app.use('/auth', auth);
 // app.use('/cart', cart);
 // app.use('/qna', qna);
 // app.use('/checkout', checkout);
-
+//
 // port 정보 및 콘솔 
 var httpsServer = https.createServer(credentials, app);
 var server = httpsServer.listen(port);
