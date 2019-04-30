@@ -13,13 +13,13 @@ var UserSchema = new Schema({
         type : String,
         required : [true, '패스워드는 필수입니다']
     },
-    displayname : String,
+    major : String,
     created_at : {
         type : Date,
         default : Date.now()
     },
-    hyperledgerid : String,
-    hyperledgerpwd : String,
+    blockchainid : String,
+    blockchainpwd : String,
     user_name : String,
     user_phone : String,
     user_sex : String,

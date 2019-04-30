@@ -65,29 +65,29 @@
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                     </button> 
-                    <a href="/home" class="navbar-brand">Re:Mind Fashion</a>
+                    <a href="/home" class="navbar-brand">한국대학교</a>
                 </div> 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
                     <ul class="nav navbar-nav navbar-center">
                         <li>
-                            <a href="/home">Home</a>
+                            <a href="/home">인터넷증명발급센터</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="/collections/collections">Collection</a>
                         </li>
-                        <li><a href="/qna/list">Q&A</a></li>
+                        <li><a href="/qna/list">Q&A</a></li> -->
                     </ul> 
                     <ul class="nav navbar-nav navbar-right">
                         <% if(isLogin){%>
                             <li ><a href="/accounts/logout" onclick="return confirm('로그아웃 하시겠습니까?')">LOGOUT</a></li>
                         <%}else{%>
-                            <li><a href="/accounts/join">JOIN</a></li>
-                            <li><a href="/accounts/login">LOGIN</a></li>
+                            <li><a href="/accounts/join">학생등록</a></li>
+                            <li><a href="/accounts/login">Login</a></li>
                         <%}%>
-                        <li><a href="/accounts/myinfo">MYINFO</a></li>
-                        <li><a href="/cart">CART</a></li>
+                        <li><a href="/accounts/myinfo">학생정보</a></li>
+                        <!-- <li><a href="/cart">CART</a></li>
                         <li><a href="/chat">CHAT</a></li>
-                        <li><a href="/checkout/nomember">구매조회</a></li> 
+                        <li><a href="/checkout/nomember">구매조회</a></li>  -->
                     </ul>
                 </div>     
         </nav>

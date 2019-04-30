@@ -79,9 +79,9 @@ router.post('/join', function(req, res){
         user_id : req.body.user_id,
         // 비밀번호는 패스워드해쉬 라이브러리 js 파일로 암호화시킨다.
         password : passwordHash(req.body.password),
-        displayname : req.body.displayname,
-        hyperledgerid : req.body.hyperledgerid,
-        hyperledgerpwd : passwordHash(req.body.hyperledgerpwd),
+        major : req.body.major,
+        blockchainid : req.body.blockchainid,
+        blockchainpwd : passwordHash(req.body.blockchainpwd),
         user_name : req.body.user_name,
         user_phone : req.body.user_phone,
         user_sex : req.body.user_sex,
@@ -129,24 +129,24 @@ router.get('/logout', function(req, res){
 
 
 // GET 내 정보 수정 페이지
-// router.get('/myinfo', loginRequired, function(req, res){
+router.get('/myinfo', loginRequired, function(req, res){
 
-//     console.log('myinfo 페이지 경로요청');
-//     console.log(req.user);
+    console.log('myinfo 페이지 경로요청');
+    console.log(req.user);
 
-//     if(!req.user){
+    if(!req.user){
 
-//         console.log('사용자 인증불가');
-//         res.redirect('/accounts/login');
-//     }else{
+        console.log('사용자 인증불가');
+        res.redirect('/accounts/login');
+    }else{
 
-//         if(Array.isArray(req.user)){
-//             res.render('accounts/myinfo.ejs', { user : req.user[0]._id });
-//         }else{
-//             res.render('accounts/myinfo.ejs', { user : req.user });
-//         }
-//     }   
-// });
+        if(Array.isArray(req.user)){
+            res.render('accounts/myinfo.ejs', { user : req.user[0]._id });
+        }else{
+            res.render('accounts/myinfo.ejs', { user : req.user });
+        }
+    }   
+});
 
 // POST 내 정보 수정처리
 // router.post('/myinfo', loginRequired, function(req, res){
