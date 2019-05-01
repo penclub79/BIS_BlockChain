@@ -6,8 +6,8 @@ var passwordHash = require('../libs/passwordHash');
 // 로그인 설정관련 모듈
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-// var session = require('express-session');
-// var loginRequired = require('C:/Users/pencl/Desktop/BIS_BlockChain/libs/loginRequired');
+var session = require('express-session');
+var loginRequired = require('../libs/loginRequired');
 
 // serialize, deserialize : 실질적으로 session은 done에 담긴다.
 // 시리얼, 디시리얼은 나누는 이유는 시리얼에서 아이디를 받아와서 디시리얼에서 분기정책을 정해준다.
