@@ -149,59 +149,59 @@ router.get('/myinfo', loginRequired, function(req, res){
 });
 
 // POST 내 정보 수정처리
-// router.post('/myinfo', loginRequired, function(req, res){
-//     // 수정 된 내 정보 데이터 받기
-//         var _id = req.user._id;
-//         var user_id = req.body.user_id;
-//         // 비밀번호는 패스워드해쉬 라이브러리 js 파일로 암호화시킨다.
-//         var password = passwordHash(req.body.password);
-//         var displayname = req.body.displayname;
-//         var hyperledgerid = req.body.hyperledgerid;
-//         var hyperledgerpwd = passwordHash(req.body.hyperledgerpwd);
-//         var user_name = req.body.user_name;
-//         var user_phone = req.body.user_phone;
-//         var user_sex = req.body.user_sex;
-//         var user_birth = req.body.user_birth;
-//         var user_email = req.body.user_email;
-//         var user_addr = req.body.user_addr;
-//         var user_addr2 = req.body.user_addr2;
-//         var user_post = req.body.user_post;
+router.post('/myinfo', loginRequired, function(req, res){
+    // 수정 된 내 정보 데이터 받기
+        var _id = req.user._id;
+        var user_id = req.body.user_id;
+        // 비밀번호는 패스워드해쉬 라이브러리 js 파일로 암호화시킨다.
+        var password = passwordHash(req.body.password);
+        var major = req.body.major;
+        var blockchainid = req.body.blockchainid;
+        var blockchainpwd = passwordHash(req.body.blockchainpwd);
+        var user_name = req.body.user_name;
+        var user_phone = req.body.user_phone;
+        var user_sex = req.body.user_sex;
+        var user_birth = req.body.user_birth;
+        var user_email = req.body.user_email;
+        var user_addr = req.body.user_addr;
+        var user_addr2 = req.body.user_addr2;
+        var user_post = req.body.user_post;
     
-//         // 업데이트 처리 
-//     UserModel.update(
-//         // 로그인한 사용자의 몽고디비 아이디를 받는다.
-//         {
-//             _id : _id
-//         },
-//         {   // 몽고디비 아이디에 맞는 회원정보 데이터베이스를 일치하는 doc대로 수정한다.
-//             $set : {
+        // 업데이트 처리 
+    UserModel.update(
+        // 로그인한 사용자의 몽고디비 아이디를 받는다.
+        {
+            _id : _id
+        },
+        {   // 몽고디비 아이디에 맞는 회원정보 데이터베이스를 일치하는 doc대로 수정한다.
+            $set : {
                 
-//                 user_id : user_id,
-//                 // 비밀번호는 패스워드해쉬 라이브러리 js 파일로 암호화시킨다.
-//                 password : password,
-//                 displayname : displayname,
-//                 hyperledgerid : hyperledgerid,
-//                 hyperledgerpwd : hyperledgerpwd,
-//                 user_name : user_name,
-//                 user_phone : user_phone,
-//                 user_sex : user_sex,
-//                 user_birth : user_birth,
-//                 user_email : user_email,
-//                 user_addr : user_addr,
-//                 user_addr2 : user_addr2,
-//                 user_post : user_post
-//             }
-//         }, function(err){
-//             // 에러가 발생하면 Error
-//             if(err){
-//                 throw err;
-//             }else{  // 발생하지 않으면 회원정보 수정페이지로 이동한다.
-//                 res.redirect('/accounts/myinfo');
-//             }
-//         }
-//     );
+                user_id : user_id,
+                // 비밀번호는 패스워드해쉬 라이브러리 js 파일로 암호화시킨다.
+                password : password,
+                major : major,
+                blockchainid : blockchainid,
+                blockchainpwd : blockchainpwd,
+                user_name : user_name,
+                user_phone : user_phone,
+                user_sex : user_sex,
+                user_birth : user_birth,
+                user_email : user_email,
+                user_addr : user_addr,
+                user_addr2 : user_addr2,
+                user_post : user_post
+            }
+        }, function(err){
+            // 에러가 발생하면 Error
+            if(err){
+                throw err;
+            }else{  // 발생하지 않으면 회원정보 수정페이지로 이동한다.
+                res.redirect('/accounts/myinfo');
+            }
+        }
+    );
 
-// });
+});
 
 
 
