@@ -71,6 +71,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 // 업로드일 때 정적 path 추가 
 app.use('/uploads', express.static('uploads'));
+app.use('/images', express.static('images'));
 // // static path 추가(장바구니담기)
 // app.use('/static', express.static('static'));
 // // 부트스트랩 파일 정적 라우팅
@@ -133,3 +134,11 @@ app.use('/auth', auth);
 // port 정보 및 콘솔 
 var httpsServer = https.createServer(credentials, app);
 var server = httpsServer.listen(port);
+
+
+// test
+// var server = app.listen( port, function(){ 
+
+//     console.log('Express listening on port', port); 
+
+// }); 

@@ -55,7 +55,7 @@
 
 </head>
 <body>
-
+        
     <div class="container" style="padding-top:10px;">
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
@@ -80,11 +80,13 @@
                     <ul class="nav navbar-nav navbar-right">
                         <% if(isLogin){%>
                             <li ><a href="/accounts/logout" onclick="return confirm('로그아웃 하시겠습니까?')">LOGOUT</a></li>
+                            <li><a href="/accounts/myinfo">학생정보</a></li>
                         <%}else{%>
                             <li><a href="/accounts/join">학생등록</a></li>
                             <li><a href="/accounts/login">Login</a></li>
                         <%}%>
-                        <li><a href="/accounts/myinfo">학생정보</a></li>
+                        
+                        
                         <!-- <li><a href="/cart">CART</a></li>
                         <li><a href="/chat">CHAT</a></li>
                         <li><a href="/checkout/nomember">구매조회</a></li>  -->
