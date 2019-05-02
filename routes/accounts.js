@@ -6,11 +6,9 @@ var passwordHash = require('../libs/passwordHash');
 // 로그인 설정관련 모듈
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-<<<<<<< HEAD
-// var session = require('express-session');
-=======
+
 var session = require('express-session');
->>>>>>> 971fd89abf8b9eb5ba8f209e8520d525874b51f5
+
 var loginRequired = require('../libs/loginRequired');
 
 // serialize, deserialize : 실질적으로 session은 done에 담긴다.

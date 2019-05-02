@@ -43,7 +43,7 @@ var connect = mongoose.connect('mongodb://127.0.0.1:27017/bisblockchain', { useM
 autoIncrement.initialize(connect);
 
 // 라우터 모듈을 로드
-// var admin = require('./routes/admin');
+var admin = require('./routes/admin');
 var home = require('./routes/home');
 var accounts = require('./routes/accounts');
 var auth = require('./routes/auth');
@@ -75,7 +75,7 @@ app.use('/images', express.static('images'));
 // // static path 추가(장바구니담기)
 // app.use('/static', express.static('static'));
 // // 부트스트랩 파일 정적 라우팅
-// app.use('/public', express.static('public'));
+app.use('/public', express.static('public'));
 
 
 
@@ -122,7 +122,7 @@ app.use(function(req, res, next){
 // url, admin모듈 객체변수
 app.use('/home', home);
 // app.use('/collections', collections); 
-// app.use('/admin', admin);
+app.use('/admin', admin);
 app.use('/accounts', accounts);
 app.use('/auth', auth);
 // app.use('/chat', chat);
@@ -134,11 +134,3 @@ app.use('/auth', auth);
 // port 정보 및 콘솔 
 var httpsServer = https.createServer(credentials, app);
 var server = httpsServer.listen(port);
-
-
-// test
-// var server = app.listen( port, function(){ 
-
-//     console.log('Express listening on port', port); 
-
-// }); 
