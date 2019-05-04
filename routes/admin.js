@@ -8,6 +8,7 @@ var loginRequired = require('../libs/loginRequired');
 var adminRequired = require('../libs/adminRequired');
 var CheckoutModel = require('../models/CheckoutModel');
 var UserModel = require('../models/UserModel');
+var passwordHash = require('../libs/passwordHash');
 // 콜백헬 개선
 var co = require('co');
 var paginate = require('express-paginate');
@@ -263,32 +264,51 @@ router.get('/products', paginate.middleware(5, 50), async (req,res) => {
 //     }
 // });
 
+// 제품 목록페이지
+router.get('/products', paginate.middleware(5, 50), async (req,res) => {
 
-// GET 어드민 홈 등록제품 목록페이지
-router.get('/products/productslist', paginate.middleware(100, 100), async (req, res) => {
-    
     if(!req.isAuthenticated()){
 
-        res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/admin/adminlogin"</script>');
+        res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/accounts/login"</script>');
     }else{
 
         const [ results, itemCount ] = await Promise.all([
             // sort : minus 하면 내림차순(날짜명)이다.
-            ProductsModel.find({"user_name" : req.user.user_id}).sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
+            ProductsModel.find().sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
             ProductsModel.count({})
         ]);
         const pageCount = Math.ceil(itemCount / req.query.limit);
         
         const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
-        
-        res.render('admin/adminproductslist', 
+
+        res.render('admin/products', 
             { 
-                products : results, 
+                products : results , 
                 pages: pages,
                 pageCount : pageCount,
             });
     }
 });
+
+// router.get('/order', function(req, res){
+
+//     CheckoutModel.find( function(err, orderList){ //첫번째 인자는 err, 두번째는 받을 변수명
+    
+//         res.render( 'admin/orderList' ,   
+//             { orderList : orderList }
+//         );
+//     });
+// });
+// GET 어드민 홈 전체 학생목록 불러오기 
+router.get('/adminstudentlist', function(req, res){
+    UserModel.find( function(err, stuList){ //첫번째 인자는 err, 두번째는 받을 변수명
+    
+                res.render( 'admin/adminstudentlist' ,   
+                    { stulist : stuList }
+                );
+        });
+});
+   
 
 
 // 상세페이지 /admin/products/detail/:id
@@ -475,6 +495,20 @@ router.post('/products/edit/:id', loginRequired, upload.single('thumbnail'), csr
                 }
             ); 
     });      
+});
+
+// 학생 삭제 처리
+router.get('/adminstudentlist/delete/:id', function(req, res){
+    // 모델객체에서 데이터 삭제
+    UserModel.remove(
+        {   // 페이지에서 제품 아이디값 전달받는다
+            id : req.params.id
+        }, function(err){
+            // 삭제 후 제품목록으로 이동
+            // res.redirect('/admin/products');
+            res.redirect('/admin/adminstudentlist');
+        }
+    );
 });
 
 // 제품 삭제 처리
@@ -807,8 +841,36 @@ var date = new Date();
 //         });    
 // });
 
+// 회원가입 페이지
+router.get('/studentregedit', function(req, res){
+    res.render('admin/studentregidit');
+});
 
+// 회원가입 처리 프로세스
+router.post('/studentregedit', function(req, res){
+    // 정의한 유저모델 형식과 동일한 데이터를 리퀘스트로 입력받는다.
+    var User = new UserModel({
 
+        user_id : req.body.user_id,
+        // 비밀번호는 패스워드해쉬 라이브러리 js 파일로 암호화시킨다.
+        password : passwordHash(req.body.password),
+        major : req.body.major,
+        blockchainid : req.body.blockchainid,
+        blockchainpwd : passwordHash(req.body.blockchainpwd),
+        user_name : req.body.user_name,
+        user_phone : req.body.user_phone,
+        user_sex : req.body.user_sex,
+        user_birth : req.body.user_birth,
+        user_email : req.body.user_email,
+        user_addr : req.body.user_addr,
+        user_addr2 : req.body.user_addr2,
+        user_post : req.body.user_post
+    });
+    User.save(function(err){
+        res.send('<script>alert("학생등록 완료");\
+        location.href="/admin/adminstudentlist";</script>');
+    });
+});
 
 
 

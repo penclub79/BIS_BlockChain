@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Admin - 동국대학교 Administrator</title>
+  <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+  <!-- Bootstrap core CSS-->
+  <link href="../../public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <link href="../../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Page level plugin CSS-->
+  <link href="../../public/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="../../public/css/sb-admin.css" rel="stylesheet">
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <a class="navbar-brand" href="/admin/adminhome">Re:Mind Fashion Administrator</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="/admin/adminhome">
+            <i class="fa fa-fw fa-dashboard"></i>
+            <span class="nav-link-text">대시보드</span>
+          </a>
+        </li>
+        <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+          <a class="nav-link" href="/admin/products/productsregist" width="10px" height="10px">
+            <i class="fa fa-fw fa-eyedropper"></i>
+            <span class="nav-link-text">상품등록</span>
+          </a>
+        </li> -->
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="/admin/products/productslist">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">접수목록</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="/admin/products/orderlist">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">승인목록</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+          <a class="nav-link" href="/admin/products/productschart">
+            <i class="fa fa-fw fa-area-chart"></i>
+            <span class="nav-link-text">통계차트</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+          <a class="nav-link" href="studentregedit">
+            <i class="fa fa-fw fa-area-chart"></i>
+            <span class="nav-link-text">학생등록</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+            <a class="nav-link" href="/admin/adminstudentlist">
+              <i class="fa fa-fw fa-area-chart"></i>
+              <span class="nav-link-text">학생목록</span>
+            </a>
+          </li>
+        <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="tables.html">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">Tables</span>
+          </a>
+        </li> -->
+        <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components"> -->
+          <!-- <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-wrench"></i>
+            <span class="nav-link-text">Components</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponents">
+            <li>
+              <a href="navbar.html">Navbar</a>
+            </li>
+            <li>
+              <a href="cards.html">Cards</a>
+            </li>
+          </ul> -->
+        <!-- </li> -->
+        <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-file"></i>
+            <span class="nav-link-text">Example Pages</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseExamplePages">
+            <li>
+              <a href="login.html">Login Page</a>
+            </li>
+            <li>
+              <a href="register.html">Registration Page</a>
+            </li>
+            <li>
+              <a href="forgot-password.html">Forgot Password Page</a>
+            </li>
+            <li>
+              <a href="blank.html">Blank Page</a>
+            </li>
+          </ul>
+        </li> -->
+        <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels"> -->
+          <!-- <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-sitemap"></i>
+            <span class="nav-link-text">Menu Levels</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseMulti">
+            <li>
+              <a href="#">Second Level Item</a>
+            </li>
+            <li>
+              <a href="#">Second Level Item</a>
+            </li>
+            <li>
+              <a href="#">Second Level Item</a>
+            </li>
+            <li>
+              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
+              <ul class="sidenav-third-level collapse" id="collapseMulti2">
+                <li>
+                  <a href="#">Third Level Item</a>
+                </li>
+                <li>
+                  <a href="#">Third Level Item</a>
+                </li>
+                <li>
+                  <a href="#">Third Level Item</a>
+                </li>
+              </ul>
+            </li>
+          </ul> -->
+        <!-- </li> -->
+        <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+          <a class="nav-link" href="#">
+            <i class="fa fa-fw fa-link"></i>
+            <span class="nav-link-text">Link</span>
+          </a>
+        </li> -->
+      </ul>
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-envelope"></i>
+            <span class="d-lg-none">Messages
+              <span class="badge badge-pill badge-primary">12 New</span>
+            </span>
+            <span class="indicator text-primary d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="messagesDropdown">
+            <h6 class="dropdown-header">New Messages:</h6>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>David Miller</strong>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">Hey there! This new version of SB Admin is pretty awesome! These messages clip off when they reach the end of the box so they don't overflow over to the sides!</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>Jane Smith</strong>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">I was wondering if you could meet for an appointment at 3:00 instead of 4:00. Thanks!</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>John Doe</strong>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">I've sent the final files over to you for review. When you're able to sign off of them let me know and we can discuss distribution.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item small" href="#">View all messages</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-bell"></i>
+            <span class="d-lg-none">Alerts
+              <span class="badge badge-pill badge-warning">6 New</span>
+            </span>
+            <span class="indicator text-warning d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="alertsDropdown">
+            <h6 class="dropdown-header">New Alerts:</h6>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-success">
+                <strong>
+                  <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-danger">
+                <strong>
+                  <i class="fa fa-long-arrow-down fa-fw"></i>Status Update</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-success">
+                <strong>
+                  <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item small" href="#">View all alerts</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <form class="form-inline my-2 my-lg-0 mr-lg-2">
+            <div class="input-group">
+              <input class="form-control" type="text" placeholder="Search for...">
+              <span class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+          </form>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">학생등록</li>
+      </ol>
+      
+      <div class="card mb-3">
+      <div class="row">
+        <!-- <div class="col-md-4 col-md-offset-4"> -->
+          <div class="card-body">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">회원가입</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" action="" id="join_form" method="post">
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="학번" name="user_id" type="text" autofocus="" required="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="패스워드" name="password" type="password" value="" required="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="패스워드 확인" name="password2" type="password" value="" required="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="전공" name="major" type="text" value="" required="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="블록체인 아이디" name="blockchainid" readonly type="text" value="" required="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="블록체인 비밀번호" name="blockchainpwd" type="password" value="" required="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" id="onlyHangul" placeholder="이름" name="user_name" type="text" autofocus="" required="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" id="onlyNumber" placeholder="핸드폰 번호" name="user_phone" type="text" value="" required="">
+                            </div>
+                            <div class="form-group">
+                                <select name="user_sex" class="form-control" > 
+                                    <option value="M" selected="selected">M</option> 
+                                    <option value="F">F</option> 
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="date" name="user_birth" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="E-Mail" name="user_email" type="email" autofocus="" required="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="주소" name="user_addr" type="text" readonly value="" required="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="상세주소" name="user_addr2" type="text" value="" required="">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" id="onlyNumber" placeholder="우편번호" name="user_post" type="text" value="" required="">
+                                <span style="margin-top:10px" class="btn btn-primary" onclick="setDaumPostcode()">우편번호 찾기</span>
+                            </div>
+                            
+                            <!-- Change this to a button or input when using this as a form -->
+                            <input type="submit" class="btn btn-lg btn-success btn-block" value="가입하기">
+                            <!-- <div style="margin-top: 10px"> -->
+                                <!-- <a href="/auth/facebook" class="btn btn-lg btn-primary btn-block"> -->
+                                <!-- <i class="fa fa-facebook" aria-hidden="true"></i> 페이스북 회원가입 -->
+                                <!-- </a> -->
+                            <!-- </div> -->
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+  </div>
+</div>
+  <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <small>Copyright © Your Website 2018</small>
+        </div>
+      </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="/admin/logout">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="../public/vendor/jquery/jquery.min.js"></script>
+    <script src="../public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="../public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="../public/vendor/chart.js/Chart.min.js"></script>
+    <script src="../public/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="../public/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="../public/js/sb-admin.min.js"></script>
+    <!-- Custom scripts for this page-->
+    <script src="../public/js/sb-admin-datatables.min.js"></script>
+    <script src="../public/js/sb-admin-charts.min.js"></script>
+<!-- iamport daum address api -->
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script type="text/javascript">
+
+(function(){
+    $(document).ready(function() {
+
+            $('#join_form').submit(function(){
+
+                var $useridInput = $('#join_form input[name=user_id]');
+                var $passwordInput = $('#join_form input[name=password]');
+                var $passwordInput2 = $('#join_form input[name=password2]');
+                var $major = $('#join_form input[name=major]');
+                var $blockchainid = $('#join_form input[name=blockchainid]');
+                var $blockchainpwd = $('#join_form input[name=blockchainpwd]');
+                var $user_name = $('#join_form input[name=user_name]');
+                var $user_phone = $('#join_form input[name=user_phone]');
+                var $user_sex = $('#join_form input[name=user_sex]');
+                var $user_birth = $('#join_form input[name=user_birth]');
+                var $user_email = $('#join_form input[name=user_email]');
+                var $user_addr = $('#join_form input[name=user_addr]');
+                var $user_addr2 = $('#join_form input[name=user_addr2]');
+                var $user_post = $('#join_form input[name=user_post]');
+
+                if(!$useridInput.val()){
+                    alert("아이디를 입력해주세요.");
+                    $useridInput.focus();
+                    return false;
+                }
+                if(!$passwordInput.val()){
+                    alert("확인 패스워드를 입력해주세요.");
+                    $passwordInput2.focus();
+                    return false;
+                }
+                if(!$passwordInput2.val()){
+                    alert("확인 패스워드를 입력해주세요.");
+                    $passwordInput2.focus();
+                    return false;
+                }
+                if(!$displayname.val()){
+                    alert("닉네임을 입력해주세요.");
+                    $displayname.focus();
+                    return false;
+                }
+                if($passwordInput.val() !== $passwordInput2.val()){
+                    alert("패스워드와 확인용패스워드를 똑같이 입력해주세요.");
+                    return false;
+                }
+                if(!$hyperledgerid.val()){
+                    alert("하이퍼레저아이디 입력해주세요.");
+                    $hyperledgerid.focus();
+                    return false;
+                }
+                if(!$hyperledgerpwd.val()){
+                    alert("하이퍼레저비밀번호 입력해주세요.");
+                    $hyperledgerpwd.focus();
+                    return false;
+                }
+                if(!$user_name.val()){
+                    alert("이름을 입력해주세요.");
+                    $$user_name.focus();
+                    return false;
+                }
+                if(!$user_phone.val()){
+                    alert("연락처를 입력해주세요.");
+                    $$user_phone.focus();
+                    return false;
+                }
+                // if(!$user_sex.val()){
+                //     alert("성별을 선택해주세요.");
+                //     $user_sex.focus();
+                //     return false;
+                // }
+                if(!$user_birth.val()){
+                    alert("생일을 입력해주세요.");
+                    $user_birth.focus();
+                    return false;
+                }
+                if(!$user_email.val()){
+                    alert("이메일을 입력해주세요.");
+                    $user_email.focus();
+                    return false;
+                }
+                if(!$user_addr.val()){
+                    alert("주소를 입력해주세요.");
+                    $user_addr.focus();
+                    return false;
+                }
+                if(!$user_addr2.val()){
+                    alert("상세주소를 입력해주세요.");
+                    $user_addr2.focus();
+                    return false;
+                }
+                if(!$user_post.val()){
+                    alert("우편번호를 입력해주세요.");
+                    $user_post.focus();
+                    return false;
+                }
+                return true;
+            });
+
+
+
+            // // 영문+숫자모드
+            // $user_id = $.trim($("#user_id").val());	
+	
+            // if(!user_id.value.match(/^[a-z0-9_]+$/)){
+                
+            //     alert("영문소문자 및 숫자만 입력해주세요");
+            //     user_id.value="";
+            //     user_id.focus();
+            //     return false;
+            // }
+
+
+            // // 숫자, 알파벳, 한글, 비한글 모드
+            // $("#input1").keyup(function(event){
+
+            // if(event.keyCode !=8){
+            //     var result = "keycode="+ event.keyCode + " value="+ String.fromCharCode(event.keyCode);
+            //     var preHtml = $("#result").html();
+            //     $("#result").html(preHtml+ "<br />" +result);
+            // }
+            // if($(this).val() ==""){
+            //     $("#result").empty();
+            //     }
+            // });
+            
+            // $("#onlyNumber").keyup(function(event){
+            //     if (!(event.keyCode >=37 && event.keyCode<=40)) {
+            //         var inputVal = $(this).val();
+            //         $(this).val(inputVal.replace(/[^0-9]/gi,''));
+            //     }
+            // });
+            // $("#onlyAlphabet").keyup(function(event){
+            //     if (!(event.keyCode >=37 && event.keyCode<=40)) {
+            //         var inputVal = $(this).val();
+            //         $(this).val(inputVal.replace(/[^a-z]/gi,''));
+            //     }
+            // });
+            // $("#notHangul").keyup(function(event){
+            //     if (!(event.keyCode >=37 && event.keyCode<=40)) {
+            //         var inputVal = $(this).val();
+            //         $(this).val(inputVal.replace(/[^a-z0-9]/gi,''));
+            //     }
+            // });
+            // $("#onlyHangul").keyup(function(event){
+            //     if (!(event.keyCode >=37 && event.keyCode<=40)) {
+            //         var inputVal = $(this).val();
+            //         $(this).val(inputVal.replace(/[a-z0-9]/gi,''));
+            //     }
+            // });
+
+
+
+
+        });
+
+
+            
+
+
+
+    })();
+
+
+// Daum Address API Function
+    function setDaumPostcode() {
+        new daum.Postcode({
+            
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var fullAddr = ''; // 최종 주소 변수
+                var extraAddr = ''; // 조합형 주소 변수
+
+                // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    fullAddr = data.roadAddress;
+
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    fullAddr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+                if(data.userSelectedType === 'R'){
+                    //법정동명이 있을 경우 추가한다.
+                    if(data.bname !== ''){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있을 경우 추가한다.
+                    if(data.buildingName !== ''){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                $('input[name=user_post]').val(data.zonecode);
+                $('input[name=user_addr]').val(fullAddr);
+                
+                // 커서를 상세주소 필드로 이동한다.
+                $('input[name=user_addr2]').focus();
+            }
+        }).open();
+    }
+
+</script>
+
+    
+  </div>
+
+
+  
+
+
+        
+
+</body>
+
+</html>

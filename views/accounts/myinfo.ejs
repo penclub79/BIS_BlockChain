@@ -10,7 +10,7 @@
                     <fieldset>
                         
                         <div class="form-group">
-                            <input class="form-control" placeholder="학번" name="user_id" type="text" value="<%= user.user_id %>" autofocus="" required="">
+                            <input class="form-control" placeholder="학번" name="user_id" readonly type="text" value="<%= user.user_id %>" autofocus="" required="">
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="Password" name="password" type="password" value="<%= user.password %>" required="">
@@ -19,13 +19,13 @@
                             <input class="form-control" placeholder="Password 확인" name="password2" type="password" value="<%= user.password %>" required="">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" placeholder="전공" name="major" type="text" value="<%= user.displayname %>" required="">
+                            <input class="form-control" placeholder="전공" name="major" type="text" value="<%= user.major %>" required="">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" placeholder="블록체인 아이디" name="blockchainid" type="text" value="<%= user.hyperledgerid %>" required="">
+                            <input class="form-control" placeholder="블록체인 아이디" name="blockchainid" readonly type="text" value="<%= user.blockchainid %>" required="">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" placeholder="블록체인 비밀번호" name="blockchainpwd" type="password" value="<%= user.hyperledgerpwd %>" required="">
+                            <input class="form-control" placeholder="블록체인 비밀번호" name="blockchainpwd" type="password" value="<%= user.blockchainpwd %>" required="">
                         </div>
                         <div class="form-group">
                             <input class="form-control" id="onlyHangul" placeholder="user_name" name="user_name" type="text" value="<%= user.user_name %>" autofocus="" required="">

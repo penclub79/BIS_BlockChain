@@ -33,22 +33,22 @@
             <span class="nav-link-text">대시보드</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+        <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
           <a class="nav-link" href="/admin/products/productsregist" width="10px" height="10px">
             <i class="fa fa-fw fa-eyedropper"></i>
             <span class="nav-link-text">상품등록</span>
           </a>
-        </li>
+        </li> -->
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
           <a class="nav-link" href="/admin/products/productslist">
             <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">상품리스트</span>
+            <span class="nav-link-text">접수목록</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
           <a class="nav-link" href="/admin/products/orderlist">
             <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">주문리스트</span>
+            <span class="nav-link-text">승인목록</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
@@ -57,7 +57,19 @@
             <span class="nav-link-text">통계차트</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+            <a class="nav-link" href="/admin/studentregedit">
+              <i class="fa fa-fw fa-area-chart"></i>
+              <span class="nav-link-text">학생등록</span>
+            </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+            <a class="nav-link" href="/admin/studentlist">
+              <i class="fa fa-fw fa-area-chart"></i>
+              <span class="nav-link-text">학생목록</span>
+            </a>
+        </li>
+        <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-wrench"></i>
             <span class="nav-link-text">Components</span>
@@ -127,7 +139,7 @@
             <i class="fa fa-fw fa-link"></i>
             <span class="nav-link-text">Link</span>
           </a>
-        </li>
+        </li> -->
       </ul>
       <ul class="navbar-nav sidenav-toggler">
         <li class="nav-item">
@@ -240,98 +252,56 @@
         <li class="breadcrumb-item">
           <a href="#">대시보드</a>
         </li>
-        <li class="breadcrumb-item active">상품리스트</li>
+        <li class="breadcrumb-item active">학생목록</li>
       </ol>
       <!-- Example DataTables Card-->
       <div class="card mb-3">
         <div class="card-header">
-          <i class="fa fa-table"></i> 등록 상품 테이블</div>
+          <i class="fa fa-table"></i> 학생 목록</div>
         <div class="card-body">
           <div class="table-responsive">
-            <div class="panel panel-default">
-        <div class="card text-white bg-success o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-shopping-cart"></i>
-              </div>
-              <div class="mr-5">상품명 : &nbsp; <%=product.productname%></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-left">상품등록일자 : &nbsp; 
-                <%=product.getDate.year%>년 
-                <%=product.getDate.month%>월 
-                <%=product.getDate.day%>일
-              </span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-            <% if(product.thumbnail){%>
-              <div class="card text-white bg-danger o-hidden h-100">
-              <div class="card-body">
-                  <div class="card-body-icon">
-                    <i class="fa fa-fw fa-support"></i>
-                  </div>
-                  <div class="mr-5">
-                    <p align="center">
-                        <img src="/uploads/<%=product.thumbnail%>" style="max-width: 100%"/>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            <% } %>
-
-            
-            <div class="card text-white bg-warning o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-list"></i>
-              </div>
-              <div class="mr-5" align="center"><h1>제품 상세설명</h1></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-center"><%-product.description%></span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-
-            <!-- 댓글영역  -->
-            <hr/>
-                    <div id="sibal"></div>
-                    <div id="comment_area">
-
-                        <% comments.forEach(function(comment){ %> 
-                            <div>
-                                <!-- 댓글 -->
-                                <div id="commentreple"> 
-                                    <%= comment.content %> 
-                                    ( <a class='comment_delete' comment_id='<%= comment.id %>'>댓글삭제</a> )
-                                </div>
-                            </div>    
-                        <% }); %>
-                        </div>
-                    <div>
-        <!-- 댓글영역  -->
-        <div>
-            <br/>
-            Comments
-            <form id="commentForm" action="" method="post">
-                <input type="hidden" name="product_id" value="<%=product.id%>" />
-                <textarea class="form-control" name="content"></textarea>
-                <button class="btn btn-primary" style="margin-top: 10px">댓글작성</button>
-            </form>
-        </div>
-        <!-- 댓글영역  -->
-        </div>
-    </div>
- 
-    <a href="/admin/products/productslist" class="btn btn-default">목록으로</a>
-    <a href="/admin/products/adminproductedit/<%=product.id%>" class="btn btn-primary">수정</a>
-
-    
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr align="center">
+                    <th width="1%" style="vertical-align: middle;">학번</th>
+                    <th width="1%" style="vertical-align: middle;">전공</th>
+                    <th width="1%" style="vertical-align: middle;">성별</th>
+                    <th width="1%" style="vertical-align: middle;">이름</th>
+                    <th width="10%" style="vertical-align: middle;">블록체인ID</th>
+                    <th width="1%" style="vertical-align: middle;">삭제</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr align="center">
+                    <th>학번</th>
+                    <th>전공</th>
+                    <th>성별</th>
+                    <th>이름</th>
+                    <th>블록체인ID</th>
+                    <th>삭제</th>
+                </tr>
+            </tfoot>
+                <tbody>
+                <% stulist.forEach(function(stulist){ %>
+                <tr align="center">
+                    <td style="vertical-align: middle; font-size: 0.7em;">
+                        <a href="/admin/adminstudentlist/<%= stulist.user_id %>"><%= stulist.user_id %></a>
+                    </td>
+                    <td style="vertical-align: middle; font-size: 0.7em;">
+                        <a href="/admin/adminstudentlist/<%= stulist.major %>"><%= stulist.major %></a>
+                    </td>
+                    <td style="vertical-align: middle;"><%=stulist.user_sex%></td>
+                    <td style="vertical-align: middle; font-size: 0.7em;"><%-stulist.user_name %></td>
+                    <td style="vertical-align: middle; font-size: 0.7em;">
+                      <%= stulist.blockchainid %>
+                    </td>
+                    <td style="vertical-align: middle; font-size: 0.7em;">
+                        <a href="/admin/adminstudentlist/delete/<%= stulist.id %>" class="btn btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+                    </td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
@@ -363,7 +333,7 @@
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" href="/admin/logout">Logout</a>
           </div>
         </div>
       </div>
@@ -380,129 +350,6 @@
     <script src="../../../public/js/sb-admin.min.js"></script>
     <!-- Custom scripts for this page-->
     <script src="../../../public/js/sb-admin-datatables.min.js"></script>
-
-      <script>
-        (function(){
-            // 댓글 작성
-                $(document).ready(function() {
-                    $('#commentForm').submit(function(){ // commentForm 전송함수
-                        var $contentVal = $(this).children('textarea[name=content]').val(); // 폼 데이터를 contentVal로 받는다.
-                        // alert($contentVal);
-                        // 댓글이 있을 경우
-                        if($contentVal){
-
-                            $.ajax({
-                                // 라우트에 있는 객체를 url과 매핑해서 실행
-                                url : '/admin/products/ajax_comment/insert',
-                                type : 'POST',
-                                data : $(this).serialize(), // 키필드에 맞게 세팅
-                            }).done(function(args){
-
-                                console.log(args.message);
-                                // 댓글 작성하면 화면에 보이게 하기, admin.js에서 success 전달받은 후
-                                if(args.message === "success"){
-                                    $('#comment_area').append(
-                                        '<div>' + args.content + "( <a class='comment_delete' comment_id='" + args.id + "'>삭제</a> ) </div>"
-                                    );
-                                    $('#commentForm textarea[name=content]').val("");
-                                }
-                            }).fail(function(args){
-                                
-                                console.log(args);
-                            });
-                        }else{
-                            alert('댓글을 입력해주세요');
-                        }
-                        return false;
-                    });
-
-            // 리플 작성
-                    $('#repleForm2').submit(function(){ // repleForm2 전송함수
-                        var $repleVal = $(this).children('textarea[name=reple2]').val(); // 폼 데이터를 repleVal 받는다.
-                        // alert($repleVal);
-                        // 댓글이 있을 경우
-                        if($repleVal){
-
-                            $.ajax({
-                                // 라우트에 있는 객체를 url과 매핑해서 실행
-                                url : '/admin/products/ajax_comment/repleinsert',
-                                type : 'POST',
-                                data : $(this).serialize(), // 키필드에 맞게 세팅
-                            }).done(function(args){
-
-                                console.log(args.message);
-                                // 댓글 작성하면 화면에 보이게 하기, admin.js에서 success 전달받은 후
-                                if(args.message === "success"){
-                                    $('#sibal').append(
-                                        '<div>' + args.content + "( <a class='reple_delete' reple_id='" + args.id + "'>삭제</a> ) </div>"
-                                    );
-                                    $('#repleForm2 textarea[name=reple2]').val("");
-                                }
-                            }).fail(function(args){
-                                
-                                console.log(args);
-                            });
-                        }else{
-                            alert('리플을 입력해주세요');
-                        }
-                        return false;
-                    });
-
-            // 이 부분 설명 다시 필요함.
-            $(document).on('click' , '.comment_delete' , function(){
-                if(confirm('삭제하시겠습니까?')){ //확인창 예 눌렀을 시만 진행
-                    // 삭제할 때 댓글의 div까지 삭제해야 하기 때문에 클릭한 시점
-                    // parent().remove() 부모를 삭제한다.
-                    // self는 ajax의 url을 호출한다.
-                    var $self = $(this);
-                    $.ajax(
-                        {
-                            url: '/admin/products/ajax_comment/delete',
-                            type: 'POST',
-                            data: { 
-                                    comment_id : $self.attr('comment_id') 
-                                },
-                        }
-                    )
-                    .done(function() {
-                        $self.parent().remove();
-                        alert("삭제가 완료되었습니다.");
-                    })
-                    .fail(function(args) {
-                        console.log(args);
-                    });
-                }
-            });
-
-            // 리플 삭제
-            $(document).on('click' , '.reple_delete' , function(){
-                if(confirm('삭제하시겠습니까?')){ //확인창 예 눌렀을 시만 진행
-                    // 삭제할 때 댓글의 div까지 삭제해야 하기 때문에 클릭한 시점
-                    // parent().remove() 부모를 삭제한다.
-                    // self는 ajax의 url을 호출한다.
-                    var $self = $(this);
-                    $.ajax(
-                        {
-                            url: '/admin/products/ajax_comment/repledelete',
-                            type: 'POST',
-                            data: { 
-                                    reple_id : $self.attr('reple_id') 
-                                },
-                        }
-                    )
-                    .done(function() {
-                        $self.parent().remove();
-                        alert("삭제가 완료되었습니다.");
-                    })
-                    .fail(function(args) {
-                        console.log(args);
-                    });
-                }
-            });
-          });
-        })();
-    </script>
-
   </div>
 </body>
 
