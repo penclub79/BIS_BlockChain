@@ -222,7 +222,7 @@ router.post('/products/productsregist', loginRequired, upload.single('thumbnail'
 
 
 // 제품 목록페이지
-router.get('/products', paginate.middleware(5, 50), async (req,res) => {
+router.get('/products/productslist', paginate.middleware(5, 50), async (req,res) => {
 
     if(!req.isAuthenticated()){
 
@@ -238,7 +238,7 @@ router.get('/products', paginate.middleware(5, 50), async (req,res) => {
         
         const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
 
-        res.render('admin/products', 
+        res.render('admin/adminproductslist', 
             { 
                 products : results , 
                 pages: pages,
@@ -265,7 +265,7 @@ router.get('/products', paginate.middleware(5, 50), async (req,res) => {
 // });
 
 // 제품 목록페이지
-router.get('/products', paginate.middleware(5, 50), async (req,res) => {
+router.get('/products/productslist', paginate.middleware(5, 50), async (req,res) => {
 
     if(!req.isAuthenticated()){
 
@@ -290,15 +290,7 @@ router.get('/products', paginate.middleware(5, 50), async (req,res) => {
     }
 });
 
-// router.get('/order', function(req, res){
 
-//     CheckoutModel.find( function(err, orderList){ //첫번째 인자는 err, 두번째는 받을 변수명
-    
-//         res.render( 'admin/orderList' ,   
-//             { orderList : orderList }
-//         );
-//     });
-// });
 // GET 어드민 홈 전체 학생목록 불러오기 
 router.get('/adminstudentlist', function(req, res){
     UserModel.find( function(err, stuList){ //첫번째 인자는 err, 두번째는 받을 변수명
