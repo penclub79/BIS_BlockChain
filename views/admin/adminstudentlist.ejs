@@ -285,10 +285,10 @@
                 <% stulist.forEach(function(stulist){ %>
                 <tr align="center">
                     <td style="vertical-align: middle; font-size: 0.7em;">
-                        <a href="/admin/adminstudentlist/<%= stulist.user_id %>"><%= stulist.user_id %></a>
+                        <%= stulist.user_id %></a>
                     </td>
                     <td style="vertical-align: middle; font-size: 0.7em;">
-                        <a href="/admin/adminstudentlist/<%= stulist.major %>"><%= stulist.major %></a>
+                        </a><%= stulist.major %></a>
                     </td>
                     <td style="vertical-align: middle;"><%=stulist.user_sex%></td>
                     <td style="vertical-align: middle; font-size: 0.7em;"><%-stulist.user_name %></td>
