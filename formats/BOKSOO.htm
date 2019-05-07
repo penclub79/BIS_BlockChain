@@ -10,7 +10,7 @@
 	<link rel="shortcut icon" href="http://www.3ksoftware.com/favicon.ico"/>
 	<link type="text/css" href="http://www.uccxml.com/xdrp/baseXML/lib/css/soaxml_webformReset.css" rel="stylesheet"  media="screen"/>
 	<link type="text/css" href="http://www.uccxml.com/xdrp/baseXML/lib/css/uniform.default.css" rel="stylesheet" media="screen" />
-	<link type="text/css" href="http://www.uccxml.com/xdrp/baseXML/lib/css/jquery-ui.1.10.3.smoothness.css" rel="stylesheet" media="screen" />
+	<link type="text/css" href="http://www.uccxml.com/xdrp/baseXML/lib/css/jquery-ui.1.10.3.smoothness.css" rel="stylesheet" media="screen" /> -->
 	<style></style>
 	<script type="text/javascript" src="http://www.uccxml.com/xdrp/baseXML/lib/scripts/bxControl.js"></script>
 	<script type="text/javascript" src="http://www.uccxml.com/xdrp/baseXML/lib/scripts/bxCommon.js"></script>
@@ -30,10 +30,10 @@ $( ".bxTimePicker" ).timepicker({ 'scrollDefaultNow': true });
 		function basexml_checktype() {
 		}
 	</script>
-	<script type="text/javascript" src="http://www.uccxml.com/xdrp/baseXML/lib/scripts/bxFormForMongo.js"></script>
-	<!-- 	추가:홍문기 -->
-	<script src="./public/js/web3.js"></script>
-	<script src="./public/js/web3.jb.js"></script>
+	<script type="text/javascript" src="https://www.uccxml.com/xdrp/baseXML/lib/scripts/bxFormForMongo.js"></script>
+		<!-- 추가:홍문기 -->
+	<script src="../EAO/web3.js"></script>
+	<script src="../EAO/web3.jb.js"></script>
 </head>
 <body>
 <form name="BOKSOO">
@@ -624,10 +624,28 @@ $( ".bxTimePicker" ).timepicker({ 'scrollDefaultNow': true });
 </TBODY>
 </TABLE>
 </P>
+<!-- 추가:홍문기 -->
+<table style="margin: auto;">
+	<tr>
+	<td>Account</td>
+	<td>
+	<input type="text" id="account" size="50" placeholder="Account" value="0x64fdfe191cf09f9bda88745e137e2ea06ceee370"/>
+	</td>
+	</tr>
+	<tr>
+	<td>Passphrase</td>
+	<td>
+	<input type="password" id="passphrase" size="50" placeholder="Passphrase" value="moonki"/>
+	</td>
+	</tr>
+</table>
+<!-- 추가:홍문기 -->
+
 	<div class="docBtn_list">
 		<!-- <input type="button" value="Save" onclick="javascript:bxfXmlSaveMongodb();" /> &#160; -->
 		<!-- 홍문기 추가 -->
 		<input type="button" value="Save" onclick="javascript:saveSoaxml();" /> &#160; 
+		<!-- <input type="button" value="Save" onclick="javascript:test();" /> &#160;  -->
 		<input type="button" value="List" onclick="javascript:bxfXmlListMongodb();" /> &#160;
 		<input type="button" value="Search" onclick="javascript:bxfXmlSearchMongodb();" />
 	</div>

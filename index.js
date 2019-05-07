@@ -73,6 +73,7 @@ app.use(cookieParser());
 // app.use('/uploads', express.static('uploads'));
 app.use('/images', express.static('images'));
 app.use('/formats', express.static('formats'));
+app.use('/EAO', express.static('EAO'));
 // // static path 추가(장바구니담기)
 // app.use('/static', express.static('static'));
 // // 부트스트랩 파일 정적 라우팅
