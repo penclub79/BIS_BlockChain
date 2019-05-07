@@ -70,8 +70,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 // 업로드일 때 정적 path 추가 
-app.use('/uploads', express.static('uploads'));
+// app.use('/uploads', express.static('uploads'));
 app.use('/images', express.static('images'));
+app.use('/formats', express.static('formats'));
 // // static path 추가(장바구니담기)
 // app.use('/static', express.static('static'));
 // // 부트스트랩 파일 정적 라우팅
