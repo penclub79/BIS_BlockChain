@@ -1,3 +1,5 @@
+
+
 <% include ../header.ejs %>
 
 <div class="row">
@@ -73,6 +75,20 @@
 <!-- iamport daum address api -->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
+
+//연결할 JSON-RPC서버(가상 머신)의 IP 주소 및 포트 번호
+
+//URL 서버
+var url = "http://220.76.95.91:8545";
+var user_name;
+var web3 = new web3();  // web3 모듈
+
+
+//계정 newaccount 코드
+
+//비밀번호 받아오기
+
+//
 
 (function(){
     $(document).ready(function() {
@@ -282,8 +298,5 @@
 
 </script>
 <% include ../footer.ejs %>
-
-
-
 
 
