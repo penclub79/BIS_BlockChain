@@ -58,23 +58,23 @@ class JB {
     }
     
     checkXml() {
-    	var url = window.location.pathname;
-    	var xhttp = new XMLHttpRequest();
-    	xhttp.open('GET', url.substring(url.lastIndexOf('/')+1), true);
-    	xhttp.send();
-    	
-    	xhttp.onreadystatechange = function(){
-    		if(this.readyState == 4) {
-    			if(this.status == 200) {
-    				var xmlHash = jb.web3.sha3(xhttp.responseText.trim());
-    				
-    				console.log(xmlHash);
-    				if(jb.contract.getContract(xmlHash)[1] != url.substring(url.lastIndexOf('/')+1)) {
-    					alert('변조된 계약서입니다.');
-    				}
-            	}
+       var url = window.location.pathname;
+       var xhttp = new XMLHttpRequest();
+       xhttp.open('GET', url.substring(url.lastIndexOf('/')+1), true);
+       xhttp.send();
+       
+       xhttp.onreadystatechange = function(){
+          if(this.readyState == 4) {
+             if(this.status == 200) {
+                var xmlHash = jb.web3.sha3(xhttp.responseText.trim());
+                
+                console.log(xmlHash);
+                if(jb.contract.getContract(xmlHash)[1] != url.substring(url.lastIndexOf('/')+1)) {
+                   alert('변조된 계약서입니다.');
+                }
+               }
             }
-    	}
+       }
     };
 }
 
@@ -84,18 +84,18 @@ var jb = new JB('192.168.0.159', 8545, abi, addr);
 
 function saveSoaxml() {
     alert($('#account').val());
-	// jb.unlockAccount($('#account').val(), $('#passphrase').val(), function(error) {
-	// 	if(error == 'fail auth') {
-	// 		alert('인증정보가 올바르지 않습니다.');
-	// 	} else if(error) {
-	// 		throw error;
-	// 	} else {	
-    //         alert('성공적으로 접근하여 락을 해제 하였습니다')		
-			// jb.saveSoaxml(function(error) {
-			// 	if(error) throw error;
-			// });
-	// 	}
-	// });
+   // jb.unlockAccount($('#account').val(), $('#passphrase').val(), function(error) {
+   //    if(error == 'fail auth') {
+   //       alert('인증정보가 올바르지 않습니다.');
+   //    } else if(error) {
+   //       throw error;
+   //    } else {   
+    //         alert('성공적으로 접근하여 락을 해제 하였습니다')      
+         // jb.saveSoaxml(function(error) {
+         //    if(error) throw error;
+         // });
+   //    }
+   // });
 }
 
 function test(){
@@ -103,11 +103,11 @@ function test(){
 }
 
 $(function(){
-	if($('#account')[0] !== undefined) {		
-		$('#account').autocomplete({
-			source: jb.web3.eth.accounts
-		});
-	}else{
+   if($('#account')[0] !== undefined) {      
+      $('#account').autocomplete({
+         source: jb.web3.eth.accounts
+      });
+   }else{
         alert('account를 찾을 수 없습니다')
     }
 });

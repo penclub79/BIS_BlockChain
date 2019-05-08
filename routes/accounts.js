@@ -205,7 +205,25 @@ router.post('/myinfo', loginRequired, function(req, res){
 
 });
 
+// get 내 wallet보기 페이지
+router.get('/wallet', loginRequired, function(req, res){
 
+    console.log('wallet 페이지 경로요청');
+    console.log(req.user);
+
+    if(!req.user){
+
+        console.log('사용자 인증불가');
+        res.redirect('/accounts/login');
+    }else{
+
+        if(Array.isArray(req.user)){
+            res.render('accounts/wallet.ejs', { user : req.user[0]._id });
+        }else{
+            res.render('accounts/wallet.ejs', { user : req.user });
+        }
+    }   
+});
 
 module.exports = router;
 

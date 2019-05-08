@@ -1,6 +1,5 @@
-
-
 <% include ../header.ejs %>
+
 
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
@@ -24,7 +23,7 @@
                             <input class="form-control" placeholder="전공" name="major" type="text" value="" required="">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" placeholder="블록체인 아이디" name="blockchainid" readonly type="text" value="" required="">
+                            <input class="form-control" placeholder="블록체인 아이디" id="blockchainid" name="blockchainid" readonly type="text" value="" required="" >
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="블록체인 비밀번호" name="blockchainpwd" type="password" value="" required="">
@@ -74,21 +73,54 @@
 
 <!-- iamport daum address api -->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script type="text/javascript" src=C:/Users/pencl/Desktop/BIS_BlockChain_3/BIS_BlockChain/EAO/web3.jb.js></script>
+<script type="text/javascript" src=C:/Users/pencl/Desktop/BIS_BlockChain_3/BIS_BlockChain/EAO/web3.js></script>
 <script type="text/javascript">
 
-//연결할 JSON-RPC서버(가상 머신)의 IP 주소 및 포트 번호
-
-//URL 서버
-var url = "http://220.76.95.91:8545";
-var user_name;
-var web3 = new web3();  // web3 모듈
-
+// 연결할 JSON-RPC서버(가상 머신)의 IP 주소 및 포트 번호
+// 1.이더리움 접속 코드
+// URL 서버
+// import web3 from 'web3';
+// const url = "http://192.168.0.159:8546";
+// var user_name = '0x64fdfe191cf09f9bda88745e137e2ea06ceee370';
+// var Web3 = require("web3");
+// var web3 = new Web3();  // web3 모듈
+// console.log(web3);
+// var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
+// web3.setProvider(provider);
 
 //계정 newaccount 코드
+// web3.eth.defaultAccount = web3.eth.accounts[0];
+
+// ???
+var masterABI = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
+var x = 10;
+console.log(x);
+
+//contract id
+var addr = '0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE';
+
+//이더리움 계정 id
+var account = '0x64fdfe191cf09f9bda88745e137e2ea06ceee370';
+
+function blockid(){
+    document.getElementById('blockchainid').nodeValue= account;
+}
+
+
+//계정 id의 passwd
+var passphrase = 'moonki';
+
+// masterABI와 블록체인 id
+
+var master = web3.eth.contract(masterABI).at(addr);
+
+
+// app.get(function())
 
 //비밀번호 받아오기
 
-//
+//아무거나 
 
 (function(){
     $(document).ready(function() {
@@ -298,5 +330,3 @@ var web3 = new web3();  // web3 모듈
 
 </script>
 <% include ../footer.ejs %>
-
-

@@ -1,0 +1,221 @@
+ <% include ../header.ejs %>
+
+
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">My Wallet</h3>
+            </div>
+            <div class="panel-body">
+                <form role="form" action="" id="join_form" method="post">
+                    <fieldset>
+                        
+                        
+                                    <h2 id="instructor"></h2>
+                        
+                        <div class="form-group">
+                            <input class="form-control" placeholder="학번" name="user_id" readonly type="text" value="<%= user.user_id %>" autofocus="" required="">
+                        </div>
+                        <!-- <div class="form-group">
+                            <input class="form-control" placeholder="Password" name="password" type="password" value="<%= user.password %>" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Password 확인" name="password2" type="password" value="<%= user.password %>" required="">
+                        </div> -->
+                        <div class="form-group">
+                            <input class="form-control" placeholder="전공" name="major" readonly type="text" value="<%= user.major %>" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="블록체인 아이디" id="blockchainid" name="blockchainid" readonly type="text" value="<%= user.blockchainid %>" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="블록체인 비밀번호" id="blockchainpwd" name="blockchainpwd" readonly type="password" value="<%= user.blockchainpwd %>" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="onlyHangul" placeholder="user_name" name="user_name" readonly type="text" value="<%= user.user_name %>" autofocus="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="onlyNumber" placeholder="user_phone" name="user_phone" readonly type="text" value="<%= user.user_phone %>" required="">
+                        </div>
+                        <div class="form-group">
+                                <input type="button" onclick="login();" value="블록체인 로그인"></input>
+                        </div>
+                        
+                        <!-- <div class="form-group">
+                            <select name="user_sex" class="form-control" >
+                                <%  var tmp = user.user_sex;
+                                    if(tmp === "M") { %>
+                                    <option value="M">M</option>
+                                    <option value="F">F</option>
+                                <% }else{ %> 
+                                    <option value="F">F</option>
+                                    <option value="M">M</option>
+                                <% } %> 
+                            </select>
+                        </div> -->
+                        <!-- <div class="form-group">
+                            <input type="date" name="user_birth" class="form-control" value="<%= user.user_birth %>">
+                        </div> -->
+                        <!-- <div class="form-group">
+                            <input class="form-control" placeholder="E-Mail" name="user_email" type="email" value="<%= user.user_email %>" autofocus="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="address" name="user_addr" type="text" value="<%= user.user_addr %>" readonly value="" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="detail_address" name="user_addr2" type="text" value="<%= user.user_addr2 %>" required="">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="onlyNumber" placeholder="user_post" name="user_post" type="text" value="<%= user.user_post %>" required="">
+                            <span style="margin-top:10px" class="btn btn-primary" onclick="setDaumPostcode()">우편번호 찾기</span>
+                        </div> -->
+                        
+                        <!-- Change this to a button or input when using this as a form -->
+                        <!-- <input type="submit" class="btn btn-lg btn-success btn-block" value="수정하기"> -->
+                        <!--
+                        <div style="margin-top: 10px">
+                            <a href="/auth/facebook" class="btn btn-lg btn-primary btn-block">
+                            <i class="fa fa-facebook" aria-hidden="true"></i> 페이스북 회원수정
+                            </a>
+                        </div>
+                        -->
+                    </fieldset>
+                </form>
+                <h2 id="instructor"></h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var url = "http://192.168.0.159:8546"; // 서버 URL
+        console.log(url);
+        // var blockchainid;
+        // console.log(blockchainid);
+        var web3 = new Web3();
+        console.log(web3);
+        var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
+        console.log(provider);
+        web3.setProvider(provider);
+
+           
+        web3.eth.defaultAccount = web3.eth.accounts[1];
+        var ABI = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
+        // 연결할 Contract(CounterMaster) 주소 
+        var master = web3.eth.contract(ABI).at("0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE");
+        var CounterAddressList = master.getCounterAddressList();
+        alert(CounterAddressList[0] + '||' + CounterAddressList[1]);
+        // 로그인(Unlock)
+        function login() {
+            var blockchainid = $("#blockchainid").val();
+            var blockchainpwd = $("#blockchainpwd").val();
+            //alert(blockchainid + "||" + blockchainpwd);
+            var JSONdata = createJSONdata("personal_unlockAccount", [ blockchainid, blockchainpwd, 30 ]);
+            executeJsonRpc(url, JSONdata, function success(data) {
+                //alert(data.error);
+                // 로그인 성공
+                if (data.error == null) {
+                    console.log("login success!");
+                    document.getElementById("instructor").innerHTML = "LoginSuccess";
+                } else {
+                    // 로그인 실패
+                    console.log("login failure");
+                    document.getElementById("instructor").innerHTML = "LoginFailure";
+                }
+                init();
+            }, function error(data) {
+                // 로그인 실패
+                console.log("data receive failure");
+                document.getElementById("instructor").innerHTML = "Data Receive Failure";
+            });
+        }
+
+
+
+            // JSON 메시지 생성
+    function createJSONdata(method, params) {
+        var JSONdata = {
+            "id":8,
+            "jsonrpc" : "2.0",
+            "method" : method,
+            "params" : params
+            };
+        return JSONdata;
+    }
+    // JSON-RPC 실행
+    function executeJsonRpc(url_exec, JSONdata, success, error) {
+        $.ajax({
+            type : 'post',
+            url : url_exec,
+            data : JSON.stringify(JSONdata),
+            contentType : 'application/JSON',
+            dataType : 'JSON',
+            scriptCharset : 'utf-8',
+            //scriptCharset : 'euc-kr',
+            success : function(data) {
+                //alert(data);
+                //alert(data.code);
+                //alert(data.result);
+                success(data);
+            },
+            error : function(data) {
+                error(data);
+            }
+        });
+    }
+
+    // JSON-RPC 실행
+    function checkTrResult(hashVal) {
+        //var JSONdata = createJSONdata("eth_getTransactionByHash", ["0x9faa7817dd5e926a5fec6adecc3d73d4dc1f3d97d7b8278786aa794646d8c974"]);
+        var JSONdata = createJSONdata("eth_getTransactionByHash", [hashVal]);
+        executeJsonRpc(url, JSONdata, function success(data) {
+            //alert(data.error);
+            // 로그인 성공
+            if (data.error == null) {
+                //alert(data);
+                //alert(data.result.blockNumber);ccc
+                var rst = parseInt(data.result.blockNumber, 16);
+                //alert(rst);
+                ///return rst;
+                console.log("Result Check success!");
+            } else {
+                // 로그인 실패
+                console.log("Result Check error1111");
+            }
+            //init();
+        }, function error(data) {
+            // 로그인 실패ccc
+            console.log("Result Check error222");
+        });
+    }
+
+    // JSON-RPC 실행
+    function checkTrResultDisp() {
+        //var JSONdata = createJSONdata("eth_getTransactionByHash", ["0x9faa7817dd5e926a5fec6adecc3d73d4dc1f3d97d7b8278786aa794646d8c974"]);
+        var JSONdata = createJSONdata("eth_getTransactionByHash", [document.getElementById("trHash").value]);
+        executeJsonRpc(url, JSONdata, function success(data) {
+            //alert(data.error);
+            // 로그인 성공
+            if (data.error == null) {
+                //alert(data);
+                //alert(data.result.blockNumber);
+                var rst = parseInt(data.result.blockNumber, 16);
+                //alert(rst);
+                ///return rst;
+                console.log("Result Check success!");
+            } else {
+                // 로그인 실패
+                console.log("Result Check error1111");
+            }
+            //init();
+        }, function error(data) {
+            // 로그인 실패ccc
+            console.log("Result Check error222");
+        });
+    }
+    </script>
+
+<% include ../footer.ejs %>
