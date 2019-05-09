@@ -76,16 +76,11 @@
 <script type="text/javascript" src=C:/Users/pencl/Desktop/BIS_BlockChain_3/BIS_BlockChain/EAO/web3.jb.js></script>
 <script type="text/javascript" src=C:/Users/pencl/Desktop/BIS_BlockChain_3/BIS_BlockChain/EAO/web3.js></script>
 <script type="text/javascript">
+    
 
-function createAccount() {
-    var Web3 = require("web3");
-    var web3 = new Web3();
-    const url = "http://192.168.0.159:8546";
-    var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
-    web3.setProvider(provider);
 
-    web3.eth.personal.newAccount('1234').then(console.log);
-}
+
+// web3.eth.personal.newAccount('1234').then(console.log); 명령어
 // 연결할 JSON-RPC서버(가상 머신)의 IP 주소 및 포트 번호
 // 1.이더리움 접속 코드
 // URL 서버
@@ -101,68 +96,26 @@ function createAccount() {
 //계정 newaccount 코드
 // web3.eth.defaultAccount = web3.eth.accounts[0];
 
-// ???
-var masterABI = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
-var x = 10;
-console.log(x);
 
-//contract id
-var addr = '0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE';
+
+//ABI
+var masterABI = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
 
 //이더리움 계정 id
-var account = '0x64fdfe191cf09f9bda88745e137e2ea06ceee370';
+// var account = '0x64fdfe191cf09f9bda88745e137e2ea06ceee370';
 
-var url = "http://192.168.0.159:8546"; // 서버 URL
-        console.log(url);
-        // var blockchainid;
-        // console.log(blockchainid);
-        var web3 = new Web3();
-        console.log(web3);
-        var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
-        console.log(provider);
-        web3.setProvider(provider);
+function blockid(){
+    document.getElementById('blockchainid').nodeValue= account;
+}
 
-           
-        // web3.eth.defaultAccount = web3.eth.accounts[1];
-        // web3.eth.defaultAccount = web3.eth.accounts[blockchainid];
-        var ABI = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
-        // 연결할 Contract(CounterMaster) 주소 
-        var master = web3.eth.contract(ABI).at("0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE");
-        var CounterAddressList = master.getCounterAddressList();
-        alert(CounterAddressList[0] + '||' + CounterAddressList[1]);
-        // 로그인(Unlock)
 
-        function ethjoin() {
-            // var blockchainid = $("#blockchainid").val();
-            var blockchainpwd = $("#blockchainpwd").val();
-            //alert(blockchainid + "||" + blockchainpwd);
+//계정 id의 passwd
+// var passphrase = 'moonki';
 
-            const accounts = new accounts(url, null, options); 
-            var user_ethacc = web.eth.accounts.createJSONdata();
+// masterABI와 블록체인 id
 
-            var JSONdata = createJSONdata("personal_unlockAccount", [ blockchainid, blockchainpwd, 30 ]);
-    
-            executeJsonRpc(url, JSONdata, function success(data) {
-                //alert(data.error);
-                // 로그인 성공
-                if (data.error == null) {
-                    console.log("Create success!");
-                    document.getElementById("instructor").innerHTML = "계정 생성성공";
-                } else {
-                    // 로그인 실패
-                    console.log("Create failure");
-                    document.getElementById("instructor").innerHTML = "계정 생성실패";
-                }
-                init();
-            }, function error(data) {
-                // 로그인 실패
-                console.log("data receive failure");
-                document.getElementById("instructor").innerHTML = "관리자에게 문의";
-            });
-        }
-</script>
+var master = web3.eth.contract(masterABI).at(addr);
 
-<script type="text/javascript">
 
 
 (function(){
@@ -265,8 +218,8 @@ var url = "http://192.168.0.159:8546"; // 서버 URL
 
 
             // // 영문+숫자모드
-            // $user_id = $.trim($("#user_id").val());	
-	
+            // $user_id = $.trim($("#user_id").val());   
+   
             // if(!user_id.value.match(/^[a-z0-9_]+$/)){
                 
             //     alert("영문소문자 및 숫자만 입력해주세요");
@@ -313,6 +266,9 @@ var url = "http://192.168.0.159:8546"; // 서버 URL
             //         $(this).val(inputVal.replace(/[a-z0-9]/gi,''));
             //     }
             // });
+
+        });
+
 
     })();
 
@@ -362,5 +318,4 @@ var url = "http://192.168.0.159:8546"; // 서버 URL
     }
 
 </script>
-
 <% include ../footer.ejs %>
