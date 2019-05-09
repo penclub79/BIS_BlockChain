@@ -1,12 +1,29 @@
  <% include ../header.ejs %>
 
-
+<script type="text/javascript">
+//
+var url = "http://192.168.0.159:8546"; // 서버 URL
+    console.log(url);
+    var web3 = new Web3();
+    console.log(web3);
+    var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
+    console.log(provider);
+    web3.setProvider(provider);
+    web3.eth.defaultAccount = web3.eth.accounts[1];
+    var ABI = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
+        
+    // 연결할 Contract(CounterMaster) 주소 
+    var master = web3.eth.contract(ABI).at("0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE");
+    var CounterAddressList = master.getCounterAddressList();
+     alert(CounterAddressList[0] + '||' + CounterAddressList[1]);
+//ㄷ
+</script>
 
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
         <div class="login-panel panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">My Wallet</h3>
+                <h3 class="panel-title">My Wallet 정보</h3>
             </div>
             <div class="panel-body">
                 <form role="form" action="" id="join_form" method="post">
@@ -39,51 +56,54 @@
                                 <input type="button" onclick="login();" value="블록체인 계정인증"></input>
                                 <h2 id="instructor"></h2>
                         </div>
+                        </div>
                         
-                        <!-- <div class="form-group">
-                            <select name="user_sex" class="form-control" >
-                                <%  var tmp = user.user_sex;
-                                    if(tmp === "M") { %>
-                                    <option value="M">M</option>
-                                    <option value="F">F</option>
-                                <% }else{ %> 
-                                    <option value="F">F</option>
-                                    <option value="M">M</option>
-                                <% } %> 
-                            </select>
-                        </div> -->
-                        <!-- <div class="form-group">
-                            <input type="date" name="user_birth" class="form-control" value="<%= user.user_birth %>">
-                        </div> -->
-                        <!-- <div class="form-group">
-                            <input class="form-control" placeholder="E-Mail" name="user_email" type="email" value="<%= user.user_email %>" autofocus="" required="">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" placeholder="address" name="user_addr" type="text" value="<%= user.user_addr %>" readonly value="" required="">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" placeholder="detail_address" name="user_addr2" type="text" value="<%= user.user_addr2 %>" required="">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" id="onlyNumber" placeholder="user_post" name="user_post" type="text" value="<%= user.user_post %>" required="">
-                            <span style="margin-top:10px" class="btn btn-primary" onclick="setDaumPostcode()">우편번호 찾기</span>
-                        </div> -->
-                        
-                        <!-- Change this to a button or input when using this as a form -->
-                        <!-- <input type="submit" class="btn btn-lg btn-success btn-block" value="수정하기"> -->
-                        <!--
-                        <div style="margin-top: 10px">
-                            <a href="/auth/facebook" class="btn btn-lg btn-primary btn-block">
-                            <i class="fa fa-facebook" aria-hidden="true"></i> 페이스북 회원수정
-                            </a>
-                        </div>
-                        -->
                     </fieldset>
                 </form>
                 <h2 id="instructor"></h2>
             </div>
         </div>
     </div>
+</div>
+
+<div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Ether 송금</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" action="" id="join_form" method="post">
+                        <fieldset>
+                            
+                            
+
+                                        <h2 id="instructor"></h2>
+                          
+                            <div class="form-group">
+                                <li>내 계좌</li>
+                                <input class="form-control" placeholder="" id="blockchainid" name="blockchainid" readonly type="text" value="<%= user.blockchainid %>" required="">
+                            </div>
+                            <tr>
+                                <input type="hidden" id="s_ether" value="계좌주 이더리움">
+                            </tr>
+                            <div class="form-group">
+                                <li>Ether</li>
+                                <input class="form-control" id="ether" name="ether" type="number" >
+                            </div>
+                            <div class="form-group">
+                                <li>송금할 블록체인 아이디</li>
+                                <input class="form-control" placeholder="" id="otherblockchainid" name="otherblockchainid" type="text" value="송금계좌를 입력하세요" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;" >
+                            </div>
+                            <div class="form-group">
+                                <input type="button" onclick="songgeum()" value="전송"></input>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <h2 id="instructor"></h2>
+                </div>
+            </div>
+        </div>
 </div>
 
 
@@ -106,6 +126,7 @@
         var master = web3.eth.contract(ABI).at("0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE");
         var CounterAddressList = master.getCounterAddressList();
         alert(CounterAddressList[0] + '||' + CounterAddressList[1]);
+
         // 로그인(Unlock)
         function login() {
             var blockchainid = $("#blockchainid").val();
@@ -131,6 +152,55 @@
             });
         }
 
+//이더리움 송금 기능
+
+        // $(document).ready(function() { 
+		// 		var sender1 = $("#blockchainid").val();
+				
+		// 		var sender_ether = web3.eth.getBalance(sender1);
+
+		// 			document.getElementById("ether").innerHTML = sender_ether;	
+        // });
+
+                function songgeum(){
+				
+				var sender = $("#blockchainid").val();
+				var senderpwd = $("#blockchainpwd").val();
+				var receiver = $("#otherblockchainid").val();
+				var eth_cash1 = $("#ether").val();
+				var eth_cash = parseInt(eth_cash1);
+				
+				web3.eth.personal.unlockAccount(sender, senderpwd, 600); 
+				
+				var JSONdata = createJSONdata("personal_unlockAccount", [ sender, senderpwd, 600 ]);
+				
+				executeJsonRpc(url, JSONdata, function success(data) {
+					
+			        if (data.error == null) {
+			        
+			        	if(sender == null && sender == ""){
+							alert("송금자가 확실하지 않음");
+						}else if(receiver == null && receiver == ""){
+							alert("수신자가 확실하지 않음");
+						}
+					
+						// 송금 트랜잭션
+						web3.eth.sendTransaction({from : sender, to : receiver, value : web3.utils.toWei(eth_cash, 'ether')});
+						
+						document.getElementById("instructor").innerHTML = "Ether 송금에 성공하셨습니다.";
+
+			        } else {
+			            // 로그인 실패
+			            console.log("login failure");
+			            document.getElementById("instructor").innerHTML = "Ether 송금에 실패하셨습니다.";
+			        }
+			        //init();
+			    }, function error(data) {
+			        // 로그인 실패
+			        console.log("data receive failure");
+			        document.getElementById("instructor").innerHTML = "Data Receive Failure";
+			    });
+        }
 
 
             // JSON 메시지 생성
@@ -143,6 +213,7 @@
             };
         return JSONdata;
     }
+
     // JSON-RPC 실행
     function executeJsonRpc(url_exec, JSONdata, success, error) {
         $.ajax({

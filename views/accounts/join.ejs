@@ -22,10 +22,9 @@
                         <div class="form-group">
                             <input class="form-control" placeholder="전공" name="major" type="text" value="" required="">
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <input class="form-control" placeholder="블록체인 아이디" id="blockchainid" name="blockchainid" readonly type="text" value="" required="" >
-                            <h2 id="instructor"></h2>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <input class="form-control" placeholder="블록체인 비밀번호" name="blockchainpwd" type="password" value="" required="">
                         </div>
@@ -36,7 +35,7 @@
                             <input class="form-control" id="onlyNumber" placeholder="핸드폰 번호" name="user_phone" type="text" value="" required="">
                         </div>
                         <div class="form-group">
-                            <select name="user_sex" class="form-control" > 
+                            <select name="user_sex" class="form-control" >
                                 <option value="M" selected="selected">M</option> 
                                 <option value="F">F</option> 
                             </select>
@@ -59,7 +58,7 @@
                         </div>
                         
                         <!-- Change this to a button or input when using this as a form -->
-                        <input type="submit" class="btn btn-lg btn-success btn-block"  onclick="ethjoin();" value="가입하기">
+                        <input type="submit" class="btn btn-lg btn-success btn-block" onclick="createAccount()" value="가입하기">
                         <!-- <div style="margin-top: 10px"> -->
                             <!-- <a href="/auth/facebook" class="btn btn-lg btn-primary btn-block"> -->
                             <!-- <i class="fa fa-facebook" aria-hidden="true"></i> 페이스북 회원가입 -->
@@ -76,9 +75,44 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript" src=C:/Users/pencl/Desktop/BIS_BlockChain_3/BIS_BlockChain/EAO/web3.jb.js></script>
 <script type="text/javascript" src=C:/Users/pencl/Desktop/BIS_BlockChain_3/BIS_BlockChain/EAO/web3.js></script>
-
 <script type="text/javascript">
-    var url = "http://192.168.0.159:8546"; // 서버 URL
+
+function createAccount() {
+    var Web3 = require("web3");
+    var web3 = new Web3();
+    const url = "http://192.168.0.159:8546";
+    var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
+    web3.setProvider(provider);
+
+    web3.eth.personal.newAccount('1234').then(console.log);
+}
+// 연결할 JSON-RPC서버(가상 머신)의 IP 주소 및 포트 번호
+// 1.이더리움 접속 코드
+// URL 서버
+// import web3 from 'web3';
+// const url = "http://192.168.0.159:8546";
+// var user_name = '0x64fdfe191cf09f9bda88745e137e2ea06ceee370';
+// var Web3 = require("web3");
+// var web3 = new Web3();  // web3 모듈
+// console.log(web3);
+// var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
+// web3.setProvider(provider);
+
+//계정 newaccount 코드
+// web3.eth.defaultAccount = web3.eth.accounts[0];
+
+// ???
+var masterABI = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
+var x = 10;
+console.log(x);
+
+//contract id
+var addr = '0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE';
+
+//이더리움 계정 id
+var account = '0x64fdfe191cf09f9bda88745e137e2ea06ceee370';
+
+var url = "http://192.168.0.159:8546"; // 서버 URL
         console.log(url);
         // var blockchainid;
         // console.log(blockchainid);
@@ -97,6 +131,7 @@
         var CounterAddressList = master.getCounterAddressList();
         alert(CounterAddressList[0] + '||' + CounterAddressList[1]);
         // 로그인(Unlock)
+
         function ethjoin() {
             // var blockchainid = $("#blockchainid").val();
             var blockchainpwd = $("#blockchainpwd").val();
@@ -106,10 +141,7 @@
             var user_ethacc = web.eth.accounts.createJSONdata();
 
             var JSONdata = createJSONdata("personal_unlockAccount", [ blockchainid, blockchainpwd, 30 ]);
-            
-
-
-
+    
             executeJsonRpc(url, JSONdata, function success(data) {
                 //alert(data.error);
                 // 로그인 성공
@@ -128,92 +160,10 @@
                 document.getElementById("instructor").innerHTML = "관리자에게 문의";
             });
         }
+</script>
 
-
-
-            // JSON 메시지 생성
-    function createJSONdata(method, params) {
-        var JSONdata = {
-            "id":8,
-            "jsonrpc" : "2.0",
-            "method" : method,
-            "params" : params
-            };
-        return JSONdata;
-    }
-    // JSON-RPC 실행
-    function executeJsonRpc(url_exec, JSONdata, success, error) {
-        $.ajax({
-            type : 'post',
-            url : url_exec,
-            data : JSON.stringify(JSONdata),
-            contentType : 'application/JSON',
-            dataType : 'JSON',
-            scriptCharset : 'utf-8',
-            //scriptCharset : 'euc-kr',
-            success : function(data) {
-                //alert(data);
-                //alert(data.code);
-                //alert(data.result);
-                success(data);
-            },
-            error : function(data) {
-                error(data);
-            }
-        });
-    }
-
-    // JSON-RPC 실행
-    function checkTrResult(hashVal) {
-        //var JSONdata = createJSONdata("eth_getTransactionByHash", ["0x9faa7817dd5e926a5fec6adecc3d73d4dc1f3d97d7b8278786aa794646d8c974"]);
-        var JSONdata = createJSONdata("eth_getTransactionByHash", [hashVal]);
-        executeJsonRpc(url, JSONdata, function success(data) {
-            //alert(data.error);
-            // 로그인 성공
-            if (data.error == null) {
-                //alert(data);
-                //alert(data.result.blockNumber);ccc
-                var rst = parseInt(data.result.blockNumber, 16);
-                //alert(rst);
-                ///return rst;
-                console.log("Result Check success!");
-            } else {
-                // 로그인 실패
-                console.log("Result Check error1111");
-            }
-            //init();
-        }, function error(data) {
-            // 로그인 실패ccc
-            console.log("Result Check error222");
-        });
-    }
-
-    // JSON-RPC 실행
-    function checkTrResultDisp() {
-        //var JSONdata = createJSONdata("eth_getTransactionByHash", ["0x9faa7817dd5e926a5fec6adecc3d73d4dc1f3d97d7b8278786aa794646d8c974"]);
-        var JSONdata = createJSONdata("eth_getTransactionByHash", [document.getElementById("trHash").value]);
-        executeJsonRpc(url, JSONdata, function success(data) {
-            //alert(data.error);
-            // 로그인 성공
-            if (data.error == null) {
-                //alert(data);
-                //alert(data.result.blockNumber);
-                var rst = parseInt(data.result.blockNumber, 16);
-                //alert(rst);
-                ///return rst;
-                console.log("Result Check success!");
-            } else {
-                // 로그인 실패
-                console.log("Result Check error1111");
-            }
-            //init();
-        }, function error(data) {
-            // 로그인 실패ccc
-            console.log("Result Check error222");
-        });
-    }
-    </script>
 <script type="text/javascript">
+
 
 (function(){
     $(document).ready(function() {
@@ -259,14 +209,14 @@
                     alert("패스워드와 확인용패스워드를 똑같이 입력해주세요.");
                     return false;
                 }
-                if(!$hyperledgerid.val()){
-                    alert("하이퍼레저아이디 입력해주세요.");
-                    $hyperledgerid.focus();
-                    return false;
-                }
-                if(!$hyperledgerpwd.val()){
-                    alert("하이퍼레저비밀번호 입력해주세요.");
-                    $hyperledgerpwd.focus();
+                // if(!$hyperledgerid.val()){
+                //     alert("블록체인아이디를 입력해주세요.");
+                //     $hyperledgerid.focus();
+                //     return false;
+                // }
+                if(!$blockchainpwd.val()){
+                    alert("블록체인 비밀번호를 입력해주세요.");
+                    $blockchainpwd.focus();
                     return false;
                 }
                 if(!$user_name.val()){
@@ -364,16 +314,6 @@
             //     }
             // });
 
-
-
-
-        });
-
-
-            
-
-
-
     })();
 
 
@@ -422,4 +362,5 @@
     }
 
 </script>
+
 <% include ../footer.ejs %>
