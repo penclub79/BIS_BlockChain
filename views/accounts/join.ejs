@@ -26,7 +26,7 @@
                             <input class="form-control" placeholder="블록체인 아이디" id="blockchainid" name="blockchainid" readonly type="text" value="" required="" >
                         </div> -->
                         <div class="form-group">
-                            <input class="form-control" placeholder="블록체인 비밀번호" name="blockchainpwd" type="password" value="" required="">
+                            <input class="form-control" placeholder="블록체인 비밀번호" id="blockchainpwd" name="blockchainpwd" type="password" value="" required="">
                         </div>
                         <div class="form-group">
                             <input class="form-control" id="onlyHangul" placeholder="이름" name="user_name" type="text" autofocus="" required="">
@@ -95,7 +95,7 @@
 
 //계정 newaccount 코드
 // web3.eth.defaultAccount = web3.eth.accounts[0];
-
+web3.eth.personal.newAccount($blockchainpwd);
 
 
 //ABI
