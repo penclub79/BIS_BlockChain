@@ -11,10 +11,6 @@
             <div class="panel-body">
                 <form role="form" action="" id="join_form" method="post">
                     <fieldset>
-                        
-                        
-                                    <h2 id="instructor"></h2>
-                        
                         <div class="form-group">
                             <input class="form-control" placeholder="학번" name="user_id" readonly type="text" value="<%= user.user_id %>" autofocus="" required="">
                         </div>
@@ -41,6 +37,7 @@
                         </div>
                         <div class="form-group">
                                 <input type="button" onclick="login();" value="블록체인 계정인증"></input>
+                                <h2 id="instructor"></h2>
                         </div>
                         
                         <!-- <div class="form-group">
@@ -120,17 +117,17 @@
                 // 로그인 성공
                 if (data.error == null) {
                     console.log("login success!");
-                    document.getElementById("instructor").innerHTML = "LoginSuccess";
+                    document.getElementById("instructor").innerHTML = "계정 인증성공";
                 } else {
                     // 로그인 실패
                     console.log("login failure");
-                    document.getElementById("instructor").innerHTML = "LoginFailure";
+                    document.getElementById("instructor").innerHTML = "계정 인증실패";
                 }
                 init();
             }, function error(data) {
                 // 로그인 실패
                 console.log("data receive failure");
-                document.getElementById("instructor").innerHTML = "Data Receive Failure";
+                document.getElementById("instructor").innerHTML = "관리자에게 문의";
             });
         }
 
