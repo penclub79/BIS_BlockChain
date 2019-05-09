@@ -83,7 +83,7 @@ router.post('/join', function(req, res){
         password : passwordHash(req.body.password),
         major : req.body.major,
         blockchainid : req.body.blockchainid,
-        blockchainpwd : passwordHash(req.body.blockchainpwd),
+        blockchainpwd : req.body.blockchainpwd,
         user_name : req.body.user_name,
         user_phone : req.body.user_phone,
         user_sex : req.body.user_sex,
