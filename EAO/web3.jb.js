@@ -32,30 +32,30 @@ class JB {
         });
     }
 
-    saveSoaxml(callback) {
-        bxfXmlSaveCspPrepare();
-        bxfSearchTextPrepare();
+    // saveSoaxml(callback) {
+    //     bxfXmlSaveCspPrepare();
+    //     bxfSearchTextPrepare();
     
-        var url = new URL($(location).attr('href'));
-        var xmlPath = $('<input/>', {
-            name: 'xmlPath',
-            type: 'hidden',
-            value: url.searchParams.get('xmlPath')
-        });
+    //     var url = new URL($(location).attr('href'));
+    //     var xmlPath = $('<input/>', {
+    //         name: 'xmlPath',
+    //         type: 'hidden',
+    //         value: url.searchParams.get('xmlPath')
+    //     });
     
-        var form = $('form');
-        form.append(xmlPath);
-        form.append($('<input/>', {
-            name: 'account',
-            type: 'hidden',
-            value: $('#account').val()
-        }));
+    //     var form = $('form');
+    //     form.append(xmlPath);
+    //     form.append($('<input/>', {
+    //         name: 'account',
+    //         type: 'hidden',
+    //         value: $('#account').val()
+    //     }));
         
-        form.attr('action', './soaxmlSave.jsp');
-        form.attr('method', 'post');
-        form.submit();
-        callback(null);
-    }
+    //     form.attr('action', './soaxmlSave.jsp');
+    //     form.attr('method', 'post');
+    //     form.submit();
+    //     callback(null);
+    // }
     
     checkXml() {
        var url = window.location.pathname;
@@ -80,20 +80,22 @@ class JB {
 
 var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
 var addr = '0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE';
-var jb = new JB('192.168.0.159', 8545, abi, addr);
+var jb = new JB('192.168.0.159', 8546, abi, addr);
+// var createXML = require('./index');
 
 function saveSoaxml() {
-    alert($('#account').val());
+    // alert($('#account').val());
    jb.unlockAccount($('#account').val(), $('#passphrase').val(), function(error) {
       if(error == 'fail auth') {
          alert('인증정보가 올바르지 않습니다.');
       } else if(error) {
          throw error;
       } else {   
-            alert('성공적으로 접근하여 락을 해제 하였습니다')      
-         jb.saveSoaxml(function(error) {
-            if(error) throw error;
-         });
+            alert('성공적으로 접근하여 락을 해제 하였습니다');
+            // var result = createXML('<root><test>H_root/test</test></root>','H_root/test##^^##tesddddddddddddddddddddg||^^||');
+            // jb.saveSoaxml(function(error) {
+            // if(error) throw error;
+            // });
       }
    });
 }
