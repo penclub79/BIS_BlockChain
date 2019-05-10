@@ -32,6 +32,36 @@ class JB {
         });
     }
 
+    createAccount(blockchainpwd, callback) {
+        alert('hyyhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
+        // alert(JSON.stringify($('form[id="blockchainpwd"]')));
+        var blockchainpwd = $("#blockchainpwd").val();
+        $.ajax({
+            url: this.provider,
+            type: 'post',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            dataType: 'JSON',
+            blockchainid: JSON.stringify({
+                id: 8,
+                jsonrpc: '2.0',
+                method: "personal_newAccount",
+                params: [blockchainpwd]
+            }),
+            success: function(blockchainid) {
+                if(blockchainid.result == true) {
+                    callback(null);
+                } else {
+                    callback('fail auth');
+                }
+            },
+            error: function(error) {
+                callback(error);
+            }
+        });
+    }
+
+
     saveSoaxml(callback) {
         bxfXmlSaveCspPrepare();
         bxfSearchTextPrepare();
@@ -80,7 +110,9 @@ class JB {
 
 var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
 var addr = '0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE';
-var jb = new JB('192.168.0.159', 8545, abi, addr);
+var jb = new JB('192.168.0.159', 8546, abi, addr);
+
+
 
 function saveSoaxml() {
     alert($('#account').val());
@@ -98,9 +130,22 @@ function saveSoaxml() {
    });
 }
 
-function test(){
-    alert("called complete!!");
+function saveAccount(blockchainpwd) {
+    // alert($('#account').val());
+    
+    //    jb.unlockAccount($('#account').val(), $('#passphrase').val(), function(error) {
+    //   if(error == 'fail auth') {
+    //      alert('인증정보가 올바르지 않습니다.');
+    //   } else if(error) {
+    //      throw error;
+    //   } else {   
+    //         alert('성공적으로 접근하여 락을 해제 하였습니다')      
+    jb.createAccount(blockchainpwd) ;
 }
+
+// function test(){
+//     alert("called complete!!");
+// }
 
 $(function(){
    if($('#account')[0] !== undefined) {      
