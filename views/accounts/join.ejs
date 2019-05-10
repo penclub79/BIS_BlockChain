@@ -59,11 +59,6 @@
                         
                         <!-- Change this to a button or input when using this as a form -->
                         <input type="submit" class="btn btn-lg btn-success btn-block" onclick="javascript:etherjoin()" value="가입하기">
-                        <!-- <div style="margin-top: 10px"> -->
-                            <!-- <a href="/auth/facebook" class="btn btn-lg btn-primary btn-block"> -->
-                            <!-- <i class="fa fa-facebook" aria-hidden="true"></i> 페이스북 회원가입 -->
-                            <!-- </a> -->
-                        <!-- </div> -->
                     </fieldset>
                 </form>
             </div>
@@ -77,8 +72,6 @@
     
 
 
-
-// web3.eth.personal.newAccount('1234').then(console.log); 명령어
 // 연결할 JSON-RPC서버(가상 머신)의 IP 주소 및 포트 번호
 // 1.이더리움 접속 코드
 // URL 서버 8546
@@ -112,24 +105,17 @@ function etherjoin(){
         }),
         success: function(blockchainid) {
             alert(JSON.stringify(blockchainid["result"]));
-            var blockchainid = $("#blockchainid").val();
+            // var blockchainid = $("#blockchainid").val();
         },
         error: function(error) {
             // callback(error);
             alert('fail!!!!!!');
         }
     });
-
     //ABI
     var masterABI = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
+    }
 
-    //이더리움 계정 id
-    // var account = '0x64fdfe191cf09f9bda88745e137e2ea06ceee370';
-
-//     function blockid(){
-//         document.getElementById('blockchainid').nodeValue= account;
-//     }
-// }
         // JSON 메시지 생성
         function createJSONdata(method, params) {
         var JSONdata = {
@@ -139,7 +125,7 @@ function etherjoin(){
             "params" : params
             };
         return JSONdata;
-    }
+        }
 
     // JSON-RPC 실행
     function executeJsonRpc(url_exec, JSONdata, success, error) {
@@ -212,16 +198,6 @@ function etherjoin(){
             console.log("Result Check error222");
         });
     }
-
-
-//계정 id의 passwd
-// var passphrase = 'moonki';
-
-// masterABI와 블록체인 id
-
-var master = web3.eth.contract(masterABI).at(addr);
-
-
 
 (function(){
     $(document).ready(function() {
@@ -319,65 +295,12 @@ var master = web3.eth.contract(masterABI).at(addr);
                 }
                 return true;
             });
-
-
-
-            // // 영문+숫자모드
-            // $user_id = $.trim($("#user_id").val());   
-   
-            // if(!user_id.value.match(/^[a-z0-9_]+$/)){
-                
-            //     alert("영문소문자 및 숫자만 입력해주세요");
-            //     user_id.value="";
-            //     user_id.focus();
-            //     return false;
-            // }
-
-
-            // // 숫자, 알파벳, 한글, 비한글 모드
-            // $("#input1").keyup(function(event){
-
-            // if(event.keyCode !=8){
-            //     var result = "keycode="+ event.keyCode + " value="+ String.fromCharCode(event.keyCode);
-            //     var preHtml = $("#result").html();
-            //     $("#result").html(preHtml+ "<br />" +result);
-            // }
-            // if($(this).val() ==""){
-            //     $("#result").empty();
-            //     }
-            // });
-            
-            // $("#onlyNumber").keyup(function(event){
-            //     if (!(event.keyCode >=37 && event.keyCode<=40)) {
-            //         var inputVal = $(this).val();
-            //         $(this).val(inputVal.replace(/[^0-9]/gi,''));
-            //     }
-            // });
-            // $("#onlyAlphabet").keyup(function(event){
-            //     if (!(event.keyCode >=37 && event.keyCode<=40)) {
-            //         var inputVal = $(this).val();
-            //         $(this).val(inputVal.replace(/[^a-z]/gi,''));
-            //     }
-            // });
-            // $("#notHangul").keyup(function(event){
-            //     if (!(event.keyCode >=37 && event.keyCode<=40)) {
-            //         var inputVal = $(this).val();
-            //         $(this).val(inputVal.replace(/[^a-z0-9]/gi,''));
-            //     }
-            // });
-            // $("#onlyHangul").keyup(function(event){
-            //     if (!(event.keyCode >=37 && event.keyCode<=40)) {
-            //         var inputVal = $(this).val();
-            //         $(this).val(inputVal.replace(/[a-z0-9]/gi,''));
-            //     }
-            // });
-
         });
 
 
     })();
-
-
+</script>
+<script type="text/javascript">
 // Daum Address API Function
     function setDaumPostcode() {
         new daum.Postcode({
