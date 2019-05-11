@@ -32,30 +32,46 @@ class JB {
         });
     }
 
-    // saveSoaxml(callback) {
-    //     bxfXmlSaveCspPrepare();
-    //     bxfSearchTextPrepare();
+    sendData(callback) {
+        // bxfXmlSaveCspPrepare();
+        // bxfSearchTextPrepare();
+        // $('#form[id=inXMLcontent]').val()
+        // $('#form[id=calXMLcontent]').val()
     
-    //     var url = new URL($(location).attr('href'));
-    //     var xmlPath = $('<input/>', {
-    //         name: 'xmlPath',
-    //         type: 'hidden',
-    //         value: url.searchParams.get('xmlPath')
-    //     });
-    
-    //     var form = $('form');
-    //     form.append(xmlPath);
-    //     form.append($('<input/>', {
-    //         name: 'account',
-    //         type: 'hidden',
-    //         value: $('#account').val()
-    //     }));
+        // var url = new URL($(location).attr('href'));
+        // var form = $('form');
+        // form.append($('<input/>', {
+        //     name: 'account',
+        //     type: 'hidden',
+        //     value: $('#account').val()
+        // }));
         
-    //     form.attr('action', './soaxmlSave.jsp');
-    //     form.attr('method', 'post');
-    //     form.submit();
-    //     callback(null);
-    // }
+        // form.attr('action', './soaxmlSave.jsp');
+        // form.attr('method', 'post');
+        // form.submit();
+        // callback(null);
+
+        var inXML = '<root><test>H_root/test</test></root>';
+        var calXML= 'H_root/test##^^##tesddddddddddddddddddddg||^^||';
+        var apiKey= '5acda40a5de6a72c70b12679';
+        var prams = 'apiKey='+apiKey+'&s_inXML='+inXML+'&s_calXML='+calXML;
+        var url = 'http://xmlapi.datafarm.co.kr/soaxmlEngineApi.jsp';
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function(){
+            if(req.readyState == 4 && req.status == 200) {
+                alert(req.responseText);
+            }
+        }
+        req.open("POST",url,true) ;
+        req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        req.send(prams);
+
+
+        
+        
+        
+        
+    }
     
     checkXml() {
        var url = window.location.pathname;
@@ -72,7 +88,7 @@ class JB {
                 if(jb.contract.getContract(xmlHash)[1] != url.substring(url.lastIndexOf('/')+1)) {
                    alert('변조된 계약서입니다.');
                 }
-               }
+            }
             }
        }
     };
@@ -80,36 +96,32 @@ class JB {
 
 var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
 var addr = '0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE';
-var jb = new JB('192.168.0.159', 8546, abi, addr);
+var jb = new JB('220.76.95.91', 8546, abi, addr);
 // var createXML = require('./index');
 
 function saveSoaxml() {
     // alert($('#account').val());
-   jb.unlockAccount($('#account').val(), $('#passphrase').val(), function(error) {
-      if(error == 'fail auth') {
-         alert('인증정보가 올바르지 않습니다.');
-      } else if(error) {
-         throw error;
-      } else {   
-            alert('성공적으로 접근하여 락을 해제 하였습니다');
-            // var result = createXML('<root><test>H_root/test</test></root>','H_root/test##^^##tesddddddddddddddddddddg||^^||');
-            // jb.saveSoaxml(function(error) {
-            // if(error) throw error;
-            // });
-      }
-   });
+    // alert($('#passphrase').val());
+//    jb.unlockAccount($('#account').val(), $('#passphrase').val(), function(error) {
+//       if(error == 'fail auth') {
+//          alert('인증정보가 올바르지 않습니다.');
+//       } else if(error) {
+//          throw error;
+//       } else {   
+//             alert('성공적으로 접근하여 락을 해제 하였습니다');
+            jb.sendData();
+//       }
+//    });
 }
 
-function test(){
-    alert("called complete!!");
-}
 
 $(function(){
+    // alert("$(function()");
    if($('#account')[0] !== undefined) {      
       $('#account').autocomplete({
          source: jb.web3.eth.accounts
       });
    }else{
-        alert('account를 찾을 수 없습니다')
+        alert('account를 찾을 수 없습니다');
     }
 });

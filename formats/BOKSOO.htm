@@ -34,12 +34,13 @@ $( ".bxTimePicker" ).timepicker({ 'scrollDefaultNow': true });
 		<!-- 추가:홍문기 -->
 	<script src="../EAO/web3.js"></script>
 	<script src="../EAO/web3.jb.js"></script>
+	<!-- <script src="../EAO/createXML.js"></script> -->
 	<!-- <script src="../EAO/web3.jb.js"></script> -->
 </head>
 <body>
 <form name="BOKSOO">
 	<textarea id="calXMLcontent" name="calXMLcontent" style="display:none"></textarea>
-	<textarea id="inXMLcontent" name="inXMLcontent" style="display:none"></textarea>
+	<textarea id="inXMLcontent" name="inXMLcontent" style="display:none" >"<root><test>H_root/test</test></root></textarea>
 	<textarea id="calTextcontent" name="calTextcontent" style="display:none"></textarea>
 	<textarea id="outXMLcontent" name="outXMLcontent" style="display:none"></textarea>
 	<textarea id="outXMLurl" name="outXMLurl" style="display:none"></textarea>
@@ -630,7 +631,7 @@ $( ".bxTimePicker" ).timepicker({ 'scrollDefaultNow': true });
 	<tr>
 	<td>Account</td>
 	<td>
-	<input type="text" id="account" size="50" placeholder="Account" value="0x64fdfe191cf09f9bda88745e137e2ea06ceee370"/>
+	<input type="text" id="account" size="50" placeholder="Account" value="0xc6c048f618858b87c220ae9cbc129b90ee80affc"/>
 	</td>
 	</tr>
 	<tr>

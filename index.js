@@ -17,13 +17,13 @@ var flash = require('connect-flash');
 var passport = require('passport');
 var session = require('express-session');
 
-var fs = require('fs');
-var https = require('https');
+// var fs = require('fs');
+// var https = require('https');
 
 // https 키 세팅
-var privateKey  = fs.readFileSync('cert/server.key', 'utf8');
-var certificate = fs.readFileSync('cert/server.crt', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
+// var privateKey  = fs.readFileSync('cert/server.key', 'utf8');
+// var certificate = fs.readFileSync('cert/server.crt', 'utf8');
+// var credentials = {key: privateKey, cert: certificate};
 // mongodb
 var mongoose = require('mongoose');
 // promise가 deprecation 되었으므로 다른 것으로 교체
@@ -127,6 +127,7 @@ app.use('/home', home);
 app.use('/admin', admin);
 app.use('/accounts', accounts);
 app.use('/auth', auth);
+app.use('/',home)
 // app.use('/chat', chat);
 // app.use('/products', products);
 // app.use('/cart', cart);
@@ -134,5 +135,8 @@ app.use('/auth', auth);
 // app.use('/checkout', checkout);
 //
 // port 정보 및 콘솔 
-var httpsServer = https.createServer(credentials, app);
-var server = httpsServer.listen(port);
+// var httpsServer = https.createServer(credentials, app);
+// var server = httpsServer.listen(port);
+app.listen(port, function(){
+    console.log('Express listening on port', port);
+});
