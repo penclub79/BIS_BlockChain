@@ -1,22 +1,8 @@
  <% include ../header.ejs %>
 
 <script type="text/javascript">
-//
-var url = "http://192.168.0.159:8546"; // 서버 URL
-    console.log(url);
-    var web3 = new Web3();
-    console.log(web3);
-    var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
-    console.log(provider);
-    web3.setProvider(provider);
-    web3.eth.defaultAccount = web3.eth.accounts[1];
-    var ABI = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
-        
-    // 연결할 Contract(CounterMaster) 주소 
-    var master = web3.eth.contract(ABI).at("0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE");
-    var CounterAddressList = master.getCounterAddressList();
-     alert(CounterAddressList[0] + '||' + CounterAddressList[1]);
-//ㄷ
+
+
 </script>
 
 <div class="row">
