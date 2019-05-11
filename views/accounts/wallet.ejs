@@ -60,7 +60,6 @@ var url = "http://192.168.0.159:8546"; // 서버 URL
                         
                     </fieldset>
                 </form>
-                <h2 id="instructor"></h2>
             </div>
         </div>
     </div>
@@ -75,14 +74,9 @@ var url = "http://192.168.0.159:8546"; // 서버 URL
                 <div class="panel-body">
                     <form role="form" action="" id="join_form" method="post">
                         <fieldset>
-                            
-                            
-
-                                        <h2 id="instructor"></h2>
-                          
                             <div class="form-group">
                                 <li>내 계좌</li>
-                                <input class="form-control" placeholder="" id="blockchainid" name="blockchainid" readonly type="text" value="<%= user.blockchainid %>" required="">
+                                <input class="form-control" placeholder="" id="sblockchainid" name="sblockchainid" readonly type="text" value="<%= user.blockchainid %>" required="">
                             </div>
                             <tr>
                                 <input type="hidden" id="s_ether" value="계좌주 이더리움">
@@ -93,14 +87,19 @@ var url = "http://192.168.0.159:8546"; // 서버 URL
                             </div>
                             <div class="form-group">
                                 <li>송금할 블록체인 아이디</li>
-                                <input class="form-control" placeholder="" id="otherblockchainid" name="otherblockchainid" type="text" value="송금계좌를 입력하세요" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;" >
+                                <input class="form-control" placeholder="" id="otherblockchainid" name="otherblockchainid" type="text" value="송금계좌를 입력하세요" 
+                                onfocus="if(!this._haschanged){
+                                    this.value=''
+                                };
+                                this._haschanged=true;" >
                             </div>
                             <div class="form-group">
-                                <input type="button" onclick="songgeum()" value="전송"></input>
+                                <input type="button" onclick="songgeum()" value="송금"></input>
+                                <div id="instructor"></div>
                             </div>
                         </fieldset>
                     </form>
-                    <h2 id="instructor"></h2>
+
                 </div>
             </div>
         </div>
@@ -108,7 +107,8 @@ var url = "http://192.168.0.159:8546"; // 서버 URL
 
 
 <script type="text/javascript">
-    var url = "http://220.76.95.91.:8546"; // 서버 URL
+
+        var url = "http://220.76.95.91.:8546"; // 서버 URL
         console.log(url);
         // var blockchainid;
         // console.log(blockchainid);
@@ -163,17 +163,18 @@ var url = "http://192.168.0.159:8546"; // 서버 URL
         // });
 
                 function songgeum(){
-				
-				var sender = $("#blockchainid").val();
+                
+				var sender = $("#sblockchainid").val();
 				var senderpwd = $("#blockchainpwd").val();
 				var receiver = $("#otherblockchainid").val();
 				var eth_cash1 = $("#ether").val();
 				var eth_cash = parseInt(eth_cash1);
-				
-				web3.eth.personal.unlockAccount(sender, senderpwd, 600); 
-				
-				var JSONdata = createJSONdata("personal_unlockAccount", [ sender, senderpwd, 600 ]);
-				
+               
+
+                web3.eth.personal.unlockAccount(sender, senderpwd, 600); 
+                
+                var JSONdata = createJSONdata("personal_unlockAccount", [ sender, senderpwd, 600 ]);
+                
 				executeJsonRpc(url, JSONdata, function success(data) {
 					
 			        if (data.error == null) {
