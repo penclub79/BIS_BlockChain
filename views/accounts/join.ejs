@@ -106,6 +106,22 @@ function etherjoin(){
         success: function(blockchainid) {
             alert(JSON.stringify(blockchainid["result"]));
             // var blockchainid = $("#blockchainid").val();
+            $.ajax({
+                type : 'post',
+                url : '/join',
+                dataType : 'json',
+                data: JSON.stringify({
+                    id: 8,
+                    jsonrpc: '2.0',
+                    method: "personal_newAccount",
+                    params: [blockchainpwd]
+                }),
+                success : function(json){
+                // 여기다가 id값 넣어서 전송
+            },
+        });
+
+
         },
         error: function(error) {
             // callback(error);
