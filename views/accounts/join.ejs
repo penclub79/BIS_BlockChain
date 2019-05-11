@@ -58,7 +58,8 @@
                         </div>
                         
                         <!-- Change this to a button or input when using this as a form -->
-                        <input type="submit" class="btn btn-lg btn-success btn-block" onclick="javascript:etherjoin()" value="가입하기">
+                        <input type="submit" class="btn btn-lg btn-success btn-block" onclick="javascript:etherjoin()" value="블록체인 계정생성">
+                        <input type="submit" class="btn btn-lg btn-success btn-block" value="가입하기">
                     </fieldset>
                 </form>
             </div>
@@ -76,6 +77,16 @@
 // 1.이더리움 접속 코드
 // URL 서버 8546
 function etherjoin(){
+
+
+    var $blockchainpwd = $('#join_form input[name=blockchainpwd]');
+
+        if(!$blockchainpwd.val()){
+                        alert("블록체인 비밀번호를 입력해주세요.");
+                        $blockchainpwd.focus();
+                        return true;
+        }
+
     const urdl = "http://220.76.95.91.:8546"; //외부 포트220.76.95.91 내부 192.168.0.159
     var user_name = '0x64fdfe191cf09f9bda88745e137e2ea06ceee370';
     var Web3 = require("web3");
@@ -89,7 +100,6 @@ function etherjoin(){
     var blockchainpwd = $("#blockchainpwd").val();
     // var blockchainpwd = 
     
-    alert(blockchainpwd);
 
     $.ajax({
         url: urdl,
@@ -104,24 +114,10 @@ function etherjoin(){
             params: [blockchainpwd]
         }),
         success: function(blockchainid) {
-            alert(JSON.stringify(blockchainid["result"]));
-            // var blockchainid = $("#blockchainid").val();
-            $.ajax({
-                type : 'post',
-                url : '/join',
-                dataType : 'json',
-                data: JSON.stringify({
-                    id: 8,
-                    jsonrpc: '2.0',
-                    method: "personal_newAccount",
-                    params: [blockchainpwd]
-                }),
-                success : function(json){
-                // 여기다가 id값 넣어서 전송
-            },
-        });
-
-
+            
+            var blockchain_id = JSON.stringify(blockchainid.result);
+            var blockchain_id2 = blockchain_id.replace(/\"/gi, "");  
+            $('#blockchainid').val(blockchain_id2);
         },
         error: function(error) {
             // callback(error);
@@ -214,6 +210,9 @@ function etherjoin(){
             console.log("Result Check error222");
         });
     }
+</script>
+
+<script type="text/javascript">
 
 (function(){
     $(document).ready(function() {
@@ -250,20 +249,20 @@ function etherjoin(){
                     $passwordInput2.focus();
                     return false;
                 }
-                if(!$displayname.val()){
-                    alert("닉네임을 입력해주세요.");
-                    $displayname.focus();
+                if(!$major.val()){
+                    alert("전공을 입력해주세요.");
+                    $major.focus();
                     return false;
                 }
                 if($passwordInput.val() !== $passwordInput2.val()){
                     alert("패스워드와 확인용패스워드를 똑같이 입력해주세요.");
                     return false;
                 }
-                // if(!$hyperledgerid.val()){
-                //     alert("블록체인아이디를 입력해주세요.");
-                //     $hyperledgerid.focus();
-                //     return false;
-                // }
+                if(!$blockchainid.val()){
+                    alert("블록체인아이디를 입력해주세요.");
+                    $blockchainid.focus();
+                    return false;
+                }
                 if(!$blockchainpwd.val()){
                     alert("블록체인 비밀번호를 입력해주세요.");
                     $blockchainpwd.focus();
