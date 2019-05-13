@@ -168,9 +168,10 @@
 				var receiver = $("#otherblockchainid").val();
 				var eth_cash1 = $("#ether").val();
 				var eth_cash = parseInt(eth_cash1);
-				
-				web3.eth.personal.unlockAccount(sender, senderpwd, 600); 
-				web3.eth.defaultAccount = web3.eth.accounts[sender];
+                
+                
+				web3.personal.unlockAccount(sender, senderpwd, 600); 
+				//web3.eth.defaultAccount = web3.eth.accounts[sender];
 
 				var JSONdata = createJSONdata("personal_unlockAccount", [ sender, senderpwd, 600 ]);
 				
@@ -185,7 +186,7 @@
 						}
 					
 						// 송금 트랜잭션
-						web3.eth.sendTransaction({from : sender, to : receiver, value : web3.utils.toWei(eth_cash, 'ether')});
+						web3.eth.sendTransaction({from : sender, to : receiver, value : web3.toWei(eth_cash, 'ether')});
 						
 						document.getElementById("instructor").innerHTML = "Ether 송금에 성공하셨습니다.";
 
