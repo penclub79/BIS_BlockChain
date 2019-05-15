@@ -41,5 +41,14 @@
     "path": "^0.12.7",
     "request": "^2.88.0",
     "socket.io": "^2.2.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/penclub79/BIS_BlockChain.git"
+  },
+  "bugs": {
+    "url": "https://github.com/penclub79/BIS_BlockChain/issues"
+  },
+  "homepage": "https://github.com/penclub79/BIS_BlockChain#readme"
 }

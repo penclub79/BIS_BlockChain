@@ -127,7 +127,7 @@ app.use('/home', home);
 app.use('/admin', admin);
 app.use('/accounts', accounts);
 app.use('/auth', auth);
-app.use('/',home)
+app.use('/',home);
 // app.use('/chat', chat);
 // app.use('/products', products);
 // app.use('/cart', cart);
