@@ -93,6 +93,7 @@
 
         //         function songgeum(){
 				
+<<<<<<< HEAD
 		// 		var sender = $("#blockchainid").val();
 		// 		var senderpwd = $("#blockchainpwd").val();
 		// 		var receiver = $("#otherblockchainid").val();
@@ -101,6 +102,17 @@
 				
 		// 		web3.eth.personal.unlockAccount(sender, senderpwd, 600); 
 		// 		web3.eth.defaultAccount = web3.eth.accounts[sender];
+=======
+				var sender = $("#blockchainid").val();
+				var senderpwd = $("#blockchainpwd").val();
+				var receiver = $("#otherblockchainid").val();
+				var eth_cash1 = $("#ether").val();
+				var eth_cash = parseInt(eth_cash1);
+                
+                
+				web3.personal.unlockAccount(sender, senderpwd, 600); 
+				//web3.eth.defaultAccount = web3.eth.accounts[sender];
+>>>>>>> ccc8683f2343eed47ad90f7408856812fddc5cd3
 
 		// 		var JSONdata = createJSONdata("personal_unlockAccount", [ sender, senderpwd, 600 ]);
 				
@@ -114,8 +126,13 @@
 		// 					alert("수신자가 확실하지 않음");
 		// 				}
 					
+<<<<<<< HEAD
 		// 				// 송금 트랜잭션
 		// 				web3.eth.sendTransaction({from : sender, to : receiver, value : web3.utils.toWei(eth_cash, 'ether')});
+=======
+						// 송금 트랜잭션
+						web3.eth.sendTransaction({from : sender, to : receiver, value : web3.toWei(eth_cash, 'ether')});
+>>>>>>> ccc8683f2343eed47ad90f7408856812fddc5cd3
 						
 		// 				document.getElementById("instructor").innerHTML = "Ether 송금에 성공하셨습니다.";
 
