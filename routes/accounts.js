@@ -225,6 +225,46 @@ router.get('/wallet', loginRequired, function(req, res){
     }   
 });
 
+// get 내 songguem보기 페이지
+router.get('/songguem', loginRequired, function(req, res){
+
+    console.log('songguem 페이지 경로요청');
+    console.log(req.user);
+
+    if(!req.user){
+
+        console.log('사용자 인증불가');
+        res.redirect('/accounts/login');
+    }else{
+
+        if(Array.isArray(req.user)){
+            res.render('accounts/songguem.ejs', { user : req.user[0]._id });
+        }else{
+            res.render('accounts/songguem.ejs', { user : req.user });
+        }
+    }   
+});
+
+// get 내 history보기 페이지
+router.get('/history', loginRequired, function(req, res){
+
+    console.log('history 페이지 경로요청');
+    console.log(req.user);
+
+    if(!req.user){
+
+        console.log('사용자 인증불가');
+        res.redirect('/accounts/login');
+    }else{
+
+        if(Array.isArray(req.user)){
+            res.render('accounts/history.ejs', { user : req.user[0]._id });
+        }else{
+            res.render('accounts/history.ejs', { user : req.user });
+        }
+    }   
+});
+
 module.exports = router;
 
 
