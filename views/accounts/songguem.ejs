@@ -63,73 +63,73 @@
         // var CounterAddressList = master.getCounterAddressList();
         // alert(CounterAddressList[0] + '||' + CounterAddressList[1]);
 
-        // 로그인(Unlock)
-        function login() {
-            var blockchainid = $("#blockchainid").val();
-            var blockchainpwd = $("#blockchainpwd").val();
-            //alert(blockchainid + "||" + blockchainpwd);
-            var JSONdata = createJSONdata("personal_unlockAccount", [ blockchainid, blockchainpwd, 30 ]);
-            executeJsonRpc(url, JSONdata, function success(data) {
-                //alert(data.error);
-                // 로그인 성공
-                if (data.error == null) {
-                    console.log("login success!");
-                    document.getElementById("instructor").innerHTML = "계정 인증성공";
-                } else {
-                    // 로그인 실패
-                    console.log("login failure");
-                    document.getElementById("instructor").innerHTML = "계정 인증실패";
-                }
-             
-            }, function error(data) {
+    // 로그인(Unlock)
+    function login() {
+        var blockchainid = $("#blockchainid").val();
+        var blockchainpwd = $("#blockchainpwd").val();
+        //alert(blockchainid + "||" + blockchainpwd);
+        var JSONdata = createJSONdata("personal_unlockAccount", [ blockchainid, blockchainpwd, 30 ]);
+        executeJsonRpc(url, JSONdata, function success(data) {
+            //alert(data.error);
+            // 로그인 성공
+            if (data.error == null) {
+                console.log("login success!");
+                document.getElementById("instructor").innerHTML = "계정 인증성공";
+            } else {
                 // 로그인 실패
-                console.log("data receive failure");
-                document.getElementById("instructor").innerHTML = "관리자에게 문의";
-            });
-        }
+                console.log("login failure");
+                document.getElementById("instructor").innerHTML = "계정 인증실패";
+            }
+            
+        }, function error(data) {
+            // 로그인 실패
+            console.log("data receive failure");
+            document.getElementById("instructor").innerHTML = "관리자에게 문의";
+        });
+    }
 
 //이더리움 송금 기능
 
-                function songgeum(){
-				
-				var sender = $("#blockchainid").val();
-				var senderpwd = $("#blockchainpwd").val();
-				var receiver = $("#otherblockchainid").val();
-				var eth_cash1 = $("#ether").val();
-				var eth_cash = parseInt(eth_cash1);
-				
-				web3.personal.unlockAccount(sender, senderpwd, 600);
-				web3.eth.defaultAccount = web3.eth.accounts[sender];
-                
-				var JSONdata = createJSONdata("personal_unlockAccount", [ sender, senderpwd, 600 ]);
-				
-				executeJsonRpc(url, JSONdata, function success(data) {
-					
-			        if (data.error == null) {
-			        
-			        	if(sender == null && sender == ""){
-							alert("송금자가 확실하지 않음");
-						}else if(receiver == null && receiver == ""){
-							alert("수신자가 확실하지 않음");
-						}
-					
-						// 송금 트랜잭션
-						var result = web3.eth.sendTransaction({from : sender, to : receiver, value : web3.toWei(eth_cash, 'ether')});
-                        alert(JSON.stringify(result));
-						document.getElementById("instructor").innerHTML = "Ether 송금에 성공하셨습니다.";
+    function songgeum(){
+    
+        var sender = $("#blockchainid").val();
+        var senderpwd = $("#blockchainpwd").val();
+        var receiver = $("#otherblockchainid").val();
+        var eth_cash1 = $("#ether").val();
+        var eth_cash = parseInt(eth_cash1);
+        
+        web3.personal.unlockAccount(sender, senderpwd, 600);
+        web3.eth.defaultAccount = web3.eth.accounts[sender];
+        
+        var JSONdata = createJSONdata("personal_unlockAccount", [ sender, senderpwd, 600 ]);
+        
+        executeJsonRpc(url, JSONdata, function success(data) {
+            
+            if (data.error == null) {
+            
+                if(sender == null && sender == ""){
+                    alert("송금자가 확실하지 않음");
+                }else if(receiver == null && receiver == ""){
+                    alert("수신자가 확실하지 않음");
+                }
+            
+                // 송금 트랜잭션
+                var result = web3.eth.sendTransaction({from : sender, to : receiver, value : web3.toWei(eth_cash, 'ether')});
+                alert(JSON.stringify(result));
+                document.getElementById("instructor").innerHTML = "Ether 송금에 성공하셨습니다.";
 
-			        } else {
-			            // 로그인 실패
-			            console.log("login failure");
-			            document.getElementById("instructor").innerHTML = "Ether 송금에 실패하셨습니다.";
-			        }
-			        //init();
-			    }, function error(data) {
-			        // 로그인 실패
-			        console.log("data receive failure");
-			        document.getElementById("instructor").innerHTML = "Data Receive Failure";
-			    });
-        }
+            } else {
+                // 로그인 실패
+                console.log("login failure");
+                document.getElementById("instructor").innerHTML = "Ether 송금에 실패하셨습니다.";
+            }
+            //init();
+        }, function error(data) {
+            // 로그인 실패
+            console.log("data receive failure");
+            document.getElementById("instructor").innerHTML = "Data Receive Failure";
+        });
+}
 
 
             // JSON 메시지 생성

@@ -1,0 +1,87 @@
+<script type="text/javascript">
+
+    var Web3 = require('../EAO/web3');
+    var provider = 'http://220.76.95.91:8546';
+    var web3 = new Web3(new Web3.providers.HttpProvider(provider));
+    var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
+    var addr = '0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE';
+
+    // Function of Ethereum Account
+    function unlockAccount(account, passphrase, callback){
+        alert('4444444  ');
+        $.ajax({
+            url: this.provider,
+            type: 'post',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            dataType: 'JSON',
+            data: JSON.stringify({
+                id: 8,
+                jsonrpc: '2.0',
+                method: 'personal_unlockAccount',
+                params: [account, passphrase]
+            }),
+            success: function(data) {
+                if(data.result == true) {
+                    callback(null);
+                } else {
+                    callback('fail auth');
+                }
+            },
+            error: function(error) {
+                callback(error);
+            }
+        });   
+    }
+
+    //authXML 엔진에 입력데이터와 구조데이터를 post방식의 파라미터로 request & response
+    function createXML(){
+
+        // bxfXmlSaveCspPrepare();
+        // bxfSearchTextPrepare();
+
+        var inXML = $('#inXMLcontent').val();
+        var calXML= $('#calXMLcontent').val();
+        var apiKey= '5acda40a5de6a72c70b12679';
+        var prams = 'apiKey='+apiKey+'&s_inXML='+inXML+'&s_calXML='+calXML;
+        var url = 'http://xmlapi.datafarm.co.kr/soaxmlEngineApi.jsp';
+        var client = new XMLHttpRequest();
+
+        client.onreadystatechange = function(){
+            if(client.readyState == 4 && client.status == 200) {
+                var result = client.responseText;
+                console.log(result.trim());
+            }
+        }
+        client.open("POST",url,true) ;
+        
+        client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        // client.setHeader("Access-Control-Allow-Origin", "*");
+
+        client.send(prams);
+        // console.log(client.responseText);
+    }
+
+    function saveSoaxml(){
+        unlockAccount($('#account').val(), $('#passphrase').val(), function(error){
+            if(error == 'fail auth') {
+                alert('인증정보가 올바르지 않습니다.');
+            } else if(error) {
+                throw error;
+            } else {   
+                // createXML();
+                alert('성공!!!!!!!!!!!!!!');
+            }
+        });
+    }
+
+    // function unlockAccount(){
+
+    // }
+
+    // function unlockAccount(){
+
+    // }
+
+
+</script>
