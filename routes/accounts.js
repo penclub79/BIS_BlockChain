@@ -6,7 +6,6 @@ var TransactionModel = require('../models/Transaction');
 // 상세 페이지를 위해 transaction DB를 로드한다.
 var passwordHash = require('../libs/passwordHash');
 // 로그인 설정관련 모듈
-require('date-utils');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -14,8 +13,8 @@ var session = require('express-session');
 
 var loginRequired = require('../libs/loginRequired');
 
-var newDate = new Date();
-var time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS');
+// var newDate = new Date();
+// var time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS');
 
 // serialize, deserialize : 실질적으로 session은 done에 담긴다.
 // 시리얼, 디시리얼은 나누는 이유는 시리얼에서 아이디를 받아와서 디시리얼에서 분기정책을 정해준다.
