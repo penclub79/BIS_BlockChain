@@ -9,7 +9,7 @@
                             <h3 class="panel-title">Ether 송금</h3>
                         </div>
                         <div class="panel-body">
-                            <form role="form" action="" id="join_form" method="post">
+                            <form role="form" action="" id="songguem_form" method="post">
                                 <fieldset>
 
                                         <h2 id="instructor"></h2>
@@ -29,9 +29,30 @@
                                         <li>송금할 블록체인 아이디</li>
                                         <input class="form-control" placeholder="" id="otherblockchainid" name="otherblockchainid" type="text" value="송금계좌를 입력하세요" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;" >
                                     </div>
+                                    <!-- 트랜잭션 해쉬 t_hash-->
                                     <div class="form-group">
-                                        <!-- <input type="button" onclick="login()" value="unlock"></input> -->
-                                        <input type="button" onclick="songgeum()" value="전송"></input>
+                                        <input type="hidden" class="form-control" id="t_hash" name="t_hash" type="text" value="" required="" >
+                                    </div>
+                                    <!-- 블록 넘버 block_No-->
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="block_No" name="block_No" type="text" value="" required="" >
+                                    </div>
+                                    <!-- IPFS해쉬 IPFS_hash-->
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="IPFS_hash" name="IPFS_hash" type="text" value="" required="" >
+                                    </div>
+                                    <!-- gas_price -->
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="gas_price" name="gas_price" type="text" value="" required="" >
+                                    </div>
+                                    <!-- Nonce -->
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="Nonce" name="Nonce" type="text" value="" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;" >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="button" onclick="songgeum();document.getElementById('songguem_form').submit();" value="전송"></input>
+                                        <!-- TransactionSave(); -->
                                     </div>
                                 </fieldset>
                             </form>
@@ -43,17 +64,15 @@
 
 
 <script type="text/javascript">
-    var url = "http://220.76.95.91:8546"; // 서버 URL
-        console.log(url);
-        // var blockchainid;
-        // console.log(blockchainid);
+        var url = "http://220.76.95.91:8546"; // 서버 URL
         var web3 = new Web3();
-        console.log(web3);
+        // console.log(web3);
         var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
-        console.log(provider);
+        // console.log(provider);
         web3.setProvider(provider);
         var blockchainid = $("#blockchainid").val();
         var blockchainpwd = $("#blockchainpwd").val();
+<<<<<<< HEAD
            
         // web3.eth.defaultAccount = web3.eth.accounts[1];
         // web3.eth.defaultAccount = web3.eth.accounts[blockchainid];
@@ -87,17 +106,27 @@
             document.getElementById("instructor").innerHTML = "관리자에게 문의";
         });
     }
+=======
+</script>
+>>>>>>> 352c026338398a8933023ee23361a2727444d385
 
+
+<script type="text/javascript">
 //이더리움 송금 기능
 
     function songgeum(){
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 352c026338398a8933023ee23361a2727444d385
         var sender = $("#blockchainid").val();
         var senderpwd = $("#blockchainpwd").val();
         var receiver = $("#otherblockchainid").val();
         var eth_cash1 = $("#ether").val();
         var eth_cash = parseInt(eth_cash1);
         
+<<<<<<< HEAD
         web3.personal.unlockAccount(sender, senderpwd, 600);
         web3.eth.defaultAccount = web3.eth.accounts[sender];
         
@@ -133,6 +162,71 @@
 
 
             // JSON 메시지 생성
+=======
+
+        web3.personal.unlockAccount(sender, senderpwd, 600);
+        web3.eth.defaultAccount = web3.eth.accounts[sender];
+        
+        // var JSONdata = createJSONdata("personal_unlockAccount", [ sender, senderpwd, 600 ]);
+    
+        // executeJsonRpc(url, JSONdata, function success(data) {
+            
+            // if (data.error == null) {
+            
+            //     if(sender == null && sender == ""){
+            //         alert("송금자가 확실하지 않음");
+            //     }else if(receiver == null && receiver == ""){
+            //         alert("수신자가 확실하지 않음");
+            //     }
+            
+            // 송금 트랜잭션
+            result = web3.eth.sendTransaction({
+                            from : sender, 
+                            to : receiver, 
+                            value : web3.toWei(eth_cash, 'ether')});
+            var result2 = web3.eth.getTransaction(result);
+            
+            alert(JSON.stringify(result2.hash));
+            alert(JSON.stringify(result2.blockNumber));
+            
+            $("#t_hash").val(JSON.stringify(result2.hash));
+            $("#block_No").val(JSON.stringify(result2.blockNumber));
+            $("#Nonce").val(JSON.stringify(result2.Nonce));
+
+
+
+            document.getElementById("instructor").innerHTML = "Ether 송금에 성공하셨습니다.";
+            web3.personal.lockAccount(sender, senderpwd, 600);
+            // } else {
+            //     // 로그인 실패
+                
+            //     console.log("login failure");
+            //     document.getElementById("instructor").innerHTML = "Ether 송금에 실패하셨습니다.";
+            // }
+        //init();
+    // }, function error(data) {
+    //     // 로그인 실패
+    //     console.log("data receive failure");
+    //     document.getElementById("instructor").innerHTML = "Data Receive Failure";
+    // });
+    }
+
+
+    function TransactionSave(){
+
+
+        var transaction_hash = $("#t_hash").val();
+        var block_No = $("#block_No").val();
+        var IPFS_hash = $("#IPFS_hash").val();
+        var gas_price = $("#gas_price").val();
+        var Nonce = $("#Nonce").val();
+
+
+    }
+
+
+    // JSON 메시지 생성
+>>>>>>> 352c026338398a8933023ee23361a2727444d385
     function createJSONdata(method, params) {
         var JSONdata = {
             "id":8,
@@ -144,26 +238,27 @@
     }
 
     // JSON-RPC 실행
-    function executeJsonRpc(url_exec, JSONdata, success, error) {
-        $.ajax({
-            type : 'post',
-            url : url_exec,
-            data : JSON.stringify(JSONdata),
-            contentType : 'application/JSON',
-            dataType : 'JSON',
-            scriptCharset : 'utf-8',
-            //scriptCharset : 'euc-kr',
-            success : function(data) {
-                //alert(data);
-                //alert(data.code);
-                //alert(data.result);
-                success(data);
-            },
-            error : function(data) {
-                error(data);
-            }
-        });
-    }
+    // function executeJsonRpc(url_exec, JSONdata, success, error) {
+    //     $.ajax({
+    //         type : 'post',
+    //         url : url_exec,
+    //         data : JSON.stringify(JSONdata),
+    //         contentType : 'application/JSON',
+    //         dataType : 'JSON',
+    //         scriptCharset : 'utf-8',
+    //         //scriptCharset : 'euc-kr',
+    //         success : function(data) {
+    //             //alert(data);
+    //             //alert(data.code);
+    //             //alert(data.result);
+    //             alert('ssssssssssssssssssssssss');
+    //             success(data);
+    //         },
+    //         error : function(data) {
+    //             error(data);
+    //         }
+    //     });
+    // }
 
     // JSON-RPC 실행
     function checkTrResult(hashVal) {
@@ -215,4 +310,3 @@
         });
     }
     </script>
-

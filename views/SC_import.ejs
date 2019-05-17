@@ -1,6 +1,8 @@
+<script src="../EAO/web3.js"></script>
+
 <script type="text/javascript">
 
-    var Web3 = require('../EAO/web3');
+    // var Web3 = require('../EAO/web3');
     var provider = 'http://220.76.95.91:8546';
     var web3 = new Web3(new Web3.providers.HttpProvider(provider));
     var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
@@ -8,9 +10,9 @@
 
     // Function of Ethereum Account
     function unlockAccount(account, passphrase, callback){
-        alert('4444444  ');
+        alert('unlockAccount');
         $.ajax({
-            url: this.provider,
+            url: 'http://220.76.95.91:8546',
             type: 'post',
             datatype: 'application/json',
             contentType: 'application/json',
@@ -36,9 +38,9 @@
 
     //authXML 엔진에 입력데이터와 구조데이터를 post방식의 파라미터로 request & response
     function createXML(){
-
-        // bxfXmlSaveCspPrepare();
-        // bxfSearchTextPrepare();
+        alert('createXML');
+        bxfXmlSaveCspPrepare();
+        bxfSearchTextPrepare();
 
         var inXML = $('#inXMLcontent').val();
         var calXML= $('#calXMLcontent').val();
@@ -51,6 +53,7 @@
             if(client.readyState == 4 && client.status == 200) {
                 var result = client.responseText;
                 console.log(result.trim());
+
             }
         }
         client.open("POST",url,true) ;
@@ -69,19 +72,14 @@
             } else if(error) {
                 throw error;
             } else {   
-                // createXML();
-                alert('성공!!!!!!!!!!!!!!');
+                createXML();
+                // alert('성공!!!!!!!!!!!!!!');
             }
         });
     }
 
-    // function unlockAccount(){
+    function writeChain(xmlString){
 
-    // }
-
-    // function unlockAccount(){
-
-    // }
-
+    }
 
 </script>

@@ -21,6 +21,7 @@
     "connect-mongo": "^2.0.3",
     "cookie-parser": "^1.4.4",
     "csurf": "^1.10.0",
+    "date-utils": "^1.2.21",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-paginate": "^1.0.0",

@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var UserModel = require('../models/UserModel');
 // 비밀번호를 암호화시킬 암호화 해쉬 js파일을 로드한다.
+var TransactionModel = require('../models/Transaction');
+// 상세 페이지를 위해 transaction DB를 로드한다.
 var passwordHash = require('../libs/passwordHash');
 // 로그인 설정관련 모듈
 var passport = require('passport');
@@ -10,6 +12,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 
 var loginRequired = require('../libs/loginRequired');
+
 
 // serialize, deserialize : 실질적으로 session은 done에 담긴다.
 // 시리얼, 디시리얼은 나누는 이유는 시리얼에서 아이디를 받아와서 디시리얼에서 분기정책을 정해준다.
@@ -75,9 +78,9 @@ router.get('/join', function(req, res){
 
 // 회원가입 처리 프로세스
 router.post('/join', function(req, res){
-    // 정의한 유저모델 형식과 동일한 데이터를 리퀘스트로 입력받는다.
+    // 정의한 유저모델 형식과 동일한 데이터를 리퀘스트로 입력받는다
+    console.log(req.body.user_id);
     var User = new UserModel({
-
         user_id : req.body.user_id,
         // 비밀번호는 패스워드해쉬 라이브러리 js 파일로 암호화시킨다.
         password : passwordHash(req.body.password),
@@ -85,13 +88,13 @@ router.post('/join', function(req, res){
         blockchainid : req.body.blockchainid,
         blockchainpwd : req.body.blockchainpwd,
         user_name : req.body.user_name,
-        user_phone : req.body.user_phone,
-        user_sex : req.body.user_sex,
-        user_birth : req.body.user_birth,
-        user_email : req.body.user_email,
-        user_addr : req.body.user_addr,
-        user_addr2 : req.body.user_addr2,
-        user_post : req.body.user_post
+        // user_phone : req.body.user_phone,
+        // user_sex : req.body.user_sex,
+        // user_birth : req.body.user_birth,
+        // user_email : req.body.user_email,
+        // user_addr : req.body.user_addr,
+        // user_addr2 : req.body.user_addr2,
+        // user_post : req.body.user_post
     });
     User.save(function(err){
         res.send('<script>alert("회원가입 성공");\
@@ -169,7 +172,7 @@ router.post('/myinfo', loginRequired, function(req, res){
         var user_addr2 = req.body.user_addr2;
         var user_post = req.body.user_post;
     
-        // 업데이트 처리 
+        // 업데이트 처리 ㅛ
     UserModel.update(
         // 로그인한 사용자의 몽고디비 아이디를 받는다.
         {
@@ -243,6 +246,24 @@ router.get('/songguem', loginRequired, function(req, res){
             res.render('accounts/songguem.ejs', { user : req.user });
         }
     }   
+});
+
+router.post('/songguem', function(req, res){
+    // 정의한 유저모델 형식과 동일한 데이터를 리퀘스트로 입력받는다
+    var Transaction = new TransactionModel({
+        t_hash : req.body.t_hash,
+        block_No : req.body.block_No,
+        // IPFS_hash : passwordHash(req.body.IPFS_hash),
+        from : req.body.blockchainid,
+        to : req.body.otherblockchainid,
+        ether : req.body.ether,
+        // gas_price : req.body.gas_price,
+        // Nonce : req.body.Nonce,
+    });
+    Transaction.save(function(err){
+        res.send('<script>alert("내역저장 성공");\
+        location.href="/accounts/songguem";</script>');
+    });
 });
 
 // get 내 history보기 페이지
