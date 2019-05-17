@@ -251,12 +251,14 @@ router.get('/songguem', loginRequired, function(req, res){
 router.post('/songguem', function(req, res){
     // 정의한 유저모델 형식과 동일한 데이터를 리퀘스트로 입력받는다
     var Transaction = new TransactionModel({
-        t_hash : req.body.t_hash,
-        block_No : req.body.block_No,
-        // IPFS_hash : passwordHash(req.body.IPFS_hash),
+        user_id : req.body.user_id,
+        name : req.body.user_name,
         from : req.body.blockchainid,
         to : req.body.otherblockchainid,
-        ether : req.body.ether,
+        t_hash : req.body.t_hash
+        // block_No : req.body.block_No,
+        // IPFS_hash : passwordHash(req.body.IPFS_hash),
+        // ether : req.body.ether,
         // gas_price : req.body.gas_price,
         // Nonce : req.body.Nonce,
     });
