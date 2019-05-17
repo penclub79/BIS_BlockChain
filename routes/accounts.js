@@ -172,7 +172,7 @@ router.post('/myinfo', loginRequired, function(req, res){
         var user_addr2 = req.body.user_addr2;
         var user_post = req.body.user_post;
     
-        // 업데이트 처리 
+        // 업데이트 처리 ㅛ
     UserModel.update(
         // 로그인한 사용자의 몽고디비 아이디를 받는다.
         {
