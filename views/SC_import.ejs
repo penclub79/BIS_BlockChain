@@ -2,11 +2,13 @@
 
 <script type="text/javascript">
 
-    // var Web3 = require('../EAO/web3');
+    var Web3 = require('web3');
     var provider = 'http://220.76.95.91:8546';
-    var web3 = new Web3(new Web3.providers.HttpProvider(provider));
     var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
-    var addr = '0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE';
+    var addr = '0xd0146B2cBBc5e7F1d2b7247787c9Cd4ee8d40972';
+    const web3 = new Web3(new Web3.providers.HttpProvider(provider));
+    const contract = web3.eth.contract(abi).at(addr);
+    
 
     // Function of Ethereum Account
     function unlockAccount(account, passphrase, callback){
@@ -51,8 +53,9 @@
 
         client.onreadystatechange = function(){
             if(client.readyState == 4 && client.status == 200) {
-                var result = client.responseText;
-                console.log(result.trim());
+                var result = client.responseText.trim();
+                // console.log(result.trim());
+                writeChain(result);
 
             }
         }
@@ -65,6 +68,23 @@
         // console.log(client.responseText);
     }
 
+    function writeChain(xmlString){
+        var curlDate = new Date();
+        var fileName = curlDate.getFullYear().toString()+pad((curlDate.getMonth()+1).toString(),2)+pad(curlDate.getDate().toString(),2)+
+                    pad(curlDate.getHours(),2)+pad(curlDate.getMinutes(),2)+pad(curlDate.getSeconds(),2)+'.xml';
+        
+        // alert($('#account'));
+        web3.eth.defaultAccount=web3.eth.accounts[0]
+        contract.issue(fileName, web3.sha3(xmlString), {from:$('#account').val(), gas: 500000});
+        alert('계약서가 만들어졌습니다.')
+        location.href='/home';
+    }
+
+    function pad(n, width) {
+        n = n + '';//string 변환
+        return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+    }   
+
     function saveSoaxml(){
         unlockAccount($('#account').val(), $('#passphrase').val(), function(error){
             if(error == 'fail auth') {
@@ -73,13 +93,8 @@
                 throw error;
             } else {   
                 createXML();
-                // alert('성공!!!!!!!!!!!!!!');
             }
         });
-    }
-
-    function writeChain(xmlString){
-
     }
 
 </script>

@@ -18,7 +18,7 @@ router.get('/graduate', function(req, res){
     res.render('formats/BOKSOO');
 });
 
-// router.get('/createXML', function(req,res){
+router.post('/createXML', function(req,res){
     
     // var common = require('../EAO/common');
     // common.unlockAccount(req.body.account, req.body.passphrase, function(error){
@@ -31,9 +31,14 @@ router.get('/graduate', function(req, res){
 
     //     }
     // });
+    var result = req.body.account;
+    
+    var result2 = req.body.passphrase;
+
+    res.send(result, result2);
 
 
-// })
+});
 
 // 회원가입 처리 프로세스
 router.post('/join', function(req, res){
