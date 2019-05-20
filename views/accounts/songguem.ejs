@@ -97,13 +97,21 @@
                             from : sender, 
                             to : receiver, 
                             value : web3.toWei(eth_cash, 'ether')});
-            var result2 = web3.eth.getTransaction(result);
+            var result2 = web3.eth.getTransaction(result); //트랜잭션 해쉬 받은 코드
 
-            // alert(JSON.stringify(result));
-            // alert(JSON.stringify(result2.hash));
-            // alert(JSON.stringify(result2.blockNumber));
+            alert(JSON.stringify(result));//트랜잭션 해쉬
+            alert(JSON.stringify(result2.hash));//트랜잭션 해쉬
+            alert(JSON.stringify(result2.blockNumber));
             
-            $("#t_hash").val(JSON.stringify(result2.hash));
+            $("#t_hash").val(JSON.stringify(result2.hash));            
+
+            alert(JSON.stringify(result2.blockNumber)); //트랜잭션 '해쉬' 담은 명령어
+            alert(JSON.stringify(result2.gas));// 가져와짐
+            alert(JSON.stringify(result2.gasPrice));// 가져와짐
+            alert(JSON.stringify(result2.input));//가져와짐
+            alert(JSON.stringify(result2.r));//가져와짐
+            alert(JSON.stringify(result2.s));//가져와짐
+            alert(JSON.stringify(result2.v));//가져와짐
             // $("#block_No").val(JSON.stringify(result2.blockNumber));
             // $("#Nonce").val(JSON.stringify(result2.Nonce));
 
