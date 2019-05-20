@@ -292,10 +292,11 @@ router.get('/students/studentslist', paginate.middleware(5, 50), async (req,res)
 
 
 // GET 어드민 홈 전체 학생목록 불러오기 
-router.get('/adminstudentslist', function(req, res){
+router.get('/adminstudentlist', function(req, res){
+    
     UserModel.find( function(err, stuList){ //첫번째 인자는 err, 두번째는 받을 변수명
     
-                res.render( 'admin/adminstudentslist' ,   
+                res.render( 'admin/adminstudentlist' ,   
                     { stulist : stuList }
                 );
         });
