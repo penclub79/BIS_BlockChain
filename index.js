@@ -47,6 +47,7 @@ var admin = require('./routes/admin');
 var home = require('./routes/home');
 var accounts = require('./routes/accounts');
 var auth = require('./routes/auth');
+var formats = require('./routes/formats')
 // var collections = require('./routes/collections');
 // var chat = require('./routes/chat');
 // var products = require('./routes/products');
@@ -69,13 +70,12 @@ app.use(bodyParser.json());
 // url 인코딩을 계속 적용할 것인가 한 번만 적용할 것인가를 설정
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 // 업로드일 때 정적 path 추가 
-// app.use('/uploads', express.static('uploads'));
-app.use('/images', express.static('images'));
 app.use('/formats', express.static('formats'));
+app.use('/images', express.static('images'));
 app.use('/EAO', express.static('EAO'));
-// // static path 추가(장바구니담기)
-// app.use('/static', express.static('static'));
+
 // // 부트스트랩 파일 정적 라우팅
 app.use('/public', express.static('public'));
 
@@ -128,6 +128,7 @@ app.use('/admin', admin);
 app.use('/accounts', accounts);
 app.use('/auth', auth);
 app.use('/',home);
+app.use('/formats', formats)
 // app.use('/chat', chat);
 // app.use('/products', products);
 // app.use('/cart', cart);

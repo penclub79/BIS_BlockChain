@@ -32,42 +32,35 @@ class JB {
         });
     }
 
-    sendData(callback) {
-        // bxfXmlSaveCspPrepare();
-        // bxfSearchTextPrepare();
-        // $('#form[id=inXMLcontent]').val()
-        // $('#form[id=calXMLcontent]').val()
-    
-        // var url = new URL($(location).attr('href'));
-        // var form = $('form');
-        // form.append($('<input/>', {
-        //     name: 'account',
-        //     type: 'hidden',
-        //     value: $('#account').val()
-        // }));
-        
-        // form.attr('action', './soaxmlSave.jsp');
-        // form.attr('method', 'post');
-        // form.submit();
-        // callback(null);
+    sendData() {
 
-        var inXML = '<root><test>H_root/test</test></root>';
-        var calXML= 'H_root/test##^^##tesddddddddddddddddddddg||^^||';
+        bxfXmlSaveCspPrepare();
+        bxfSearchTextPrepare();
+
+        var inXML = $('#inXMLcontent').val();
+        var calXML= $('#calXMLcontent').val();
         var apiKey= '5acda40a5de6a72c70b12679';
         var prams = 'apiKey='+apiKey+'&s_inXML='+inXML+'&s_calXML='+calXML;
         var url = 'http://xmlapi.datafarm.co.kr/soaxmlEngineApi.jsp';
-        var req = new XMLHttpRequest();
-        req.onreadystatechange = function(){
-            if(req.readyState == 4 && req.status == 200) {
-                alert(req.responseText);
+        var client = new XMLHttpRequest();
+
+        client.onreadystatechange = function(){
+            if(client.readyState == 4 && client.status == 200) {
+                // console.log(client.responseText);
+                var result = client.responseText;
+                createFile(result);
             }
         }
-        req.open("POST",url,true) ;
-        req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        req.send(prams);
+        client.open("POST",url,true) ;
+        
+        client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        // client.setHeader("Access-Control-Allow-Origin", "*");
+
+        client.send(prams);
+        // console.log(client.responseText);
     }
     
-    checkXml() {
+    checkXml(callback) {
        var url = window.location.pathname;
        var xhttp = new XMLHttpRequest();
        xhttp.open('GET', url.substring(url.lastIndexOf('/')+1), true);
@@ -83,7 +76,7 @@ class JB {
                    alert('변조된 계약서입니다.');
                 }
             }
-            }
+          }
        }
     };
 }
@@ -91,27 +84,75 @@ class JB {
 var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
 var addr = '0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE';
 var jb = new JB('220.76.95.91', 8546, abi, addr);
-// var createXML = require('./index');
 
 function saveSoaxml() {
-    // alert($('#account').val());
-    // alert($('#passphrase').val());
-//    jb.unlockAccount($('#account').val(), $('#passphrase').val(), function(error) {
-//       if(error == 'fail auth') {
-//          alert('인증정보가 올바르지 않습니다.');
-//       } else if(error) {
-//          throw error;
-//       } else {   
-//             alert('성공적으로 접근하여 락을 해제 하였습니다');
+    alert($('#account').val());
+    alert($('#passphrase').val());
+   jb.unlockAccount($('#account').val(), $('#passphrase').val(), function(error) {
+      if(error == 'fail auth') {
+         alert('인증정보가 올바르지 않습니다.');
+      } else if(error) {
+         throw error;
+      } else {   
             jb.sendData();
-//       }
-//    });
+      }
+   });
 }
 
+function createFile(xmlString){
+    var xmlResult = xmlString.trim();
+
+    // var path = 'C://DEV//3kbicas_Source//BIS_BlockChain//EAO//';
+    var curlDate = new Date();
+    var fileName = curlDate.getFullYear().toString()+pad((curlDate.getMonth()+1).toString(),2)+pad(curlDate.getDate().toString(),2)+
+                   pad(curlDate.getHours(),2)+pad(curlDate.getMinutes(),2)+pad(curlDate.getSeconds(),2)+'.xml';
+    var fullPath = fileName;
+
+    if(isIE()){
+        var blob = new Blob([xmlResult], { type: "text/plain", endings: "native" });
+        
+        window.navigator.msSaveBlob(blob, fullPath);
+    }else{
+        var blob = new Blob([xmlResult], { type: 'text/plain' });
+        
+        ///////1.
+        // objURL = window.URL.createObjectURL(blob);
+        // // 이전에 생성된 메모리 해제
+        // if (window.__Xr_objURL_forCreatingFile__) {
+        //     window.URL.revokeObjectURL(window.__Xr_objURL_forCreatingFile__);
+        // }
+        // window.__Xr_objURL_forCreatingFile__ = objURL;
+        // var a = document.createElement('a');
+        // a.download= fullPath;
+        // a.href = objURL;
+        // a.click();
+        
+
+        //////2.
+        var a  = document.createElement("a"),
+          url  = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.target='_blank';
+        a.download = fullPath;
+        a.click();
+
+        
+    }
+}
+
+function isIE() {
+    return (navigator.appName === 'Netscape' && navigator.userAgent.search('Trident') !== -1) ||
+        navigator.userAgent.toLowerCase().indexOf("msie") !== -1;
+}
+
+function pad(n, width) {
+    n = n + '';//string 변환
+    return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+}
 
 $(function(){
     // alert("$(function()");
-   if($('#account')[0] !== undefined) {      
+   if($('#account')[0] !== undefined) {
       $('#account').autocomplete({
          source: jb.web3.eth.accounts
       });
