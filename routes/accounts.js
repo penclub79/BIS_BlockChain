@@ -292,10 +292,10 @@ router.get('/history', paginate.middleware(5, 50), async (req,res) => {
 
         res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/accounts/login"</script>');
     }else{
-
+        console.log(req.user.user_id + "djfkdjfkdjfkjdfkjdfkjfdk");
         const [ results, itemCount ] = await Promise.all([
             // sort : minus 하면 내림차순(날짜명)이다.
-            TransactionModel.find().sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
+            TransactionModel.find({"user_name" : req.user.user_id}).sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
             TransactionModel.count({})
         ]);
         const pageCount = Math.ceil(itemCount / req.query.limit);
