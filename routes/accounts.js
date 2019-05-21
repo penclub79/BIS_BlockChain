@@ -366,7 +366,7 @@ router.get('/history', paginate.middleware(5, 50), async (req,res) => {
 });
 
 // GET 어드민 등록제품 상세페이지
-router.get('/accounts/history/:id', function(req, res){
+router.get('/history/:id', function(req, res){
     
         var getData = async() => {
             // async()함수를 만들고 return반환 후 처리가 다 되면 getData().then이 실행된다.
