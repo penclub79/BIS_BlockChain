@@ -265,30 +265,30 @@ router.get('/products/productslist', paginate.middleware(5, 50), async (req,res)
 // });
 
 // 제품 목록페이지
-router.get('/students/studentslist', paginate.middleware(5, 50), async (req,res) => {
+// router.get('/students/studentslist', paginate.middleware(5, 50), async (req,res) => {
 
-    if(!req.isAuthenticated()){
+//     if(!req.isAuthenticated()){
 
-        res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/accounts/login"</script>');
-    }else{
+//         res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/accounts/login"</script>');
+//     }else{
 
-        const [ results, itemCount ] = await Promise.all([
-            // sort : minus 하면 내림차순(날짜명)이다.
-            StudentsModel.find().sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
-            StudentsModel.count({})
-        ]);
-        const pageCount = Math.ceil(itemCount / req.query.limit);
+//         const [ results, itemCount ] = await Promise.all([
+//             // sort : minus 하면 내림차순(날짜명)이다.
+//             StudentsModel.find().sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
+//             StudentsModel.count({})
+//         ]);
+//         const pageCount = Math.ceil(itemCount / req.query.limit);
         
-        const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
+//         const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
 
-        res.render('admin/adminstudentlist', 
-            { 
-                students : results , 
-                pages: pages,
-                pageCount : pageCount,
-            });
-    }
-});
+//         res.render('admin/adminstudentlist', 
+//             { 
+//                 students : results , 
+//                 pages: pages,
+//                 pageCount : pageCount,
+//             });
+//     }
+// });
 
 
 // GET 어드민 홈 전체 학생목록 불러오기 
