@@ -2,7 +2,7 @@
 
     <% include ./sidebar.ejs %>
         
-        <div class="row">
+        <!-- <div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     <div class="login-panel panel panel-primary">
                         <div class="panel-heading">
@@ -12,11 +12,9 @@
                             <form role="form" action="" id="join_form" method="post">
                                 <fieldset>
                                 
-                                                <h1 id="instructor"></h1>
-                                
                                     <div class="form-group">
                                         <li>Transaction Hash(from)</li>
-                                        <input class="form-control" placeholder="" id="blockchainid" name="blockchainid" readonly type="text" value="<%= user.blockchainid %>" required="">
+                                        <input class="form-control" placeholder="" id="blockchainid" name="blockchainid" readonly type="text" value="<%= transaction.from %>" required="">
                                     </div>
                                     <div class="form-group">
                                         <li>Block</li>
@@ -42,111 +40,159 @@
                         </div>
                     </div>
                 </div>
+        </div> -->
+        <div class="card mb-3">
+            <div class="card-header">
+              <i class="fa fa-table"></i> 학생 목록</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr align="center">
+                        <th width="10%" style="vertical-align: middle;">Hash</th>
+                        <th width="1%" style="vertical-align: middle;">From</th>
+                        <th width="1%" style="vertical-align: middle;">To</th>
+                        <th width="1%" style="vertical-align: middle;">Gas</th>
+                        <th width="1%" style="vertical-align: middle;">GasPrice</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr align="center">
+                        <th>Hash</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Gas</th>
+                        <th>GasPrice</th>
+                    </tr>
+                </tfoot>
+                    <tbody>
+                    <% transaction.forEach(function(transaction){ %>
+                    <tr align="center">
+                        <td style="vertical-align: middle; font-size: 0.7em;">
+                            <%= transaction.t_hash %></a>
+                        </td>
+                        <td style="vertical-align: middle; font-size: 0.7em;">
+                            </a><%= transaction.from %></a>
+                        </td>
+                        <td style="vertical-align: middle;"><%=transaction.to%></td>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.gas %></td>
+                        <td style="vertical-align: middle; font-size: 0.7em;">
+                          <%= transaction.gasPrice %>
+                        </td>                        
+                    </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          </div>
         </div>
-
-
-<script type="text/javascript">
-    var url = "http://220.76.95.91:8546"; // 서버 URL
+        <!-- Example DataTables Card-->
+        <script type="text/javascript">
+            var url = "http://220.76.95.91:8546"; // 서버 URL
+                
+                var web3 = new Web3();
+                
+                var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
+                
+                web3.setProvider(provider); //이더리움 서버접속
         
-        var web3 = new Web3();
+                var blockchainid = $("#blockchainid").val();
+                   
+                // web3.eth.defaultAccount = web3.eth.accounts[1];
+                web3.eth.defaultAccount = web3.eth.accounts[blockchainid];
+                var ABI = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
+                // 연결할 Contract(CounterMaster) 주소 
+                var master = web3.eth.contract(ABI).at("0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE");
+                var CounterAddressList = master.getCounterAddressList();
+                
+                // alert(CounterAddressList[0] + '||' + CounterAddressList[1]);
         
-        var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
+                
         
-        web3.setProvider(provider); //이더리움 서버접속
-
-        var blockchainid = $("#blockchainid").val();
-           
-        // web3.eth.defaultAccount = web3.eth.accounts[1];
-        web3.eth.defaultAccount = web3.eth.accounts[blockchainid];
-        var ABI = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
-        // 연결할 Contract(CounterMaster) 주소 
-        var master = web3.eth.contract(ABI).at("0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE");
-        var CounterAddressList = master.getCounterAddressList();
-        // alert(CounterAddressList[0] + '||' + CounterAddressList[1]);
-
         
-
-
-            // JSON 메시지 생성
-    function createJSONdata(method, params) {
-        var JSONdata = {
-            "id":8,
-            "jsonrpc" : "2.0",
-            "method" : method,
-            "params" : params
-            };
-        return JSONdata;
-    }
-
-    // JSON-RPC 실행
-    function executeJsonRpc(url_exec, JSONdata, success, error) {
-        $.ajax({
-            type : 'post',
-            url : url_exec,
-            data : JSON.stringify(JSONdata),
-            contentType : 'application/JSON',
-            dataType : 'JSON',
-            scriptCharset : 'utf-8',
-            //scriptCharset : 'euc-kr',
-            success : function(data) {
-                //alert(data);
-                //alert(data.code);
-                //alert(data.result);
-                success(data);
-            },
-            error : function(data) {
-                error(data);
+                    // JSON 메시지 생성
+            function createJSONdata(method, params) {
+                var JSONdata = {
+                    "id":8,
+                    "jsonrpc" : "2.0",
+                    "method" : method,
+                    "params" : params
+                    };
+                return JSONdata;
             }
-        });
-    }
-
-    // JSON-RPC 실행
-    function checkTrResult(hashVal) {
-        //var JSONdata = createJSONdata("eth_getTransactionByHash", ["0x9faa7817dd5e926a5fec6adecc3d73d4dc1f3d97d7b8278786aa794646d8c974"]);
-        var JSONdata = createJSONdata("eth_getTransactionByHash", [hashVal]);
-        executeJsonRpc(url, JSONdata, function success(data) {
-            //alert(data.error);
-            // 로그인 성공
-            if (data.error == null) {
-                //alert(data);
-                //alert(data.result.blockNumber);ccc
-                var rst = parseInt(data.result.blockNumber, 16);
-                //alert(rst);
-                ///return rst;
-                console.log("Result Check success!");
-            } else {
-                // 로그인 실패
-                console.log("Result Check error1111");
+        
+            // JSON-RPC 실행
+            function executeJsonRpc(url_exec, JSONdata, success, error) {
+                $.ajax({
+                    type : 'post',
+                    url : url_exec,
+                    data : JSON.stringify(JSONdata),
+                    contentType : 'application/JSON',
+                    dataType : 'JSON',
+                    scriptCharset : 'utf-8',
+                    //scriptCharset : 'euc-kr',
+                    success : function(data) {
+                        //alert(data);
+                        //alert(data.code);
+                        //alert(data.result);
+                        success(data);
+                    },
+                    error : function(data) {
+                        error(data);
+                    }
+                });
             }
-            //init();
-        }, function error(data) {
-            // 로그인 실패ccc
-            console.log("Result Check error222");
-        });
-    }
-
-    // JSON-RPC 실행
-    function checkTrResultDisp() {
-        //var JSONdata = createJSONdata("eth_getTransactionByHash", ["0x9faa7817dd5e926a5fec6adecc3d73d4dc1f3d97d7b8278786aa794646d8c974"]);
-        var JSONdata = createJSONdata("eth_getTransactionByHash", [document.getElementById("trHash").value]);
-        executeJsonRpc(url, JSONdata, function success(data) {
-            //alert(data.error);
-            // 로그인 성공
-            if (data.error == null) {
-                //alert(data);
-                //alert(data.result.blockNumber);
-                var rst = parseInt(data.result.blockNumber, 16);
-                //alert(rst);
-                ///return rst;
-                console.log("Result Check success!");
-            } else {
-                // 로그인 실패
-                console.log("Result Check error1111");
+        
+            // JSON-RPC 실행
+            function checkTrResult(hashVal) {
+                //var JSONdata = createJSONdata("eth_getTransactionByHash", ["0x9faa7817dd5e926a5fec6adecc3d73d4dc1f3d97d7b8278786aa794646d8c974"]);
+                var JSONdata = createJSONdata("eth_getTransactionByHash", [hashVal]);
+                executeJsonRpc(url, JSONdata, function success(data) {
+                    //alert(data.error);
+                    // 로그인 성공
+                    if (data.error == null) {
+                        //alert(data);
+                        //alert(data.result.blockNumber);ccc
+                        var rst = parseInt(data.result.blockNumber, 16);
+                        //alert(rst);
+                        ///return rst;
+                        console.log("Result Check success!");
+                    } else {
+                        // 로그인 실패
+                        console.log("Result Check error1111");
+                    }
+                    //init();
+                }, function error(data) {
+                    // 로그인 실패ccc
+                    console.log("Result Check error222");
+                });
             }
-            //init();
-        }, function error(data) {
-            // 로그인 실패ccc
-            console.log("Result Check error222");
-        });
-    }
-    </script>
+        
+            // JSON-RPC 실행
+            function checkTrResultDisp() {
+                //var JSONdata = createJSONdata("eth_getTransactionByHash", ["0x9faa7817dd5e926a5fec6adecc3d73d4dc1f3d97d7b8278786aa794646d8c974"]);
+                var JSONdata = createJSONdata("eth_getTransactionByHash", [document.getElementById("trHash").value]);
+                executeJsonRpc(url, JSONdata, function success(data) {
+                    //alert(data.error);
+                    // 로그인 성공
+                    if (data.error == null) {
+                        //alert(data);
+                        //alert(data.result.blockNumber);
+                        var rst = parseInt(data.result.blockNumber, 16);
+                        //alert(rst);
+                        ///return rst;
+                        console.log("Result Check success!");
+                    } else {
+                        // 로그인 실패
+                        console.log("Result Check error1111");
+                    }
+                    //init();
+                }, function error(data) {
+                    // 로그인 실패ccc
+                    console.log("Result Check error222");
+                });
+            }
+            </script>
+        

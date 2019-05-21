@@ -6,13 +6,13 @@ var TransactionModel = require('../models/Transaction');
 // 상세 페이지를 위해 transaction DB를 로드한다.
 var passwordHash = require('../libs/passwordHash');
 // 로그인 설정관련 모듈
+var co = require('co');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
 var session = require('express-session');
-
 var loginRequired = require('../libs/loginRequired');
 
+var paginate = require('express-paginate');
 
 // serialize, deserialize : 실질적으로 session은 done에 담긴다.
 // 시리얼, 디시리얼은 나누는 이유는 시리얼에서 아이디를 받아와서 디시리얼에서 분기정책을 정해준다.
@@ -251,11 +251,20 @@ router.get('/songguem', loginRequired, function(req, res){
 router.post('/songguem', function(req, res){
     // 정의한 유저모델 형식과 동일한 데이터를 리퀘스트로 입력받는다
     var Transaction = new TransactionModel({
+        blockHash : req.body.blockHash,
         user_id : req.body.user_id,
         name : req.body.user_name,
         from : req.body.blockchainid,
         to : req.body.otherblockchainid,
-        t_hash : req.body.t_hash
+        t_hash : req.body.t_hash,
+        gas : req.body.gas,
+        gasPrice : req.body.gasPrice,
+        input : req.body.input,
+        r : req.body.r,
+        s : req.body.s,
+        v : req.body.v,
+        transactionIndex : req.body.transactionIndex
+        // Nonce : req.body.gas,
         // block_No : req.body.block_No,
         // IPFS_hash : passwordHash(req.body.IPFS_hash),
         // ether : req.body.ether,
@@ -267,11 +276,10 @@ router.post('/songguem', function(req, res){
         location.href="/accounts/songguem";</script>');
     });
 });
+//get 내 승인조회 보기 페이지
+router.get('/studentlist', loginRequired, function(req, res){
 
-// get 내 history보기 페이지
-router.get('/history', loginRequired, function(req, res){
-
-    console.log('history 페이지 경로요청');
+    console.log('studentlist 페이지 경로요청');
     console.log(req.user);
 
     if(!req.user){
@@ -281,9 +289,9 @@ router.get('/history', loginRequired, function(req, res){
     }else{
 
         if(Array.isArray(req.user)){
-            res.render('accounts/history.ejs', { user : req.user[0]._id });
+            res.render('accounts/studentlist.ejs', { user : req.user[0]._id });
         }else{
-            res.render('accounts/history.ejs', { user : req.user });
+            res.render('accounts/studentlist.ejs', { user : req.user });
         }
     }   
 });
@@ -313,6 +321,52 @@ router.post('/saveLog', function(req,res){
 
 
 });
+// get 내 history보기 페이지
+// router.get('/history', loginRequired, transaction, function(req, res){
+
+//     console.log('history 페이지 경로요청');
+//     console.log(req.user);
+
+//     if(!req.user){
+
+//         console.log('사용자 인증불가');
+//         res.redirect('/accounts/login');
+//     }else{
+
+//         if(Array.isArray(req.transaction)){
+//             res.render('accounts/history.ejs', { user : req.transaction[0]._id });
+//         }else{
+//             res.render('accounts/history.ejs', { user : req.transaction });
+//         }
+//     }   
+// });
+router.get('/history', paginate.middleware(5, 50), async (req,res) => {
+
+    if(!req.isAuthenticated()){
+
+        res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/accounts/login"</script>');
+    }else{
+        console.log(req.user.user_id + "djfkdjfkdjfkjdfkjdfkjfdk");
+        const [ results, itemCount ] = await Promise.all([
+            // sort : minus 하면 내림차순(날짜명)이다.
+            TransactionModel.find({"user_id" : req.user.user_id}).sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
+            TransactionModel.count({})
+        ]);
+        const pageCount = Math.ceil(itemCount / req.query.limit);
+        
+        const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
+
+        res.render('accounts/history', 
+            { 
+                transaction : results , 
+                pages: pages,
+                pageCount : pageCount,
+            });
+    }
+});
+
+
+
 module.exports = router;
 
 

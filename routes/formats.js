@@ -1,4 +1,4 @@
-
+ 
 // var Web3 = require('web3');
 // var provider = 'http://220.76.95.91:8546';
 // var web3 = new Web3(new Web3.providers.HttpProvider(provider));
@@ -15,6 +15,7 @@ router.get('/', function(req, res){
 
 // 회원가입 페이지
 router.get('/graduate', function(req, res){
+
     res.render('formats/BOKSOO');
 });
 
