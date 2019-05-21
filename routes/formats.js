@@ -20,22 +20,20 @@ router.get('/graduate', function(req, res){
 
 router.post('/createXML', function(req,res){
     
-    // var common = require('../EAO/common');
-    // common.unlockAccount(req.body.account, req.body.passphrase, function(error){
-    //     if(error == 'fail auth') {
-    //         alert('인증정보가 올바르지 않습니다.');
-    //     } else if(error) {
-    //         throw error;
-    //     } else {   
-    //         // common.createXML();
+    var result = req.body.path;
+    // console.log(result);
 
-    //     }
-    // });
-    var result = req.body.account;
-    
-    var result2 = req.body.passphrase;
+    var request_detail = new Transaction({
+        user_id : req.body.user_id,
+        name : req.body.name,
+        from : req.body.from,
+        to : req.body.to,
+        ether : req.body.ether,
+        t_hash: req.body.t_hash,
+        
 
-    res.send(result, result2);
+        
+    })
 
 
 });

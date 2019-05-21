@@ -1,6 +1,6 @@
 <% include ../SC_header.ejs %>
 
-<form name="BOKSOO">
+<form name="BOKSOO" >
 	<textarea id="calXMLcontent" name="calXMLcontent" style="display:none"></textarea>
 	<textarea id="inXMLcontent" name="inXMLcontent" style="display:none" >"</textarea>
 	<textarea id="calTextcontent" name="calTextcontent" style="display:none"></textarea>
@@ -603,18 +603,12 @@
 	</td>
 	</tr>
 </table>
-<!-- 추가:홍문기 -->
+  <!-- 사용자 정보 받아오기 user_id, blockChainid, blockChainpw -->
+  <input type="hidden" id='user_id' value="<%=user.user_id%>"></input>
+  <input type="hidden" id='name' value="<%= user.user_name %>"></input>
+  <input type="hidden" id='blockchainid' value="<%= user.blockchainid %>"></input>
+  <input type="hidden" id='blockchainpwd' value="<%= user.blockchainpwd %>"></input>
+  <!-- 사용자 정보 받아오기 user_id, blockChainid, blockChainpw -->
 
-	<div class="docBtn_list">
-		<!-- <input type="button" value="Save" onclick="javascript:bxfXmlSaveMongodb();" /> &#160; -->
-		<!-- 홍문기 추가 -->
-		<input type="button" value="Save"  onclick="saveSoaxml()" /> &#160; 
-		<!-- <input type="button" value="Save" onclick="javascript:test();" /> &#160;  -->
-		<!-- <input type="button" value="List" onclick="javascript:bxfXmlListMongodb();" /> &#160;
-		<input type="button" value="Search" onclick="javascript:bxfXmlSearchMongodb();" /> -->
-	</div>
-
-	
-	<% include ../SC_import.ejs %>
+<% include ../SC_import.ejs %>
 <% include ../SC_footer.ejs %>
-

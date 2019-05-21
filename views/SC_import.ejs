@@ -3,7 +3,7 @@
 <script type="text/javascript">
 
     var Web3 = require('web3');
-    var provider = 'http://220.76.95.91:8546';
+    const provider = 'http://220.76.95.91:8546';
     var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
     var addr = '0xd0146B2cBBc5e7F1d2b7247787c9Cd4ee8d40972';
     const web3 = new Web3(new Web3.providers.HttpProvider(provider));
@@ -11,10 +11,10 @@
     
 
     // Function of Ethereum Account
-    function unlockAccount(account, passphrase, callback){
-        alert('unlockAccount');
+    function unlockAccount(account, passphrase, provider, callback){
+
         $.ajax({
-            url: 'http://220.76.95.91:8546',
+            url: provider,
             type: 'post',
             datatype: 'application/json',
             contentType: 'application/json',
@@ -40,7 +40,7 @@
 
     //authXML 엔진에 입력데이터와 구조데이터를 post방식의 파라미터로 request & response
     function createXML(){
-        alert('createXML');
+
         bxfXmlSaveCspPrepare();
         bxfSearchTextPrepare();
 
@@ -54,30 +54,78 @@
         client.onreadystatechange = function(){
             if(client.readyState == 4 && client.status == 200) {
                 var result = client.responseText.trim();
-                // console.log(result.trim());
-                writeChain(result);
-
+                oneTransaction(result);
             }
         }
         client.open("POST",url,true) ;
-        
         client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        // client.setHeader("Access-Control-Allow-Origin", "*");
-
         client.send(prams);
-        // console.log(client.responseText);
     }
 
-    function writeChain(xmlString){
+    // 승인버튼을 누를 때마다, 컨트렉트가 생성되고 트랜젝션이 일어난다. 아래의 업무가 있다.
+        // 1. 생성된 xml으로 컨트렉트 생성
+        // 2. 수수료 송금
+        // 3. 트랜젝션 로그 기록
+    function oneTransaction(xmlString){
+
+        var fileName = createFile();
+        console.log(fileName);
+        var answer = confirm('신청서를 제출하겠습니까?');
+
+        if(answer){
+            //스마트 컨트렉트 생성
+            // createContract(fileName, xmlString, function(result){
+            //     console.log('createContract: ',xmlString);
+            //     if(result =='success'){
+            //         //수수료 송금
+            //         // sendFee();
+            //         saveLog();
+            //         alert('신청서를 성공적으로 제출하였습니다.');
+            //     }else{
+            //         alert('신청서 제출 실패!');
+            //     }
+            // });
+            saveLog();
+        }
+    }
+
+    function saveLog(){
+
+        var user_id = $('#user_id').val();
+        var name = $('#name').val();
+        var blockchainid = $('#blockchainid').val();
+        var blockchainpwd = $('#blockchainpwd').val();
+
+        var url = new URL($(location).attr('href'));
+        var prams = 'form_type='+url.pathname+'&user_id='+user_id+'&blockchain_id='+blockchainid+'&blockchain_pwd='+blockchainpwd+'&name='+name;
+        var client = new XMLHttpRequest();
+        client.open("POST",'saveLog',true) ;
+        client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        client.send(prams);
+    }
+
+    function createContract(fileName, xmlString, callback){
+        web3.eth.defaultAccount = $('#blockchainid').val();
+        contract.issue(fileName, web3.sha3(xmlString), {from:$('#account').val(), gas: 500000});
+
+        callback('success');
+    }
+
+    //서식의 마지막 부분에 hidden으로 추가하여야 아래의 세션정보를 받아올 수 있음
+    function sendFee(){
+        t_hash = web3.eth.sendTransaction({
+                    from: $('#blockchainid').val(),
+                    to: web3.eth.accounts[0], //관리자 계정
+                    value: web3.toWei(0.01,'ether')
+                    });
+    }
+
+    function createFile(xmlString){
         var curlDate = new Date();
         var fileName = curlDate.getFullYear().toString()+pad((curlDate.getMonth()+1).toString(),2)+pad(curlDate.getDate().toString(),2)+
                     pad(curlDate.getHours(),2)+pad(curlDate.getMinutes(),2)+pad(curlDate.getSeconds(),2)+'.xml';
-        
-        // alert($('#account'));
-        web3.eth.defaultAccount=web3.eth.accounts[0]
-        contract.issue(fileName, web3.sha3(xmlString), {from:$('#account').val(), gas: 500000});
-        alert('계약서가 만들어졌습니다.')
-        location.href='/home';
+                    
+        return fileName;
     }
 
     function pad(n, width) {
@@ -86,12 +134,13 @@
     }   
 
     function saveSoaxml(){
-        unlockAccount($('#account').val(), $('#passphrase').val(), function(error){
+
+        unlockAccount($('#account').val(), $('#passphrase').val(), provider, function(error){
             if(error == 'fail auth') {
                 alert('인증정보가 올바르지 않습니다.');
             } else if(error) {
                 throw error;
-            } else {   
+            } else {
                 createXML();
             }
         });

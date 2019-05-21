@@ -172,7 +172,7 @@ router.post('/myinfo', loginRequired, function(req, res){
         var user_addr2 = req.body.user_addr2;
         var user_post = req.body.user_post;
     
-        // 업데이트 처리 ㅛ
+        // 업데이트 처리 
     UserModel.update(
         // 로그인한 사용자의 몽고디비 아이디를 받는다.
         {
@@ -211,7 +211,7 @@ router.post('/myinfo', loginRequired, function(req, res){
 // get 내 wallet보기 페이지
 router.get('/wallet', loginRequired, function(req, res){
 
-    console.log('wallet 페이지 경로요청');
+    console.log('wallet 페이지 경로요청!!!!!!!!!!!');
     console.log(req.user);
 
     if(!req.user){
@@ -288,6 +288,31 @@ router.get('/history', loginRequired, function(req, res){
     }   
 });
 
+
+// 졸업증명서 호출
+router.get('/graduate', function(req, res){
+    console.log(req.user)
+    res.render('formats/BOKSOO.ejs', { user : req.user });
+});
+
+
+router.post('/saveLog', function(req,res){
+
+    var Transaction = new TransactionModel({
+        user_id : req.body.user_id,
+        name : req.body.name,
+        // from : req.body.from,
+        // to : req.body.to,
+        // ether : req.body.ether,
+        // t_hash: req.body.t_hash
+    });
+    Transaction.save(function(err){
+        // res.send('<script>alert("내역저장 성공");\
+        // location.href="/accounts/songguem";</script>');
+    });
+
+
+});
 module.exports = router;
 
 

@@ -15,6 +15,15 @@ var TransactionSchema = new Schema({
     time : {
         type : Date,
         default : Date.now()
+    },
+    path : String,
+    fee_yn : {
+        type: String,
+        default: 'N'
+    },
+    accept_yn : {
+        type: String,
+        default: 'N'
     }
 });
 
@@ -35,4 +44,3 @@ TransactionSchema.virtual('getAmountFormat').get(function(){
 
 
 module.exports = mongoose.model('transaction', TransactionSchema);
-
