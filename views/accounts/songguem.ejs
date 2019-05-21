@@ -130,10 +130,6 @@
                             to : receiver, 
                             value : web3.toWei(eth_cash, 'ether')});
             var result2 = web3.eth.getTransaction(result); //트랜잭션 해쉬 받은 코드
-
-            alert(JSON.stringify(result2));//트랜잭션 해쉬
-            alert(JSON.stringify(result2.hash));//트랜잭션 해쉬
-            // alert(JSON.stringify(result2.blockNumber));
             
             $("#blockHash").val(JSON.stringify(result2.blockHash));//blockHash
             $("#t_hash").val(JSON.stringify(result2.hash));
