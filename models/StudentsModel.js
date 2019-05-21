@@ -11,23 +11,21 @@ var StudentsSchema = new Schema({
        type : String,
        required : [true, '제목은 입력해주세요'] 
     },
-    thumbnail : String, // 썸네일 경로가 저장될 컬렉션
-    price : Number,
-    quantity : Number,
-    description : String,
-    created_at : {
-        type : Date,
-        default : Date.now()
-    },
+    // thumbnail : String, // 썸네일 경로가 저장될 컬렉션
+    // price : Number,
+    // quantity : Number,
+    // description : String,
+    // created_at : {
+    //     type : Date,
+    //     default : Date.now()
+    // },
     user_name : String, // 작성자 추가
     certificate : String,   //증명서 종류
     yn : String,    //승인여부
-    // productspec : String,
-    // productmaker : String,
-    // productusing : String,
-    // customercall : String,
-    // productdelivery : Number,
-    day : Number        //날짜
+    time : {
+        type : Date,
+        default : Date.now()
+    }        //날짜
 });
 
 // 1씩 증가하는 primary key를 만든다

@@ -4,13 +4,20 @@ var autoIncrement = require('mongoose-auto-increment');
 
 // 트랜잭션 스키마를 정의한다.
 var TransactionSchema = new Schema({
-
+    blockHash : String,
     user_id : String,
     name : String,
     from : String,
     to : String,
     ether : String,
     t_hash : String,
+    gas : String,
+    gasPrice : String,
+    input : String,
+    r : String,
+    s : String,
+    v : String,
+    transactionIndex : String,
     Nonce : String,
     time : {
         type : Date,
