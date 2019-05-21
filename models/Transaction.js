@@ -19,7 +19,7 @@ var TransactionSchema = new Schema({
     v : String,
     transactionIndex : String,
     Nonce : String,
-    time : {
+    created_at : {
         type : Date,
         default : Date.now()
     }
@@ -35,9 +35,16 @@ TransactionSchema.plugin( autoIncrement.plugin,
 );
 
 // numberFormat 적용
-TransactionSchema.virtual('getAmountFormat').get(function(){
-    // 1000원을 1,000원으로 바꿔준다.
-    return new Intl.NumberFormat().format(this.price);
+TransactionSchema.virtual('getDate').get(function(){
+
+    // 변수 date에 Date객체를 생성하고 해당 스키마의 create_at라는 데이터를 받아온다.
+    var date = new Date(this.created_at);
+    // 받아온 값을 return
+    return {
+        year : date.getFullYear(),
+        month : date.getMonth()+1,
+        day : date.getDate()
+    };
 });
 
 
