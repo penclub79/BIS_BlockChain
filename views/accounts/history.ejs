@@ -49,41 +49,36 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr align="center">
-                        <th width="1%" style="vertical-align: middle;">학번</th>
-                        <th width="1%" style="vertical-align: middle;">전공</th>
-                        <th width="1%" style="vertical-align: middle;">성별</th>
-                        <th width="1%" style="vertical-align: middle;">이름</th>
-                        <th width="10%" style="vertical-align: middle;">블록체인ID</th>
-                        <th width="1%" style="vertical-align: middle;">삭제</th>
+                        <th width="10%" style="vertical-align: middle;">Hash</th>
+                        <th width="1%" style="vertical-align: middle;">From</th>
+                        <th width="1%" style="vertical-align: middle;">To</th>
+                        <th width="1%" style="vertical-align: middle;">Gas</th>
+                        <th width="1%" style="vertical-align: middle;">GasPrice</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr align="center">
-                        <th>학번</th>
-                        <th>전공</th>
-                        <th>성별</th>
-                        <th>이름</th>
-                        <th>블록체인ID</th>
-                        <th>삭제</th>
+                        <th>Hash</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Gas</th>
+                        <th>GasPrice</th>
                     </tr>
                 </tfoot>
                     <tbody>
                     <% transaction.forEach(function(transaction){ %>
                     <tr align="center">
                         <td style="vertical-align: middle; font-size: 0.7em;">
-                            <%= transaction.user_id %></a>
+                            <%= transaction.t_hash %></a>
                         </td>
                         <td style="vertical-align: middle; font-size: 0.7em;">
-                            </a><%= transaction.name %></a>
+                            </a><%= transaction.from %></a>
                         </td>
-                        <td style="vertical-align: middle;"><%=transaction.from%></td>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.to %></td>
+                        <td style="vertical-align: middle;"><%=transaction.to%></td>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.gas %></td>
                         <td style="vertical-align: middle; font-size: 0.7em;">
-                          <%= transaction.t_hash %>
-                        </td>
-                        <td style="vertical-align: middle; font-size: 0.7em;">
-                            <a href="/admin/adminstudentlist/delete/<%= transaction.user_id %>" class="btn btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
-                        </td>
+                          <%= transaction.gasPrice %>
+                        </td>                        
                     </tr>
                     <% }); %>
                   </tbody>
@@ -94,7 +89,7 @@
           </div>
         </div>
         <!-- Example DataTables Card-->
-     
+
 <script type="text/javascript">
     var url = "http://220.76.95.91:8546"; // 서버 URL
         
