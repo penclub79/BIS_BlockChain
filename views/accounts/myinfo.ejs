@@ -10,28 +10,36 @@
                     <fieldset>
                         
                         <div class="form-group">
+                            <li>학번</li>
                             <input class="form-control" placeholder="학번" name="user_id" readonly type="text" value="<%= user.user_id %>" autofocus="" required="">
                         </div>
                         <div class="form-group">
+                            <li>비밀번호</li>
                             <input class="form-control" placeholder="Password" name="password" type="password" value="<%= user.password %>" required="">
                         </div>
                         <div class="form-group">
+                            <li>비밀번호 확인</li>
                             <input class="form-control" placeholder="Password 확인" name="pass
                             word2" type="password" value="<%= user.password %>" required="">
                         </div>
                         <div class="form-group">
+                            <li>전공</li>
                             <input class="form-control" placeholder="전공" name="major" type="text" value="<%= user.major %>" required="">
                         </div>
                         <div class="form-group">
+                            <li>블록체인 ID</li>
                             <input class="form-control" placeholder="블록체인 아이디" name="blockchainid" readonly type="text" value="<%= user.blockchainid %>" required="">
                         </div>
                         <div class="form-group">
+                            <li>블록체인 비밀번호</li>
                             <input class="form-control" placeholder="블록체인 비밀번호" name="blockchainpwd" readonly type="password" value="<%= user.blockchainpwd %>" required="">
                         </div>
                         <div class="form-group">
+                            <li>이름</li>
                             <input class="form-control" id="onlyHangul" placeholder="user_name" name="user_name" type="text" value="<%= user.user_name %>" autofocus="" required="">
                         </div>
                         <div class="form-group">
+                            <li>Phone Number</li>
                             <input class="form-control" id="onlyNumber" placeholder="user_phone" name="user_phone" type="text" value="<%= user.user_phone %>" required="">
                         </div>
                         <div class="form-group">
@@ -47,15 +55,19 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <li>생일</li>
                             <input type="date" name="user_birth" class="form-control" value="<%= user.user_birth %>">
                         </div>
                         <div class="form-group">
+                            <li>E-Mail</li>
                             <input class="form-control" placeholder="E-Mail" name="user_email" type="email" value="<%= user.user_email %>" autofocus="" required="">
                         </div>
                         <div class="form-group">
+                            <li>주소</li>
                             <input class="form-control" placeholder="address" name="user_addr" type="text" value="<%= user.user_addr %>" readonly value="" required="">
                         </div>
                         <div class="form-group">
+                            <li>상세 주소</li>
                             <input class="form-control" placeholder="detail_address" name="user_addr2" type="text" value="<%= user.user_addr2 %>" required="">
                         </div>
                         <div class="form-group">
@@ -116,4 +128,3 @@
     });
 })();
 </script>
-<% include ../footer.ejs %>
