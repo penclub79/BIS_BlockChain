@@ -8,11 +8,10 @@ var passwordHash = require('../libs/passwordHash');
 // 로그인 설정관련 모듈
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
 var session = require('express-session');
-
 var loginRequired = require('../libs/loginRequired');
 
+var paginate = require('express-paginate');
 
 // serialize, deserialize : 실질적으로 session은 done에 담긴다.
 // 시리얼, 디시리얼은 나누는 이유는 시리얼에서 아이디를 받아와서 디시리얼에서 분기정책을 정해준다.
@@ -269,24 +268,50 @@ router.post('/songguem', function(req, res){
 });
 
 // get 내 history보기 페이지
-router.get('/history', loginRequired, function(req, res){
+// router.get('/history', loginRequired, transaction, function(req, res){
 
-    console.log('history 페이지 경로요청');
-    console.log(req.user);
+//     console.log('history 페이지 경로요청');
+//     console.log(req.user);
 
-    if(!req.user){
+//     if(!req.user){
 
-        console.log('사용자 인증불가');
-        res.redirect('/accounts/login');
+//         console.log('사용자 인증불가');
+//         res.redirect('/accounts/login');
+//     }else{
+
+//         if(Array.isArray(req.transaction)){
+//             res.render('accounts/history.ejs', { user : req.transaction[0]._id });
+//         }else{
+//             res.render('accounts/history.ejs', { user : req.transaction });
+//         }
+//     }   
+// });
+router.get('/history', paginate.middleware(5, 50), async (req,res) => {
+
+    if(!req.isAuthenticated()){
+
+        res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/accounts/login"</script>');
     }else{
 
-        if(Array.isArray(req.user)){
-            res.render('accounts/history.ejs', { user : req.user[0]._id });
-        }else{
-            res.render('accounts/history.ejs', { user : req.user });
-        }
-    }   
+        const [ results, itemCount ] = await Promise.all([
+            // sort : minus 하면 내림차순(날짜명)이다.
+            TransactionModel.find().sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
+            TransactionModel.count({})
+        ]);
+        const pageCount = Math.ceil(itemCount / req.query.limit);
+        
+        const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
+
+        res.render('accounts/history', 
+            { 
+                transaction : results , 
+                pages: pages,
+                pageCount : pageCount,
+            });
+    }
 });
+
+
 
 module.exports = router;
 
