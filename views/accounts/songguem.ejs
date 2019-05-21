@@ -37,9 +37,41 @@
                                         <li>수신 계좌</li>
                                         <input class="form-control" placeholder="" id="otherblockchainid" name="otherblockchainid" type="text" value="송금계좌를 입력하세요" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;" >
                                     </div>
-                                    <!-- 트랜잭션 해쉬 t_hash-->
+                                    <!-- 트랜잭션 blockHash-->
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="blockHash" name="blockHash" type="text" value="" required="" >
+                                    </div>
+                                    <!-- 트랜잭션 해쉬정보 t_hash-->
                                     <div class="form-group">
                                         <input type="hidden" class="form-control" id="t_hash" name="t_hash" type="text" value="" required="" >
+                                    </div>
+                                    <!-- 트랜잭션 gas-->
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="gas" name="gas" type="text" value="" required="" >
+                                    </div>
+                                    <!-- 트랜잭션 gasPrice-->
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="gasPrice" name="gasPrice" type="text" value="" required="" >
+                                    </div>
+                                    <!-- 트랜잭션 input-->
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="input" name="input" type="text" value="" required="" >
+                                    </div>
+                                    <!-- 트랜잭션 r-->
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="r" name="r" type="text" value="" required="" >
+                                    </div>
+                                    <!-- 트랜잭션 s-->
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="s" name="s" type="text" value="" required="" >
+                                    </div>
+                                    <!-- 트랜잭션 v-->
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="v" name="v" type="text" value="" required="" >
+                                    </div>
+                                    <!-- 트랜잭션 transactionIndex-->
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="transactionIndex" name="transactionIndex" type="text" value="" required="" >
                                     </div>
                                     <div class="form-group">
                                         <input type="button" onclick="songgeum();document.getElementById('songguem_form').submit();" value="전송"></input>
@@ -99,19 +131,27 @@
                             value : web3.toWei(eth_cash, 'ether')});
             var result2 = web3.eth.getTransaction(result); //트랜잭션 해쉬 받은 코드
 
-            alert(JSON.stringify(result));//트랜잭션 해쉬
+            alert(JSON.stringify(result2));//트랜잭션 해쉬
             alert(JSON.stringify(result2.hash));//트랜잭션 해쉬
-            alert(JSON.stringify(result2.blockNumber));
+            // alert(JSON.stringify(result2.blockNumber));
             
-            $("#t_hash").val(JSON.stringify(result2.hash));            
+            $("#blockHash").val(JSON.stringify(result2.blockHash));//blockHash
+            $("#t_hash").val(JSON.stringify(result2.hash));
+            $("#gas").val(JSON.stringify(result2.gas));  
+            $("#gasPrice").val(JSON.stringify(result2.gasPrice));  
+            $("#input").val(JSON.stringify(result2.input));  
+            $("#r").val(JSON.stringify(result2.r));  
+            $("#s").val(JSON.stringify(result2.s)); 
+            $("#v").val(JSON.stringify(result2.v));
+            $("#transactionIndex").val(JSON.stringify(result2.transactionIndex));//transactionIndex              
 
-            alert(JSON.stringify(result2.blockNumber)); //트랜잭션 '해쉬' 담은 명령어
-            alert(JSON.stringify(result2.gas));// 가져와짐
-            alert(JSON.stringify(result2.gasPrice));// 가져와짐
-            alert(JSON.stringify(result2.input));//가져와짐
-            alert(JSON.stringify(result2.r));//가져와짐
-            alert(JSON.stringify(result2.s));//가져와짐
-            alert(JSON.stringify(result2.v));//가져와짐
+            // alert(JSON.stringify(result2.blockNumber)); //트랜잭션 '해쉬' 담은 명령어
+            // alert(JSON.stringify(result2.gas));// 가져와짐
+            // alert(JSON.stringify(result2.gasPrice));// 가져와짐
+            // alert(JSON.stringify(result2.input));//가져와짐
+            // alert(JSON.stringify(result2.r));//가져와짐
+            // alert(JSON.stringify(result2.s));//가져와짐
+            // alert(JSON.stringify(result2.v));//가져와짐
             // $("#block_No").val(JSON.stringify(result2.blockNumber));
             // $("#Nonce").val(JSON.stringify(result2.Nonce));
 

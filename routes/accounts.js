@@ -251,11 +251,20 @@ router.get('/songguem', loginRequired, function(req, res){
 router.post('/songguem', function(req, res){
     // 정의한 유저모델 형식과 동일한 데이터를 리퀘스트로 입력받는다
     var Transaction = new TransactionModel({
+        blockHash : req.body.blockHash,
         user_id : req.body.user_id,
         name : req.body.user_name,
         from : req.body.blockchainid,
         to : req.body.otherblockchainid,
-        t_hash : req.body.t_hash
+        t_hash : req.body.t_hash,
+        gas : req.body.gas,
+        gasPrice : req.body.gasPrice,
+        input : req.body.input,
+        r : req.body.r,
+        s : req.body.s,
+        v : req.body.v,
+        transactionIndex : req.body.transactionIndex
+        // Nonce : req.body.gas,
         // block_No : req.body.block_No,
         // IPFS_hash : passwordHash(req.body.IPFS_hash),
         // ether : req.body.ether,
@@ -266,6 +275,25 @@ router.post('/songguem', function(req, res){
         res.send('<script>alert("내역저장 성공");\
         location.href="/accounts/songguem";</script>');
     });
+});
+//get 내 승인조회 보기 페이지
+router.get('/studentlist', loginRequired, function(req, res){
+
+    console.log('studentlist 페이지 경로요청');
+    console.log(req.user);
+
+    if(!req.user){
+
+        console.log('사용자 인증불가');
+        res.redirect('/accounts/login');
+    }else{
+
+        if(Array.isArray(req.user)){
+            res.render('accounts/studentlist.ejs', { user : req.user[0]._id });
+        }else{
+            res.render('accounts/studentlist.ejs', { user : req.user });
+        }
+    }   
 });
 
 // get 내 history보기 페이지
