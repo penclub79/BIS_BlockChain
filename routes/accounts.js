@@ -346,7 +346,7 @@ router.get('/history', paginate.middleware(5, 50), async (req,res) => {
 
         res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/accounts/login"</script>');
     }else{
-        console.log(req.user.user_id + "djfkdjfkdjfkjdfkjdfkjfdk");
+        
         const [ results, itemCount ] = await Promise.all([
             // sort : minus 하면 내림차순(날짜명)이다.
             TransactionModel.find({"user_id" : req.user.user_id}).sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
@@ -363,6 +363,29 @@ router.get('/history', paginate.middleware(5, 50), async (req,res) => {
                 pageCount : pageCount,
             });
     }
+});
+
+// GET 어드민 등록제품 상세페이지
+router.get('/accounts/history/:id', function(req, res){
+    
+        var getData = async() => {
+            // async()함수를 만들고 return반환 후 처리가 다 되면 getData().then이 실행된다.
+            return {
+                
+                transaction : await TransactionModel.findOne( { 'id' :  req.params.id }).exec()
+                // comments : await CommentsModel.find( { 'product_id' :  req.params.id }).exec(),
+                // reple : await repleModel.find( { 'products_id' :  req.params.id }).exec()
+            };
+        };
+        getData().then( function(result){
+            
+            res.render('accounts/historydetail', 
+                { 
+                    transact : result.transaction,
+                    // comments : result.comments,
+                    // reples : result.reple 
+                });
+        });
 });
 
 
