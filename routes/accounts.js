@@ -298,12 +298,13 @@ router.get('/studentlist', loginRequired, function(req, res){
 
 
 // 졸업증명서 호출
-router.get('/graduate', function(req, res){
+router.get('/graduate', loginRequired, function(req, res){
     console.log(req.user)
     res.render('formats/BOKSOO.ejs', { user : req.user });
 });
 
 
+//내역저장 호출
 router.post('/saveLog', function(req,res){
 
     var Transaction = new TransactionModel({
@@ -318,9 +319,28 @@ router.post('/saveLog', function(req,res){
         // res.send('<script>alert("내역저장 성공");\
         // location.href="/accounts/songguem";</script>');
     });
+});
 
+router.get('/acceptList', paginate.middleware(5, 50), async (req,res) => {
+
+    const [ results, itemCount ] = await Promise.all([
+        // sort : minus 하면 내림차순(날짜명)이다.
+        TransactionModel.find({"user_id" : req.user.user_id}).sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
+        TransactionModel.count({})
+    ]);
+    const pageCount = Math.ceil(itemCount / req.query.limit);
+    const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
+
+    res.render('accounts/acceptList', 
+        {
+            transaction : results , 
+            pages: pages,
+            pageCount : pageCount,
+        });
 
 });
+
+
 // get 내 history보기 페이지
 // router.get('/history', loginRequired, transaction, function(req, res){
 
@@ -346,14 +366,12 @@ router.get('/history', paginate.middleware(5, 50), async (req,res) => {
 
         res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/accounts/login"</script>');
     }else{
-        console.log(req.user.user_id + "djfkdjfkdjfkjdfkjdfkjfdk");
         const [ results, itemCount ] = await Promise.all([
             // sort : minus 하면 내림차순(날짜명)이다.
             TransactionModel.find({"user_id" : req.user.user_id}).sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
             TransactionModel.count({})
         ]);
         const pageCount = Math.ceil(itemCount / req.query.limit);
-        
         const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
 
         res.render('accounts/history', 
@@ -364,9 +382,6 @@ router.get('/history', paginate.middleware(5, 50), async (req,res) => {
             });
     }
 });
-
-
-
 module.exports = router;
 
 

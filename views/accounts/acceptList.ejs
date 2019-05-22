@@ -1,9 +1,5 @@
 <% include ../header.ejs %>
 
-<% include ./sidebar.ejs %>
-    
-    
-    
     <br/>   
     
 
@@ -12,9 +8,8 @@
             <!-- Breadcrumbs-->
             <ol class="breadcrumb">
               <li class="breadcrumb-item">
-                <a href="#">거래정보</a>
-              </li>
-              <li class="breadcrumb-item active">거래내역</li>
+                <a href="/home">홈</a></li>
+              <li class="breadcrumb-item active">승인조회</li>
             </ol>
         <div class="card mb-3">
             <div class="card-header">
@@ -24,20 +19,20 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr align="center">
-                        <th width="10%" style="vertical-align: middle;">Hash</th>
-                        <th width="1%" style="vertical-align: middle;">From</th>
-                        <th width="1%" style="vertical-align: middle;">To</th>
-                        <th width="1%" style="vertical-align: middle;">Gas</th>
-                        <th width="1%" style="vertical-align: middle;">GasPrice</th>
+                        <th width="10%" style="vertical-align: middle;">증명서</th>
+                        <th width="1%" style="vertical-align: middle;">수수료납부여부</th>
+                        <th width="1%" style="vertical-align: middle;">승인여부</th>
+                        <th width="1%" style="vertical-align: middle;">승인</th>
+                        <!-- <th width="1%" style="vertical-align: middle;">GasPrice</th> -->
                     </tr>
                 </thead>
                 <tfoot>
                     <tr align="center">
-                        <th></a>Hash</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Gas</th>
-                        <th>GasPrice</th>
+                        <th></a>증명서</th>
+                        <th>수수료납부여부</th>
+                        <th>승인여부</th>
+                        <th>승인</th>
+                        <!-- <th>GasPrice</th> -->
                     </tr>
                 </tfoot>
                     <tbody>
@@ -52,8 +47,8 @@
                             </a><%= transaction.from %></a>
                         </td>
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.to %></td>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.gas %></td>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.gasPrice %></td>                        
+                        <td style="vertical-align: middle; font-size: 0.7em;"><input type="button" value="Save"  onclick="saveSoaxml()" />  </td>
+                        <!-- <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.gasPrice %></td>                         -->
                     </tr>
                     <% }); %>
                 </tbody>
