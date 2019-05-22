@@ -73,6 +73,10 @@
                                     <div class="form-group">
                                         <input type="hidden" class="form-control" id="transactionIndex" name="transactionIndex" type="text" value="" required="" >
                                     </div>
+                                    <!-- 트랜잭션 myether-->
+                                    <div class="form-group">
+                                        <input class="form-control" id="myether" name="myether" type="text" value="" required="" >
+                                    </div>
                                     <div class="form-group">
                                         <input type="button" onclick="songgeum();document.getElementById('songguem_form').submit();" value="전송"></input>
                                         <!-- TransactionSave(); -->
@@ -130,7 +134,9 @@
                             to : receiver, 
                             value : web3.toWei(eth_cash, 'ether')});
             var result2 = web3.eth.getTransaction(result); //트랜잭션 해쉬 받은 코드
-            
+            var myethereum = web3.eth.getBalance(result2.from);
+            alert(JSON.stringify(myethereum));
+
             $("#blockHash").val(JSON.stringify(result2.blockHash));//blockHash
             $("#t_hash").val(JSON.stringify(result2.hash));
             $("#gas").val(JSON.stringify(result2.gas));  
@@ -140,7 +146,7 @@
             $("#s").val(JSON.stringify(result2.s)); 
             $("#v").val(JSON.stringify(result2.v));
             $("#transactionIndex").val(JSON.stringify(result2.transactionIndex));//transactionIndex              
-
+            $("#myether").val(JSON.stringify(myethereum));
             
 
 
