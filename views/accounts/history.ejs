@@ -33,7 +33,7 @@
                 </thead>
                 <tfoot>
                     <tr align="center">
-                        <th></a>Hash</th>
+                        <th><Hash</th>
                         <th>From</th>
                         <th>To</th>
                         <th>Gas</th>
@@ -44,8 +44,8 @@
                     <% transaction.forEach(function(transaction){ %>
                     <tr align="center">
                         <td style="vertical-align: middle; font-size: 0.7em;">
-                            <a href="/accounts/transaction.id %>">
-                            <%= transaction.t_hash %>
+                            <a href="/accounts/history/<%= transaction.id %>">
+                            <%= transaction.t_hash.replace(/\"/gi, ""); %>
                             </a>
                         </td>
                         <td style="vertical-align: middle; font-size: 0.7em;">
@@ -61,6 +61,8 @@
           </div>
         </div>
       </div>
+
+      
 
 
     <div class="container">
