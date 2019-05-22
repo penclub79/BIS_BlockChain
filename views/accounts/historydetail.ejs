@@ -33,12 +33,32 @@
                                 <input class="form-control" placeholder="" id="blockchainid" name="blockchainid" readonly type="text" value="<%= transact.to %>" required="">
                             </div>
                             <div class="form-group">
+                                <li>Ether</li>
+                                <input class="form-control" placeholder="" id="blockchainid" name="blockchainid" readonly type="text" value="<%= transact.ether %>" required="">
+                            </div>
+                            <div class="form-group">
                                 <li>Gas</li>
                                 <input class="form-control" placeholder="" id="blockchainid" name="blockchainid" readonly type="text" value="<%= transact.gas %>" required="">
                             </div>
                             <div class="form-group">
                                 <li>GasPrice</li>
                                 <input class="form-control" placeholder="" id="blockchainid" name="blockchainid" readonly type="text" value="<%= transact.gasPrice.replace(/\"/gi, ""); %>" required="">
+                            </div>
+                            <div class="form-group">
+                                <li>r</li>
+                                <input class="form-control" placeholder="" id="blockchainid" name="blockchainid" readonly type="text" value="<%= transact.r.replace(/\"/gi, "");%>" required="">
+                            </div>
+                            <div class="form-group">
+                                <li>s</li>
+                                <input class="form-control" placeholder="" id="blockchainid" name="blockchainid" readonly type="text" value="<%= transact.s.replace(/\"/gi, ""); %>" required="">
+                            </div>
+                            <div class="form-group">
+                                <li>v</li>
+                                <input class="form-control" placeholder="" id="blockchainid" name="blockchainid" readonly type="text" value="<%= transact.v.replace(/\"/gi, ""); %>" required="">
+                            </div>
+                            <div class="form-group">
+                                <li>Time</li>
+                                <input class="form-control" placeholder="" id="blockchainid" name="blockchainid" readonly type="text" value="<%= transact.created_at %>" required="">
                             </div>
                             <a href="/accounts/history" class="btn btn-default">목록으로</a>
                         </fieldset>

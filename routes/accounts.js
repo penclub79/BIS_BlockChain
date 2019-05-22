@@ -264,12 +264,11 @@ router.post('/songguem', function(req, res){
         r : req.body.r,
         s : req.body.s,
         v : req.body.v,
-        transactionIndex : req.body.transactionIndex
+        transactionIndex : req.body.transactionIndex,
         // Nonce : req.body.gas,
         // block_No : req.body.block_No,
         // IPFS_hash : passwordHash(req.body.IPFS_hash),
-        // ether : req.body.ether,
-        // gas_price : req.body.gas_price,
+        ether : req.body.ether
         // Nonce : req.body.Nonce,
     });
     Transaction.save(function(err){
