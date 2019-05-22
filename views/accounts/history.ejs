@@ -29,6 +29,7 @@
                         <th width="1%" style="vertical-align: middle;">To</th>
                         <th width="1%" style="vertical-align: middle;">Gas</th>
                         <th width="1%" style="vertical-align: middle;">GasPrice</th>
+                        <!-- <th width="1%" style="vertical-align: middle;">Time</th> -->
                     </tr>
                 </thead>
                 <tfoot>
@@ -38,6 +39,7 @@
                         <th>To</th>
                         <th>Gas</th>
                         <th>GasPrice</th>
+                        <!-- <th>Time</th> -->
                     </tr>
                 </tfoot>
                     <tbody>
@@ -54,6 +56,7 @@
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.to %></td>
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.gas %></td>
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.gasPrice.replace(/\"/gi, ""); %></td>                        
+                        <!-- <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.created_at %></td> -->
                     </tr>
                     <% }); %>
                 </tbody>
