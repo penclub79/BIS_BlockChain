@@ -11,27 +11,35 @@
                     <div class="panel-body">
                         <form role="form" action="" id="join_form" method="post">
                             <fieldset>
+                                <li>학번</li>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="학번" name="user_id" readonly type="text" value="<%= user.user_id %>" autofocus="" required="">
                                 </div>
+                                <li>전공</li>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="전공" name="major" readonly type="text" value="<%= user.major %>" required="">
                                 </div>
+                                <li>블록체인 ID</li>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="블록체인 아이디" id="blockchainid" name="blockchainid" readonly type="text" value="<%= user.blockchainid %>" required="">
                                 </div>
+                                <li>블록체인 비밀번호</li>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="블록체인 비밀번호" id="blockchainpwd" name="blockchainpwd" readonly type="password" value="<%= user.blockchainpwd %>" required="">
                                 </div>
+                                <li>이름</li>
                                 <div class="form-group">
                                     <input class="form-control" id="onlyHangul" placeholder="user_name" name="user_name" readonly type="text" value="<%= user.user_name %>" autofocus="" required="">
+                                </div>
+                                <li>MY Ether</li>
+                                <div class="form-group">
+                                    <input class="form-control" id="myether" name="myether" readonly type="text" value="" autofocus="" required="">
                                 </div>
                                 <div class="form-group">
                                         <input type="button" onclick="login();" value="블록체인 계정인증"></input>
                                         <h2 id="instructor"></h2>
                                 </div>
                                 </div>
-                                
                             </fieldset>
                         </form>
                         <h2 id="instructor"></h2>
@@ -47,11 +55,9 @@
         // var blockchainid;
         // console.log(blockchainid);
         var web3 = new Web3();
-        console.log(web3);
         var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
-        console.log(provider);
         web3.setProvider(provider);
-        var blockchainid = $("#blockchainid").val();
+        
            
         // web3.eth.defaultAccount = web3.eth.accounts[1];
         web3.eth.defaultAccount = web3.eth.accounts[blockchainid];
@@ -59,14 +65,25 @@
         // 연결할 Contract(CounterMaster) 주소 
         var master = web3.eth.contract(ABI).at("0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE");
         var CounterAddressList = master.getCounterAddressList();
-        alert(CounterAddressList[0] + '||' + CounterAddressList[1]);
+
+        // result = web3.eth.sendTransaction({
+        //                         from : sender, 
+        //                         to : receiver, 
+        //                         value : web3.toWei(eth_cash, 'ether')});
+        // var address = web3.eth.accounts[0];
+        // var result2 = web3.eth.getTransaction(address); //트랜잭션 해쉬 받은 코드
+        // var myethereum = web3.eth.fromWei(web3.eth.getBalance(address), 'ether');
+
+        // alert(JSON.stringify(myethereum));
+        // $("#myether").val(JSON.stringify(myethereum));
+
 
         // 로그인(Unlock)
         function login() {
             var blockchainid = $("#blockchainid").val();
             var blockchainpwd = $("#blockchainpwd").val();
-            //alert(blockchainid + "||" + blockchainpwd);
             var JSONdata = createJSONdata("personal_unlockAccount", [ blockchainid, blockchainpwd, 30 ]);
+
             executeJsonRpc(url, JSONdata, function success(data) {
                 //alert(data.error);
                 // 로그인 성공
