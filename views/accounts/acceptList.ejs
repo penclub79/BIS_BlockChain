@@ -1,9 +1,5 @@
 <% include ../header.ejs %>
 
-<% include ./sidebar.ejs %>
-    
-    
-    
     <br/>   
     
 
@@ -12,50 +8,57 @@
             <!-- Breadcrumbs-->
             <ol class="breadcrumb">
               <li class="breadcrumb-item">
-                <a href="#">거래정보</a>
-              </li>
-              <li class="breadcrumb-item active">거래내역</li>
+                <a href="/home">홈</a></li>
+              <li class="breadcrumb-item active">승인조회</li>
             </ol>
         <div class="card mb-3">
             <div class="card-header">
-              <i class="fa fa-table"></i>거래 내역</div>
+              <i class="fa fa-table"></i>승인 내역</div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr align="center">
-                        <th width="10%" style="vertical-align: middle;">Hash</th>
-                        <th width="1%" style="vertical-align: middle;">From</th>
-                        <th width="1%" style="vertical-align: middle;">To</th>
-                        <th width="1%" style="vertical-align: middle;">Gas</th>
-                        <th width="1%" style="vertical-align: middle;">GasPrice</th>
-                        <!-- <th width="1%" style="vertical-align: middle;">Time</th> -->
+                        <th width="5%" style="vertical-align: middle;">번호</th>
+                        <th width="20%" style="vertical-align: middle;" >증명서</th>
+                        <th width="15%" style="vertical-align: middle;">수수료납부여부</th>
+                        <th width="15%" style="vertical-align: middle;">승인여부</th>
+                        <th width="40%" style="vertical-align: middle;">시간</th>
+                        <th width="5%" style="vertical-align: middle;">신청</th>
+                        <!-- <th width="1%" style="vertical-align: middle;">GasPrice</th> -->
                     </tr>
                 </thead>
                 <tfoot>
                     <tr align="center">
-                        <th><Hash</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Gas</th>
-                        <th>GasPrice</th>
-                        <!-- <th>Time</th> -->
+                        <th>번호</th>
+                        <th>증명서</th>
+                        <th>수수료납부여부</th>
+                        <th>승인여부</th>
+                        <th>시간</th>
+                        <th>신청</th>
+                        <!-- <th>GasPrice</th> -->
                     </tr>
                 </tfoot>
                     <tbody>
-                    <% transaction.forEach(function(transaction){ %>
+                    <% requestdetail.forEach(function(requestdetail){ %>
                     <tr align="center">
+                        <td style="vertical-align: middle; font-size: 0.7em;"><%= requestdetail.seq %></td>
                         <td style="vertical-align: middle; font-size: 0.7em;">
-                            <a href="/accounts/history/<%= transaction.id %>">
-                            <%= transaction.t_hash.replace(/\"/gi, ""); %>
+                            <!-- <a href="/accounts/transaction.id %>"> -->
+                            <%= requestdetail.form_name %>
                             </a>
                         </td>
                         <td style="vertical-align: middle; font-size: 0.7em;">
-                            </a><%= transaction.from %></a>
+                            </a><%= requestdetail.fee_yn %></a>
                         </td>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.to %></td>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.gas %></td>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.gasPrice %></td>                        
+                        <td style="vertical-align: middle; font-size: 0.7em;"><%=requestdetail.accept_yn %></td>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><%=requestdetail.created_at %></td>
+                        <% if (requestdetail.fee_yn=='N'){ %>
+                            <td style="vertical-align: middle; font-size: 0.7em;"><input type="button" value="납부"  onclick="sendFee(<%=requestdetail.seq%>)" />  </td>
+                        <%}else{%>
+                            <td style="vertical-align: middle; font-size: 0.7em;"></td>
+                        <%}%>
+                        
                     </tr>
                     <% }); %>
                 </tbody>
@@ -63,8 +66,6 @@
           </div>
         </div>
       </div>
-
-      
 
 
     <div class="container">
@@ -112,3 +113,13 @@
       });
     });
 </script>
+
+  <!-- 사용자 정보 받아오기 user_id, blockChainid, blockChainpw -->
+  <input type="hidden" id='user_id' value="<%=user.user_id%>"></input>
+  <input type="hidden" id='name' value="<%= user.user_name %>"></input>
+  <input type="hidden" id='blockchainpwd' value="<%= user.blockchainpwd %>"></input>
+  <input type="hidden" id='blockchainid' value="<%= user.blockchainid %>"></input>
+  
+  <!-- 사용자 정보 받아오기 user_id, blockChainid, blockChainpw -->
+
+<% include ../SC_import.ejs %>

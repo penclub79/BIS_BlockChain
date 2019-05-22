@@ -9,7 +9,7 @@ var StudentsSchema = new Schema({
     category : String,
     studentname : { // 키 : 속성
        type : String,
-       required : [true, '제목은 입력해주세요'] 
+       required : [true, '제목은 입력해주세요']
     },
     // thumbnail : String, // 썸네일 경로가 저장될 컬렉션
     // price : Number,
@@ -25,7 +25,7 @@ var StudentsSchema = new Schema({
     time : {
         type : Date,
         default : Date.now()
-    }        //날짜
+    }//날짜
 });
 
 // 1씩 증가하는 primary key를 만든다

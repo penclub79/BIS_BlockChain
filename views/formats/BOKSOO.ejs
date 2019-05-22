@@ -593,13 +593,13 @@
 	<tr>
 	<td>Account</td>
 	<td>
-	<input type="text" id="account" size="50" placeholder="Account" value="0xc6c048f618858b87c220ae9cbc129b90ee80affc"/>
+	<input type="text" id="account" size="50" placeholder="Account" value="<%= user.blockchainid %>"/>
 	</td>
 	</tr>
 	<tr>
 	<td>Passphrase</td>
 	<td>
-	<input type="password" id="passphrase" size="50" placeholder="Passphrase" value="moonki"/>
+	<input type="password" id="passphrase" size="50" placeholder="Passphrase" value="<%= user.blockchainpwd %>"/>
 	</td>
 	</tr>
 </table>

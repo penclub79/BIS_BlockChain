@@ -3,6 +3,7 @@ var router = express.Router();
 var UserModel = require('../models/UserModel');
 // 비밀번호를 암호화시킬 암호화 해쉬 js파일을 로드한다.
 var TransactionModel = require('../models/Transaction');
+var RequestDetailModel = require('../models/RequestDetail')
 // 상세 페이지를 위해 transaction DB를 로드한다.
 var passwordHash = require('../libs/passwordHash');
 // 로그인 설정관련 모듈
@@ -297,48 +298,83 @@ router.get('/studentlist', loginRequired, function(req, res){
 
 
 // 졸업증명서 호출
-router.get('/graduate', function(req, res){
+router.get('/graduate', loginRequired, function(req, res){
     console.log(req.user)
     res.render('formats/BOKSOO.ejs', { user : req.user });
 });
 
 
-router.post('/saveLog', function(req,res){
 
-    var Transaction = new TransactionModel({
+
+router.get('/acceptList', paginate.middleware(5, 50), async (req,res) => {
+
+    const [ results, itemCount ] = await Promise.all([
+        // sort : minus 하면 내림차순(날짜명)이다.
+        RequestDetailModel.find({"user_id" : req.user.user_id}).sort('-seq').limit(req.query.limit).skip(req.skip).exec(),
+        RequestDetailModel.count({"user_id" : req.user.user_id})
+    ]);
+    const pageCount = Math.ceil(itemCount / req.query.limit);
+    const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
+
+    res.render('accounts/acceptList', 
+        {
+            requestdetail : results , 
+            pages: pages,
+            pageCount : pageCount,
+            user: req.user //user 세션 정보
+        });
+
+});
+
+//내역저장 호출
+router.post('/saveLog', function(req,res){
+    var form_name='';
+    if(req.body.form_type=='/accounts/graduate'){
+        form_name = '졸업증명서 신청';
+    }
+
+    var RequestDetail = new RequestDetailModel({
         user_id : req.body.user_id,
         name : req.body.name,
+        form_type : req.body.form_type,
+        form_name : form_name
         // from : req.body.from,
         // to : req.body.to,
         // ether : req.body.ether,
         // t_hash: req.body.t_hash
     });
-    Transaction.save(function(err){
+    RequestDetail.save(function(err){
         // res.send('<script>alert("내역저장 성공");\
         // location.href="/accounts/songguem";</script>');
+        
     });
-
-
 });
-// get 내 history보기 페이지
-// router.get('/history', loginRequired, transaction, function(req, res){
 
-//     console.log('history 페이지 경로요청');
-//     console.log(req.user);
+router.post('/updateLog', function(req, res){
+    // 수정 된 내 정보 데이터 받기
+    var seq = req.body.seq;
+    
+        // 업데이트 처리 
+    RequestDetailModel.update(
+        {
+            seq : seq
+        },
+        {   // 몽고디비 아이디에 맞는 회원정보 데이터베이스를 일치하는 doc대로 수정한다.
+            $set : {
+                fee_yn : 'Y'
+            }
+        }, function(err){
+            // 에러가 발생하면 Error
+            if(err){
+                throw err;
+            }else{  
+                res.redirect('/accounts/acceptList');
+            }
+        }
+    );
+    
+});
 
-//     if(!req.user){
-
-//         console.log('사용자 인증불가');
-//         res.redirect('/accounts/login');
-//     }else{
-
-//         if(Array.isArray(req.transaction)){
-//             res.render('accounts/history.ejs', { user : req.transaction[0]._id });
-//         }else{
-//             res.render('accounts/history.ejs', { user : req.transaction });
-//         }
-//     }   
-// });
 router.get('/history', paginate.middleware(5, 50), async (req,res) => {
 
     if(!req.isAuthenticated()){
@@ -352,7 +388,6 @@ router.get('/history', paginate.middleware(5, 50), async (req,res) => {
             TransactionModel.count({})
         ]);
         const pageCount = Math.ceil(itemCount / req.query.limit);
-        
         const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
 
         res.render('accounts/history', 
@@ -387,8 +422,4 @@ router.get('/history/:id', function(req, res){
         });
 });
 
-
-
 module.exports = router;
-
-

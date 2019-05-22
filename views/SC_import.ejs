@@ -2,17 +2,24 @@
 
 <script type="text/javascript">
 
-    var Web3 = require('web3');
+    //세션정보
+    // const user_id = $('#user_id').val();
+    // const name = $('#name').val();
+
+    const blockchainid = $('#blockchainid').val();
+    const blockchainpwd = $('#blockchainpwd').val();
+
+    //web3 정보
     const provider = 'http://220.76.95.91:8546';
+    var Web3 = require('web3');
     var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
     var addr = '0xd0146B2cBBc5e7F1d2b7247787c9Cd4ee8d40972';
     const web3 = new Web3(new Web3.providers.HttpProvider(provider));
     const contract = web3.eth.contract(abi).at(addr);
     
 
-    // Function of Ethereum Account
-    function unlockAccount(account, passphrase, provider, callback){
-
+    // 이더리움 계정 언락
+    function unlockAccount(callback){
         $.ajax({
             url: provider,
             type: 'post',
@@ -23,7 +30,7 @@
                 id: 8,
                 jsonrpc: '2.0',
                 method: 'personal_unlockAccount',
-                params: [account, passphrase]
+                params: [blockchainid, blockchainpwd]
             }),
             success: function(data) {
                 if(data.result == true) {
@@ -39,7 +46,7 @@
     }
 
     //authXML 엔진에 입력데이터와 구조데이터를 post방식의 파라미터로 request & response
-    function createXML(){
+    function createXML(callback){
 
         bxfXmlSaveCspPrepare();
         bxfSearchTextPrepare();
@@ -54,7 +61,7 @@
         client.onreadystatechange = function(){
             if(client.readyState == 4 && client.status == 200) {
                 var result = client.responseText.trim();
-                oneTransaction(result);
+                callback(result);
             }
         }
         client.open("POST",url,true) ;
@@ -66,7 +73,15 @@
         // 1. 생성된 xml으로 컨트렉트 생성
         // 2. 수수료 송금
         // 3. 트랜젝션 로그 기록
-    function oneTransaction(xmlString){
+    function ontx(){
+
+        //1. authXML엔진을 통해 xmlString 생성
+        createXML(function(xmlString){
+            if(xmlString!=''){
+                //2. 파일생성
+                createFile(xmlString);
+            }
+        });
 
         var fileName = createFile();
         console.log(fileName);
@@ -85,39 +100,72 @@
             //         alert('신청서 제출 실패!');
             //     }
             // });
-            saveLog();
+            saveSysLog();
+            location.href='/accounts/acceptList';
         }
     }
 
-    function saveLog(){
-
-        var user_id = $('#user_id').val();
-        var name = $('#name').val();
-        var blockchainid = $('#blockchainid').val();
-        var blockchainpwd = $('#blockchainpwd').val();
-
+    //신청내역 저장
+    function saveSysLog(){
         var url = new URL($(location).attr('href'));
-        var prams = 'form_type='+url.pathname+'&user_id='+user_id+'&blockchain_id='+blockchainid+'&blockchain_pwd='+blockchainpwd+'&name='+name;
+        var prams = 'form_type='+url.pathname+'&user_id='+$('#user_id').val()+'&name='+$('#name').val();
         var client = new XMLHttpRequest();
         client.open("POST",'saveLog',true) ;
         client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         client.send(prams);
     }
 
+    // 컨트렉트 생성
     function createContract(fileName, xmlString, callback){
-        web3.eth.defaultAccount = $('#blockchainid').val();
-        contract.issue(fileName, web3.sha3(xmlString), {from:$('#account').val(), gas: 500000});
+
+        web3.eth.defaultAccount = blockchainid;
+        contract.issue(fileName, web3.sha3(xmlString), {from:blockchainid, gas: 500000});
 
         callback('success');
     }
 
-    //서식의 마지막 부분에 hidden으로 추가하여야 아래의 세션정보를 받아올 수 있음
-    function sendFee(){
-        t_hash = web3.eth.sendTransaction({
-                    from: $('#blockchainid').val(),
-                    to: web3.eth.accounts[0], //관리자 계정
-                    value: web3.toWei(0.01,'ether')
-                    });
+    //수수료를 관리자 계정으로 이체
+    function sendFee(recodeSeq){
+
+        //1. 이더리움계정 Unlock
+        unlockAccount(function(result){
+            if(result=='fail auth'){
+                alert('계정이 유효하지 않습니다. 관리자에게 문의하세요.');
+            }else{
+                //2. 관리자 계정으로 수수료 송부
+                var t_hash = web3.eth.sendTransaction({
+                            from: blockchainid,         //로그인한 사용자 계정
+                            to: web3.eth.accounts[0],   //관리자 계정
+                            value: web3.toWei(0.1,'ether')
+                        });
+                alert('t_hash: '+t_hash)    
+                
+                
+                if(t_hash !=''){
+                    //3. 수수료납부여부 업데이트
+                    var prams1 = 'seq='+recodeSeq;
+                    var client1 = new XMLHttpRequest();
+                    client1.open("POST",'updateLog',true);
+                    client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    client1.send(prams1);
+
+                    //4. 트랜젝션 내역 저장
+                    var balance = web3.eth.getBalance(blockchainid);
+                    alert(balance);
+                    var prams2 = 't_hash='+t_hash+'&from='+blockchainid+'&to='+web3.eth.accounts[0];
+                    // var client2 = new XMLHttpRequest();
+                    // client2.open("POST",'updateLog',true);
+                    // client2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    // client2.send(prams);
+                    alert('정상적으로 수수료를 납부하였습니다.');
+
+                    // location.href='/accounts/acceptList'
+                    
+                }
+                //
+                
+            }
+        });
     }
 
     function createFile(xmlString){
@@ -135,13 +183,14 @@
 
     function saveSoaxml(){
 
-        unlockAccount($('#account').val(), $('#passphrase').val(), provider, function(error){
+        unlockAccount(function(error){
             if(error == 'fail auth') {
                 alert('인증정보가 올바르지 않습니다.');
             } else if(error) {
                 throw error;
             } else {
-                createXML();
+                // createXML();
+                requestSave();
             }
         });
     }
