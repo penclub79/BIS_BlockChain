@@ -23,7 +23,7 @@
                         <th width="20%" style="vertical-align: middle;" >증명서</th>
                         <th width="15%" style="vertical-align: middle;">수수료납부여부</th>
                         <th width="15%" style="vertical-align: middle;">승인여부</th>
-                        <th width="40%" style="vertical-align: middle;">시간</th>
+                        <th width="10%" style="vertical-align: middle;">시간</th>
                         <th width="5%" style="vertical-align: middle;">신청</th>
                         <!-- <th width="1%" style="vertical-align: middle;">GasPrice</th> -->
                     </tr>
@@ -52,7 +52,13 @@
                             </a><%= requestdetail.fee_yn %></a>
                         </td>
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=requestdetail.accept_yn %></td>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><%=requestdetail.created_at %></td>
+                        <td style="vertical-align: middle; font-size: 0.7em;">
+                                <%=requestdetail.getDate.year%>.
+                                <%=requestdetail.getDate.month%>.
+                                <%=requestdetail.getDate.day %>.
+                                <%=requestdetail.getDate.hour%>:
+                                <%=requestdetail.getDate.minute%>:
+                                <%=requestdetail.getDate.second%></td>
                         <% if (requestdetail.fee_yn=='N'){ %>
                             <td style="vertical-align: middle; font-size: 0.7em;"><input type="button" value="납부"  onclick="sendFee(<%=requestdetail.seq%>)" />  </td>
                         <%}else{%>
