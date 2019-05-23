@@ -21,38 +21,44 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr align="center">
-                        <th width="10%" style="vertical-align: middle;">Hash</th>
-                        <th width="1%" style="vertical-align: middle;">From</th>
-                        <th width="1%" style="vertical-align: middle;">To</th>
-                        <th width="1%" style="vertical-align: middle;">Gas</th>
-                        <th width="1%" style="vertical-align: middle;">GasPrice</th>
-                        <!-- <th width="1%" style="vertical-align: middle;">Time</th> -->
+                        <th width="5%" style="vertical-align: middle;">번호</th>
+                        <th width="20%" style="vertical-align: middle;">트랜젝션 Hash</th>
+                        <th width="20%" style="vertical-align: middle;">내 계정</th>
+                        <th width="20%" style="vertical-align: middle;">관리자 계정</th>
+                        <th width="10%" style="vertical-align: middle;">eth</th>
+                        <th width="10%" style="vertical-align: middle;">잔고</th>
+                        <th width="15%" style="vertical-align: middle;">생성시간</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr align="center">
-                        <th><Hash</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Gas</th>
-                        <th>GasPrice</th>
-                        <!-- <th>Time</th> -->
+                        <th>번호</th>
+                        <th>트랜젝션 Hash</th>
+                        <th>내 계정</th>
+                        <th>관리자 계정</th>
+                        <th>eth</th>
+                        <th>잔고</th>
+                        <th>생성시간</th>
                     </tr>
                 </tfoot>
                     <tbody>
-                    <% transaction.forEach(function(transaction){ %>
+                    <% transactionList.forEach(function(transactionList){ %>
                     <tr align="center">
-                        <td style="vertical-align: middle; font-size: 0.7em;">
-                            <a href="/accounts/history/<%= transaction.id %>">
-                            <%= transaction.t_hash.replace(/\"/gi, ""); %>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.id %></td>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.t_hash %></td>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.from %></td>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.to %></td>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.ether %></td>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.cur_balance %></td>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.created_at %></td>
+                        <!-- <td style="vertical-align: middle; font-size: 0.7em;">
+                            <a href="/accounts/history/<%= transactionList.id %>">
+                            <%= transactionList.t_hash.replace(/\"/gi, ""); %>
                             </a>
-                        </td>
-                        <td style="vertical-align: middle; font-size: 0.7em;">
-                            </a><%= transaction.from %></a>
-                        </td>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.to %></td>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.gas %></td>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transaction.gasPrice %></td>                        
+                        </td> -->
+                        <!-- <td style="vertical-align: middle; font-size: 0.7em;">
+                            </a><%= transactionList.from %></a>
+                        </td> -->
                     </tr>
                     <% }); %>
                 </tbody>
