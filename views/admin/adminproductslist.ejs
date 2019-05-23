@@ -269,7 +269,6 @@
                     <th width="20%" style="vertical-align: middle;">이름</th>
                     <th width="10%" style="vertical-align: middle;">승인여부</th>
                     <th width="10%" style="vertical-align: middle;">신청시간</th>
-                    <th width="10%" style="vertical-align: middle;">승인시간</th>
                     <th width="10%" style="vertical-align: middle;">승인</th>
                     <!-- <th width="7%" style="vertical-align: middle;">삭제</th> -->
                 </tr>
@@ -280,13 +279,14 @@
                   <% requestdetail.forEach(function(requestdetail){ %>
                 <tr align="center">
                     <td style="vertical-align: middle; font-size: 0.7em;">
+                        <%= requestdetail.seq %>
                     <td style="vertical-align: middle; font-size: 0.7em;">
-                        <%= requestdetail.form_name %>
+                        <%= requestdetail.user_id %>
                     </td>
                     <td style="vertical-align: middle; font-size: 0.7em;">
-                        </a><%= requestdetail.fee_yn %></a>
+                        </a><%= requestdetail.name %></a>
                     </td>
-                    <td style="vertical-align: middle; font-size: 0.7em;"><%=requestdetail.accept_yn %></td>
+                    <td style="vertical-align: middle; font-size: 0.7em;"><%=requestdetail.fee_yn %></td>
                     <td style="vertical-align: middle; font-size: 0.7em;"><%=requestdetail.created_at %></td>
                     <% if (requestdetail.fee_yn=='Y'){ %>
                         <td style="vertical-align: middle; font-size: 0.7em;"><input type="button" value="승인"  onclick="sendFee(<%=requestdetail.seq%>)" />  </td>
