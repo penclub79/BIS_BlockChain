@@ -267,7 +267,7 @@
                     <th width="7%" style="vertical-align: middle;">번호</th>
                     <th width="15%" style="vertical-align: middle;">사용자ID</th>
                     <th width="20%" style="vertical-align: middle;">이름</th>
-                    <th width="15%" style="vertical-align: middle;">수수료납부</th>
+                    <th width="15%" style="vertical-align: middle;">승인여부</th>
                     <th width="15%" style="vertical-align: middle;">신청시간</th>
                     <th width="10%" style="vertical-align: middle;">승인</th>
                     <!-- <th width="7%" style="vertical-align: middle;">삭제</th> -->
@@ -286,7 +286,7 @@
                     <td style="vertical-align: middle; font-size: 0.7em;">
                         </a><%= requestdetail.name %></a>
                     </td>
-                    <td style="vertical-align: middle; font-size: 0.7em;"><%=requestdetail.fee_yn %></td>
+                    <td style="vertical-align: middle; font-size: 0.7em;"><%=requestdetail.accept_yn %></td>
                     <td style="vertical-align: middle; font-size: 0.7em;">
                       <%=requestdetail.getDate.year%>.
                       <%=requestdetail.getDate.month%>.
@@ -294,7 +294,7 @@
                       <%=requestdetail.getDate.hour%>:
                       <%=requestdetail.getDate.minute%>:
                       <%=requestdetail.getDate.second%></td>
-                    <% if (requestdetail.fee_yn=='Y'){ %>
+                    <% if (requestdetail.accept_yn=='N'){ %>
                         <td style="vertical-align: middle; font-size: 0.7em;"><input type="button" value="승인"  onclick="sendFee(<%=requestdetail.seq%>)" />  </td>
                     <%}else{%>
                         <td style="vertical-align: middle; font-size: 0.7em;"></td>
@@ -365,3 +365,5 @@
 <style type="text/css">
 
 </style>
+
+<% include ../SC_import.ejs %>
