@@ -3,9 +3,6 @@
 <script type="text/javascript">
 
     //세션정보
-    // const user_id = $('#user_id').val();
-    // const name = $('#name').val();
-
     const blockchainid = $('#blockchainid').val();
     const blockchainpwd = $('#blockchainpwd').val();
 
@@ -46,49 +43,53 @@
     }
 
     //authXML 엔진에 입력데이터와 구조데이터를 post방식의 파라미터로 request & response
-    function createXML(callback){
+    function createXML(file_name){
 
         bxfXmlSaveCspPrepare();
         bxfSearchTextPrepare();
 
         var inXML = $('#inXMLcontent').val();
         var calXML= $('#calXMLcontent').val();
-        var apiKey= '5acda40a5de6a72c70b12679';
-        var prams = 'apiKey='+apiKey+'&s_inXML='+inXML+'&s_calXML='+calXML;
-        var url = 'http://xmlapi.datafarm.co.kr/soaxmlEngineApi.jsp';
+        var params = 's_inXML='+inXML+'&s_calXML='+calXML+'&file_name='+file_name;
         var client = new XMLHttpRequest();
 
+        // >>>>>>>>>>>>>서버사이드에서 엔진 API 호출할 수 있도록 임시 주석처리>>>>>>>>>>>>>>
+        // var apiKey= '5acda40a5de6a72c70b12679';
+        // var prams = 'apiKey='+apiKey+'&s_inXML='+inXML+'&s_calXML='+calXML;
+        // var url = 'http://xmlapi.datafarm.co.kr/soaxmlEngineApi.jsp';
+        // client.onreadystatechange = function(){
+        //     if(client.readyState == 4 && client.status == 200) {
+        //         var result = client.responseText.trim();
+        //         callback(result);
+        //     }
+        // }
+        // client.open("POST",url,true) ;
+        // client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        // client.send(prams);
+        // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+        client.open('POST','callAPI', true);
+        client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        client.send(params);
+
         client.onreadystatechange = function(){
-            if(client.readyState == 4 && client.status == 200) {
-                var result = client.responseText.trim();
+            if(client.readyState == 4 && client.status == 200){
+                var result = client.response;
                 callback(result);
             }
         }
-        client.open("POST",url,true) ;
-        client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        client.send(prams);
     }
 
-    // 승인버튼을 누를 때마다, 컨트렉트가 생성되고 트랜젝션이 일어난다. 아래의 업무가 있다.
-        // 1. 생성된 xml으로 컨트렉트 생성
-        // 2. 수수료 송금
+    // 승인버튼을 누를 때마다, 아래의 업무가 있다.
+        // 1. 생성된 xml을 파일로 저장
+        // 2. 
         // 3. 트랜젝션 로그 기록
     function ontx(){
 
-        //1. authXML엔진을 통해 xmlString 생성
-        createXML(function(xmlString){
-            if(xmlString!=''){
-                //2. 파일생성
-                createFile(xmlString);
-            }
-        });
-
-        var fileName = createFile();
-        console.log(fileName);
         var answer = confirm('신청서를 제출하겠습니까?');
-
         if(answer){
-            //스마트 컨트렉트 생성
+
+            // >>>>>>>>>>>>>>>>>>>관리자 승인 시, 스마트 컨트렉트 생성>>>>>>>>>>>>>>>>>>>
             // createContract(fileName, xmlString, function(result){
             //     console.log('createContract: ',xmlString);
             //     if(result =='success'){
@@ -99,9 +100,13 @@
             //     }else{
             //         alert('신청서 제출 실패!');
             //     }
-            // });
-            saveSysLog();
-            location.href='/accounts/acceptList';
+            // });>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+            //1. authXML엔진을 통해 xml파일생성
+            createXML(getFileName());
+
+            // saveSysLog();
+            // location.href='/accounts/acceptList';
         }
     }
 
@@ -110,7 +115,7 @@
         var url = new URL($(location).attr('href'));
         var prams = 'form_type='+url.pathname+'&user_id='+$('#user_id').val()+'&name='+$('#name').val();
         var client = new XMLHttpRequest();
-        client.open("POST",'saveLog',true) ;
+        client.open("POST",'saveLog',true);
         client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         client.send(prams);
     }
@@ -165,12 +170,12 @@
         });
     }
 
-    function createFile(xmlString){
+    function getFileName(){
         var curlDate = new Date();
-        var fileName = curlDate.getFullYear().toString()+pad((curlDate.getMonth()+1).toString(),2)+pad(curlDate.getDate().toString(),2)+
+        var file_name = curlDate.getFullYear().toString()+pad((curlDate.getMonth()+1).toString(),2)+pad(curlDate.getDate().toString(),2)+
                     pad(curlDate.getHours(),2)+pad(curlDate.getMinutes(),2)+pad(curlDate.getSeconds(),2)+'.xml';
                     
-        return fileName;
+        return file_name;
     }
 
     function pad(n, width) {

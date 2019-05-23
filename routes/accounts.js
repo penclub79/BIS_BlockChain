@@ -1,19 +1,26 @@
 var express = require('express');
 var router = express.Router();
+
+//DB Schema Load
 var UserModel = require('../models/UserModel');
 var TransactionModel = require('../models/Transaction');
 var RequestDetailModel = require('../models/RequestDetail');
 var TransactionListModel = require('../models/TransactionList');
+
 // 상세 페이지를 위해 transaction DB를 로드한다.
 var passwordHash = require('../libs/passwordHash');
+
 // 로그인 설정관련 모듈
 var co = require('co');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 var loginRequired = require('../libs/loginRequired');
-
 var paginate = require('express-paginate');
+
+//엔진 API호출 및 파일생성을 위한 모듈 호출
+var request = require('request');
+var fs = require('fs');
 
 // serialize, deserialize : 실질적으로 session은 done에 담긴다.
 // 시리얼, 디시리얼은 나누는 이유는 시리얼에서 아이디를 받아와서 디시리얼에서 분기정책을 정해준다.
@@ -380,6 +387,7 @@ router.get('/transactionList', paginate.middleware(10, 50), async (req,res) => {
 
 });
 
+// 수수료 납부 시, 플래그 업데이트
 router.post('/updateLog', function(req, res){
     // 수정 된 내 정보 데이터 받기
     var seq = req.body.seq;
@@ -405,6 +413,45 @@ router.post('/updateLog', function(req, res){
     );
     
 });
+
+//트랜젝션 내역 저장
+router.post('/callAPI', function(req,res){
+    
+    console.log('Congraturation!! called API!!');
+    console.log(req.body.s_inXML);
+    console.log(req.body.s_calXML);
+
+    var s_inXML = req.body.s_inXML;
+    var s_calXML = req.body.s_calXML;
+    var file_name = req.body.file_name;
+
+    request({
+        uri: "http://xmlapi.datafarm.co.kr/soaxmlEngineApi.jsp?apiKey=5acda40a5de6a72c70b12679",
+        method: "POST",
+        form: {
+            s_inXML: s_inXML,
+            s_calXML: s_calXML
+        }
+    }, function(error, response, body){
+            fs.exists(file_name, function(exists){
+                if(!exists){
+                    // fs.open('../xmldata'+file_name, 'w',function(err,fd){
+                    //     if(err) throw err;
+                        fs.writeFile('./xmldata/'+file_name, body.trim(), 'utf8', function(error){
+                            if (error) {throw error};
+                            console.log("ASync Write Complete");
+                        });
+                    // });
+                    
+                }else{
+                    console.log('동일한 파일명이 있습니다.');
+                }
+        });
+        // console.log(body);
+    });
+
+});
+
 
 router.get('/history', paginate.middleware(5, 50), async (req,res) => {
 

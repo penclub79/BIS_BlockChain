@@ -79,8 +79,6 @@ app.use('/EAO', express.static('EAO'));
 // // 부트스트랩 파일 정적 라우팅
 app.use('/public', express.static('public'));
 
-
-
 // session 관련 세팅
 // 커넥트 몽고를 로드한 후, 커넥트 몽고 변수에 session정보를 담아서 MongoStore에 담는다.
 var connectMongo = require('connect-mongo');
