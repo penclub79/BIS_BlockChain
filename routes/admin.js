@@ -9,6 +9,7 @@ var adminRequired = require('../libs/adminRequired');
 var CheckoutModel = require('../models/CheckoutModel');
 var UserModel = require('../models/UserModel');
 var passwordHash = require('../libs/passwordHash');
+var RequestDetailModel = require('../models/RequestDetail');
 // 콜백헬 개선
 var co = require('co');
 var paginate = require('express-paginate');
@@ -223,29 +224,34 @@ router.post('/products/productsregist', loginRequired, upload.single('thumbnail'
 
 // 제품 목록페이지
 router.get('/products/productslist', paginate.middleware(5, 50), async (req,res) => {
+    console.log('A');
 
-    if(!req.isAuthenticated()){
+    const [ results, itemCount ] = await Promise.all([
+        // sort : minus 하면 내림차순(날짜명)이다.
+        RequestDetailModel.find({"fee_yn" : 'Y'}).sort('-seq').limit(req.query.limit).skip(req.skip).exec(),
+        RequestDetailModel.count({"fee_yn" : 'Y'})
+    ]);
 
-        res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/accounts/login"</script>');
-    }else{
+    console.log('B');
 
-        const [ results, itemCount ] = await Promise.all([
-            // sort : minus 하면 내림차순(날짜명)이다.
-            StudentsModel.find().sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
-            StudentsModel.count({})
-        ]);
-        const pageCount = Math.ceil(itemCount / req.query.limit);
-        
-        const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
+    const pageCount = Math.ceil(itemCount / req.query.limit);
 
-        res.render('admin/adminproductslist', 
-            { 
-                products : results ,            //products
-                pages: pages,
-                pageCount : pageCount,
-            });
-    }
+    console.log('C');
+    
+    const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
+
+    console.log('D');
+
+    res.render('admin/adminproductslist', 
+        { 
+            requestdetail : results , 
+            pages: pages,
+            pageCount : pageCount,
+            user: req.user
+        });
 });
+
+
 // router.get('/products', function(req, res){
 
 //     if(!req.isAuthenticated()){

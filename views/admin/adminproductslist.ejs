@@ -259,47 +259,46 @@
         <div class="card-header">
           <i class="fa fa-table"></i>증명서 접수목록</div>
         <div class="card-body">
+
           <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr align="center">
-                    <th width="10%" style="vertical-align: middle;">번호</th>
-                    <th width="15%" style="vertical-align: middle;">학번</th>
-                    <th width="20%" style="vertical-align: middle;">중명서종류</th>
-                    <th width="10%" style="vertical-align: middle;">승인여부</th>
-                    <th width="10%" style="vertical-align: middle;">날짜</th>
+                    <th width="7%" style="vertical-align: middle;">번호</th>
+                    <th width="15%" style="vertical-align: middle;">사용자ID</th>
+                    <th width="20%" style="vertical-align: middle;">이름</th>
+                    <th width="15%" style="vertical-align: middle;">수수료납부</th>
+                    <th width="15%" style="vertical-align: middle;">신청시간</th>
+                    <th width="10%" style="vertical-align: middle;">승인</th>
                     <!-- <th width="7%" style="vertical-align: middle;">삭제</th> -->
                 </tr>
             </thead>
             <tfoot>
-                <tr align="center">
-                    <th>번호</th>
-                    <th>학번</th>
-                    <th>증명서종류</th>
-                    <th>승인여부</th>
-                    <th>날짜</th>
-                    <!-- <th>삭제</th> -->
-                </tr>
             </tfoot>
                 <tbody>
-                <% products.forEach(function(products){ %>
+                  <% requestdetail.forEach(function(requestdetail){ %>
                 <tr align="center">
                     <td style="vertical-align: middle; font-size: 0.7em;">
-                        <%= products.category %>
+                        <%= requestdetail.seq %>
+                    <td style="vertical-align: middle; font-size: 0.7em;">
+                        <%= requestdetail.user_id %>
                     </td>
                     <td style="vertical-align: middle; font-size: 0.7em;">
-                        <a href="/admin/products/productsdetail/<%= products.id %>"><%= products.productname %></a>
+                        </a><%= requestdetail.name %></a>
                     </td>
-                    <td width="200" style="vertical-align: middle;">
-                            <img width="150" height="100" src="../../../uploads/<%=products.thumbnail%>">
-                    </td>
-                    <td style="vertical-align: middle; font-size: 0.7em;"><%-products.price %></td>
+                    <td style="vertical-align: middle; font-size: 0.7em;"><%=requestdetail.fee_yn %></td>
                     <td style="vertical-align: middle; font-size: 0.7em;">
-                        <%= products.getDate.year %>년 <%= products.getDate.month %>월 <%= products.getDate.day %>일
-                    </td>
-                    <td style="vertical-align: middle; font-size: 0.7em;">
-                        <a href="/admin/products/delete/<%= products.id %>" class="btn btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
-                    </td>
+                      <%=requestdetail.getDate.year%>.
+                      <%=requestdetail.getDate.month%>.
+                      <%=requestdetail.getDate.day %>.
+                      <%=requestdetail.getDate.hour%>:
+                      <%=requestdetail.getDate.minute%>:
+                      <%=requestdetail.getDate.second%></td>
+                    <% if (requestdetail.fee_yn=='Y'){ %>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><input type="button" value="승인"  onclick="sendFee(<%=requestdetail.seq%>)" />  </td>
+                    <%}else{%>
+                        <td style="vertical-align: middle; font-size: 0.7em;"></td>
+                    <%}%>
                 </tr>
                 <% }); %>
               </tbody>
@@ -309,6 +308,7 @@
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
     </div>
+
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
     <footer class="sticky-footer">
@@ -356,3 +356,12 @@
 </body>
 
 </html>
+<!-- 사용자 정보 받아오기 user_id, blockChainid, blockChainpw -->
+<input type="hidden" id='user_id' value="<%=user.user_id%>"></input>
+<input type="hidden" id='name' value="<%= user.user_name %>"></input>
+<input type="hidden" id='blockchainpwd' value="<%= user.blockchainpwd %>"></input>
+<input type="hidden" id='blockchainid' value="<%= user.blockchainid %>"></input>
+
+<style type="text/css">
+
+</style>
