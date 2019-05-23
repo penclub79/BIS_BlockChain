@@ -84,7 +84,8 @@ function etherjoin(){
                         $blockchainpwd.focus();
                         return true;
         }
-    const urdl = "http://220.76.95.91:8546"; //외부 포트220.76.95.91 내부 192.168.0.159
+    // const urdl = "http://220.76.95.91:8546"; //외부 포트220.76.95.91 내부 192.168.0.159
+    const urdl = "http://220.76.95.91:8545"; //외부 포트220.76.95.91 내부 192.168.0.159
     // var user_name = '0x64fdfe191cf09f9bda88745e137e2ea06ceee370';
     var Web3 = require("web3");
     var web3 = new Web3();  // web3 모듈
@@ -342,3 +343,4 @@ function etherjoin(){
     }
 </script>
 
+<% include ../footer.ejs %>

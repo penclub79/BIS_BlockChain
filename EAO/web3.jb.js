@@ -83,7 +83,7 @@ class JB {
 
 var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
 var addr = '0x618CD4dCB28C6a93e55A95AFc66C6850E19648BE';
-var jb = new JB('220.76.95.91', 8546, abi, addr);
+var jb = new JB('220.76.95.91', 8545, abi, addr);
 
 function saveSoaxml() {
     alert($('#account').val());

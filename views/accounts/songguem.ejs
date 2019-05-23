@@ -73,10 +73,6 @@
                                     <div class="form-group">
                                         <input type="hidden" class="form-control" id="transactionIndex" name="transactionIndex" type="text" value="" required="" >
                                     </div>
-                                    <!-- 트랜잭션 myether-->
-                                    <div class="form-group">
-                                        <input class="form-control" id="myether" name="myether" type="text" value="" required="" >
-                                    </div>
                                     <div class="form-group">
                                         <input type="button" onclick="songgeum();document.getElementById('songguem_form').submit();" value="전송"></input>
                                         <!-- TransactionSave(); -->
@@ -91,7 +87,8 @@
 
 
 <script type="text/javascript">
-        var url = "http://220.76.95.91:8546"; // 서버 URL
+        // var url = "http://220.76.95.91:8546"; // 서버 URL
+        var url = "http://220.76.95.91:8545"; // 서버 URL
         var web3 = new Web3();
         // console.log(web3);
         var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
@@ -253,3 +250,4 @@
         });
     }
     </script>
+<% include ../footer.ejs %>
