@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="http://www.uccxml.com/xdrp/baseXML/bxform/BOKSOO.xsl"?>
+<?xml-stylesheet type="text/xsl" href="http://220.76.95.91:8080/ipfs/QmQ2PoqcReiq7A3cd448cA8hXYcbNqnh9btwg2B84ZsN3C"?>
 <root xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="bx_Dublin.xsd" >
       <metadata>
          <dc:title> 3K대학교 증명정보시스템 </dc:title>
@@ -67,7 +67,7 @@
          <longitude></longitude>
       </basic>
       <contents>
-         <sosok></sosok>
+         <sosok>ㅇㅇㅇㅇㅇㅇㄹㄹ러렇렇러허허</sosok>
          <hakboo></hakboo>
          <jungong></jungong>
          <sungmyung></sungmyung>
@@ -82,6 +82,6 @@
          <shinchungja></shinchungja>
          <shinchungjasign></shinchungjasign>
          <junhwan></junhwan>
-         <junsanbanyoung></junsanbanyoung>
+         <junsanbanyoung>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALAAAABkCAYAAAAmGLpnAAAHUklEQVR4Xu2dTYgcRRTH3 vZJUKyGCFGEYyJCAqCTqonzB4i2Rz0IIoeRDAekoNrYi5JxIOCoJccRPHjIIobMF7EYwIeBA ZSMRd0t0zihAkiAHxogQTIsS42/WkNj2xXaLp3Z7Z pj/QMKQqap 7/d 6empmepiwgMEPCbAHseO0EGAIDAk8JoABPa6fAgeAsMBrwlAYK/Lh AhMBzwmgAE9rp8CB4CwwGvCUBgr8uH4EdS4Ha7/YCI3Ckif/yfAsy8zry pN3tURSdmZub w762CcwEgK3Wq0pItpBRFMi0iSi9YWY/6oA87JwnCOiDjOfGxsbOzk7O9uxX87Ri2BZFfMJT7vd3q61flhrvUdENi2NvYqsIkJL25l/i6Io11o3zJj919M0DZaly3UPEnqr1TooIm8bv64Hvy miJzsv87M5sx8c7n9fwlclroQ nySJBtcLnSosQUl8NTU1PpLly6dKC4Trp0dC1HN230vz/Ner9czb/8rejSbzc1RFE0xs7kc2W0GybIsKI4rAmOpUzDgzXWu1voLZl5TXN8uENFhrfXROsJaqgsOW5FAEAIrpd4logOlt/Y30jR9uSIDNPOYgNcCmw9qCwsLR0TkXiOviFzUWk ZawSPa4LQl0HAS4G3bdvW1FofIKI9pVy/zvP8sV6vd2EZ aOp5wS8EXhycnJznudPaK1fJKJN5tN/aRoLlwyei7jS8J0XuJjPfUFrvWvptJaIXNFaT KSYaXl97 f0wIX02LniShagvq4iBzLsuyo/yVABnUIOC2wUmqeiMbMBzSt9S/M/JbW himxeqUPKy zgqslPqQmfeaywYReabb7X4WFnpkMwgCTgpcfNt1lpnHtNafdLvd8mzDIPLGGIEQcFLgVqv1vYjcT0SXJyYm7uh0OpgaC0S4QafhnMBxHD9HRDMmURHZm2XZR4NOGuOFQ8ApgZVSDxHRV8X87m9pmm4MBzUyGQYBZwRWSj3NzJ8Skfmd7UKapuPDSBhjhkXACYG3bt16VxRFP5nf74rI71rru/GVcFiiDSsbJwQuzffO53m EfIOq9zhjWtd4DiO9xPR 8VvGx7Psuzz8DAjo2ERsC6wUuoCM5ulPD kaXrfsBLFuGESsCqwUmoPM39crCvbmSQJVvaG6dnQsrIt8K/MfKuI/Jhl2T1DyxIDB0vAmsDNZrPZaDS6xdn3UJIkZlkQHiCwLALWBDbr2JjZrKqg8fHxLbOzsyteKbysjNE4KAI2Bf6TiNaYn0ripiBBObWqyVgTOI7jq2uCiCDwqpY8rINB4LDqOXLZQOCRK3lYCUPgsOo5ctlA4JEreVgJWxNYKbX4IQ6zEGEJtdrZWBMYsxCrXeowjweBw6zryGQFgYtSm1tXmaf4RtAv9yGw2Tjj6o2xzYqQC2mabvGrhKMd7cgL3Gw210dR9DMRrYui6GSSJGZDGDw8IWBNYFdmIZRSPWZ kIjyiYmJDbgHhSfmFmFaE7g8C8HMVn7MHsfxB0S0z7DI83y61 sd8at8iNaawP0zn63VGEqpN4nopWJbguNpmj4JHfwjYFNgs2vQjtX QXuxGYyRt1XIaz643eJf6RDx4hdhtjDEcWzu7bu7EPjLJEkeGWYsZppsfn7 sIjsKvbTMIf7S2t9G5bxD5P8cMe2JrBS6iAzv1OkJ1EUHTp9 vR7g07X3OE9z/MDWuunFv/H/rOdLLYlGDRsC NZE9isiYuiqGvu4XfVKzZ/nWo0Gq/Mzc2dqsuiOOO JiKLt2btiysic1rrfdiWoC5hN/pbE9ikr5S6zMw3FSjMEqP c3OvCLNVVieKorNEdLG8Y3x5F/m1a9d W576arfbj2qtn83zfNcScc9orff3ej0s3XfDvYFEYVXgQuLXmdmcKfsJ6fKeGFU25S6TKO9eVDw32xQ8j/00BuKLc4NYF9gQKS4nvimdjRdBVdxs 7rCF3tqvApxnXNuoAE5IXA/I7O1QKPRaBabdZsNtbcXt1u9lvT1pO6/WOyncYWZ90HcgXri7GBOCbwSSkZ6IjJ/zmH3opUQ9LuP9wL7jR/R1yUAgesSRH rBCCwVfw4eF0CELguQfS3SgACW8WPg9clAIHrEkR/qwQgsFX8OHhdAhC4LkH0t0oAAlvFj4PXJQCB6xJEf6sEILBV/Dh4XQIQuC5B9LdKAAJbxY D1yUAgesSRH rBCCwVfw4eF0CELguQfS3SgACW8WPg9clAIHrEkR/qwSsCDw9PX2CmXEbU6ulH zBRaQzMzOzc7Cj3ng0CHxjRmhRgcBICVyBB5qAQCUCVs7AlSJDIxCoQAACV4CEJu4SgMDu1gaRVSAAgStAQhN3CUBgd2uDyCoQgMAVIKGJuwQgsLu1QWQVCEDgCpDQxF0CENjd2iCyCgQgcAVIaOIuAQjsbm0QWQUCELgCJDRxlwAEdrc2iKwCAQhcARKauEsAArtbG0RWgQAErgAJTdwlAIHdrQ0iq0AAAleAhCbuEvgbsGRsg6LOgXsAAAAASUVORK5CYII=</junsanbanyoung>
       </contents>
    </root>

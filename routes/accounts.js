@@ -435,14 +435,9 @@ router.post('/callAPI', function(req,res){
     }, function(error, response, body){
             fs.exists(file_name, function(exists){
                 if(!exists){
-                    // fs.open('../xmldata'+file_name, 'w',function(err,fd){
-                    //     if(err) throw err;
                         fs.writeFile('./xmldata/'+file_name, body.trim(), 'utf8', function(error){
                             if (error) {throw error};
-                            console.log("ASync Write Complete");
                         });
-                    // });
-                    
                 }else{
                     console.log('동일한 파일명이 있습니다.');
                 }
