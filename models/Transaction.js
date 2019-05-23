@@ -10,6 +10,7 @@ var TransactionSchema = new Schema({
     from : String,
     to : String,
     ether : String,
+    myether : String,
     t_hash : String,
     gas : String,
     gasPrice : String,
