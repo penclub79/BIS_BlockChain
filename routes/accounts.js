@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var UserModel = require('../models/UserModel');
-// 비밀번호를 암호화시킬 암호화 해쉬 js파일을 로드한다.
 var TransactionModel = require('../models/Transaction');
-var RequestDetailModel = require('../models/RequestDetail')
+var RequestDetailModel = require('../models/RequestDetail');
+var TransactionListModel = require('../models/TransactionList');
 // 상세 페이지를 위해 transaction DB를 로드한다.
 var passwordHash = require('../libs/passwordHash');
 // 로그인 설정관련 모듈
@@ -303,10 +303,8 @@ router.get('/graduate', loginRequired, function(req, res){
     res.render('formats/BOKSOO.ejs', { user : req.user });
 });
 
-
-
-
-router.get('/acceptList', paginate.middleware(5, 50), async (req,res) => {
+//신청내역 조회 화면 로드
+router.get('/acceptList', paginate.middleware(10, 50), async (req,res) => {
 
     const [ results, itemCount ] = await Promise.all([
         // sort : minus 하면 내림차순(날짜명)이다.
@@ -338,16 +336,48 @@ router.post('/saveLog', function(req,res){
         name : req.body.name,
         form_type : req.body.form_type,
         form_name : form_name
-        // from : req.body.from,
-        // to : req.body.to,
-        // ether : req.body.ether,
-        // t_hash: req.body.t_hash
     });
     RequestDetail.save(function(err){
-        // res.send('<script>alert("내역저장 성공");\
-        // location.href="/accounts/songguem";</script>');
         
     });
+});
+
+//트랜젝션 내역 저장
+router.post('/createTranLog', function(req,res){
+    
+    var TransactionList = new TransactionListModel({
+        user_id : req.user.user_id,
+        name : req.user.name,
+        from : req.body.from,
+        to : req.body.to,
+        ether:req.body.ether,
+        t_hash: req.body.t_hash,
+        cur_balance:req.body.cur_balance
+    });
+    TransactionList.save(function(err){
+        console.log(err);
+    });
+});
+
+//신청내역 조회 화면 로드
+router.get('/transactionList', paginate.middleware(10, 50), async (req,res) => {
+
+    const [ results, itemCount ] = await Promise.all([
+        // sort : minus 하면 내림차순(날짜명)이다.
+        TransactionListModel.find({"user_id" : req.user.user_id}).sort('-id').limit(req.query.limit).skip(req.skip).exec(),
+        TransactionListModel.count({"user_id" : req.user.user_id})
+    ]);
+    const pageCount = Math.ceil(itemCount / req.query.limit);
+    const pages = paginate.getArrayPages(req)( 10 , pageCount, req.query.page);
+
+    res.render('accounts/transactionList', 
+        {
+            transactionList : results , 
+            pages: pages,
+            pageCount : pageCount,
+            user: req.user //user 세션 정보
+        });
+
 });
 
 router.post('/updateLog', function(req, res){
@@ -359,7 +389,7 @@ router.post('/updateLog', function(req, res){
         {
             seq : seq
         },
-        {   // 몽고디비 아이디에 맞는 회원정보 데이터베이스를 일치하는 doc대로 수정한다.
+        {   // seq를 키로 fee_yn을 업데이트 한다.
             $set : {
                 fee_yn : 'Y'
             }
@@ -367,9 +397,10 @@ router.post('/updateLog', function(req, res){
             // 에러가 발생하면 Error
             if(err){
                 throw err;
-            }else{  
-                res.redirect('/accounts/acceptList');
             }
+            // else{  
+                // res.redirect('/accounts/acceptList');
+            // }
         }
     );
     

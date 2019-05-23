@@ -138,8 +138,6 @@
                             to: web3.eth.accounts[0],   //관리자 계정
                             value: web3.toWei(0.1,'ether')
                         });
-                alert('t_hash: '+t_hash)    
-                
                 
                 if(t_hash !=''){
                     //3. 수수료납부여부 업데이트
@@ -150,20 +148,19 @@
                     client1.send(prams1);
 
                     //4. 트랜젝션 내역 저장
-                    var balance = web3.eth.getBalance(blockchainid);
-                    alert(balance);
-                    var prams2 = 't_hash='+t_hash+'&from='+blockchainid+'&to='+web3.eth.accounts[0];
-                    // var client2 = new XMLHttpRequest();
-                    // client2.open("POST",'updateLog',true);
-                    // client2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    // client2.send(prams);
-                    alert('정상적으로 수수료를 납부하였습니다.');
+                    var cur_balance = web3.eth.getBalance(blockchainid);
+                    var prams2 = 't_hash='+t_hash+'&from='+blockchainid+'&to='+web3.eth.accounts[0]+'&cur_balance='+cur_balance+'&ether=0.1';
+                    var client2 = new XMLHttpRequest();
+                    client2.open("POST",'createTranLog',true);
+                    client2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    client2.send(prams2);
 
-                    // location.href='/accounts/acceptList'
-                    
+                    alert('정상적으로 수수료를 납부하였습니다.');
+                    location.href='/accounts/acceptList'
+                }else{
+                    alert('수수료가 납부되지 않았습니다. 관리자에게 문의하세요.')
+                    location.href='/accounts/acceptList'
                 }
-                //
-                
             }
         });
     }
