@@ -251,6 +251,34 @@ router.get('/products/productslist', paginate.middleware(5, 50), async (req,res)
         });
 });
 
+// 수수료 납부 시, 플래그 업데이트
+router.post('/updateLog', function(req, res){
+    // 수정 된 내 정보 데이터 받기
+    console.log("ffffffffffffefefefefe");
+    var seq = req.body.seq;
+    
+        // 업데이트 처리 
+    RequestDetailModel.update(
+        {
+            seq : seq
+        },
+        {   // seq를 키로 fee_yn을 업데이트 한다.
+            $set : {
+                accept_yn : 'Y'
+            }
+        }, function(err){
+            // 에러가 발생하면 Error
+            if(err){
+                throw err;
+            }
+            // else{  
+                // res.redirect('/accounts/acceptList');
+            // }
+        }
+    );
+    
+});
+
 
 // router.get('/products', function(req, res){
 

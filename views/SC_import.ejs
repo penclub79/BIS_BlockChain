@@ -124,11 +124,39 @@
     // 컨트렉트 생성
     function createContract(fileName, xmlString, callback){
 
-        web3.eth.defaultAccount = blockchainid;
-        contract.issue(fileName, web3.sha3(xmlString), {from:blockchainid, gas: 500000});
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        contract.issue(fileName, web3.sha3(xmlString), {from:web3.eth.accounts[0], gas: 500000});
 
         callback('success');
     }
+
+    function accept(recodeSeq){
+        //1. 이더리움계정 Unlock
+        alert("accept function!!!!!!!!!");
+        unlockAccount(function(result){
+            if(result=='fail auth'){
+                alert('계정이 유효하지 않습니다. 관리자에게 문의하세요.');
+            }else{
+                //2. 관리자 계정으로 수수료 송부
+                var t_hash = web3.eth.sendTransaction({
+                            from: blockchainid,         //로그인한 사용자 계정
+                            to: web3.eth.accounts[0],   //관리자 계정
+                            value: web3.toWei(0.1,'ether')
+                            });
+                }
+        });
+                if(t_hash !=''){    //트랜잭션 해쉬가 있을 경우
+                    //3. 수수료납부여부 업데이트
+                    var prams1 = 'seq='+recodeSeq;
+                    var client1 = new XMLHttpRequest();
+                    client1.open("POST",'updateLog',true);
+                    client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    client1.send(prams1);
+            
+                    alert('정상적으로 수수료를 납부하였습니다.');
+                    location.href='/products/productslist';
+    }
+
 
     //수수료를 관리자 계정으로 이체
     function sendFee(recodeSeq){
@@ -143,7 +171,7 @@
                             from: blockchainid,         //로그인한 사용자 계정
                             to: web3.eth.accounts[0],   //관리자 계정
                             value: web3.toWei(0.1,'ether')
-                        });
+                            });
                 
                 if(t_hash !=''){
                     //3. 수수료납부여부 업데이트
@@ -162,10 +190,10 @@
                     client2.send(prams2);
 
                     alert('정상적으로 수수료를 납부하였습니다.');
-                    location.href='/accounts/acceptList'
+                    location.href='/accounts/acceptList';
                 }else{
                     alert('수수료가 납부되지 않았습니다. 관리자에게 문의하세요.')
-                    location.href='/accounts/acceptList'
+                    location.href='/accounts/acceptList';
                 }
             }
         });
