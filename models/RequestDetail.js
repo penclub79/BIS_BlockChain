@@ -44,7 +44,7 @@ RequestSchema.virtual('getDate').get(function(){
         day : date.getDate(),
         hour : date.getHours(),
         minute : date.getMinutes(),
-        second : date.getSeconds(),
+        second : date.getSeconds()
     };
 });
 
