@@ -19,7 +19,8 @@ var RequestSchema = new Schema({
     accept_yn : {
         type: String,
         default: 'N'
-    }
+    },
+    ipfs_hash:String
 });
 
 // 회원정보 id 자동증가

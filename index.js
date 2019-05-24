@@ -75,6 +75,7 @@ app.use(cookieParser());
 app.use('/accounts', express.static('formats'));
 app.use('/images', express.static('images'));
 app.use('/EAO', express.static('EAO'));
+app.use('/xmldata', express.static('xmldata'));
 
 // // 부트스트랩 파일 정적 라우팅
 app.use('/public', express.static('public'));
