@@ -1,5 +1,17 @@
 <script src="../EAO/web3.js"></script>
 
+<!-- <script type="text/javascript">
+    // var url = "http://220.76.95.91:8546"; // 서버 URL
+    var url = "http://220.76.95.91:8545"; // 서버 URL
+    var web3 = new Web3();
+    // console.log(web3);
+    var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
+    // console.log(provider);
+    web3.setProvider(provider);
+    var blockchainid = $("#blockchainid").val();
+    var blockchainpwd = $("#blockchainpwd").val();
+</script> -->
+
 <script type="text/javascript">
 
     //세션정보
@@ -18,8 +30,8 @@
     // var addr = '0xd0146B2cBBc5e7F1d2b7247787c9Cd4ee8d40972';
     //testnet addr
     var addr = '0x84f3f07bf259288bb253f0218e8118d32d88b581';
-    const web3 = new Web3(new Web3.providers.HttpProvider(provider));
-    const contract = web3.eth.contract(abi).at(addr);
+    var web3 = new Web3(new Web3.providers.HttpProvider(provider));
+    var contract = web3.eth.contract(abi).at(addr);
     
 
     // 이더리움 계정 언락
@@ -112,7 +124,7 @@
             //1. authXML엔진을 통해 xml파일생성
             createXML(getFileName());
 
-            // saveSysLog();
+            saveSysLog();
             location.href='/accounts/acceptList';
         }
     }
@@ -136,31 +148,19 @@
         callback('success');
     }
 
-    function accept(recodeSeq){
-        //1. 이더리움계정 Unlock
+
+    function accept_(recodeSeq){
+       
         alert("accept function!!!!!!!!!");
-        unlockAccount(function(result){
-            if(result=='fail auth'){
-                alert('계정이 유효하지 않습니다. 관리자에게 문의하세요.');
-            }else{
-                //2. 관리자 계정으로 수수료 송부
-                var t_hash = web3.eth.sendTransaction({
-                            from: blockchainid,         //로그인한 사용자 계정
-                            to: web3.eth.accounts[0],   //관리자 계정
-                            value: web3.toWei(0.1,'ether')
-                            });
-                }
-        });
-                if(t_hash !=''){    //트랜잭션 해쉬가 있을 경우
-                    //3. 수수료납부여부 업데이트
-                    var prams1 = 'seq='+recodeSeq;
-                    var client1 = new XMLHttpRequest();
-                    client1.open("POST",'updateLog',true);
-                    client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    client1.send(prams1);
-            
-                    alert('정상적으로 수수료를 납부하였습니다.');
-                    location.href='/products/productslist';
+    
+                //admin 플래그 'N'->'Y' 업데이트
+                var prams1 = 'seq='+recodeSeq;
+                var client1 = new XMLHttpRequest();
+                client1.open("POST",'/admin/updateLog',true);
+                client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                client1.send(prams1);
+                alert('정상적으로 승인처리를 완료하셨습니다.');
+                location.href='/admin/products/productslist';
     }
 
 
@@ -212,6 +212,15 @@
                     
         return file_name;
     }
+
+    function getTransacionss(transactionHash){
+        alert(transactionHash);
+        var result = web3.eth.getTransaction(transactionHash);
+        // alert(web3.eth.accounts[0]);
+        alert(result);
+
+    }
+
 
     function pad(n, width) {
         n = n + '';//string 변환

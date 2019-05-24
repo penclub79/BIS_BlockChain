@@ -495,4 +495,17 @@ router.get('/history/:id', function(req, res){
         });
 });
 
+// TransactionDetail 뿌리기
+router.get('/transactionDetail/:id', function(req, res){
+    
+    
+        
+    res.render('accounts/historydetail', 
+        { 
+            transact : result.transaction,
+            // comments : result.comments,
+            // reples : result.reple 
+        });
+});
+
 module.exports = router;

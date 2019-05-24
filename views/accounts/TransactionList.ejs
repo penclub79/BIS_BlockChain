@@ -45,7 +45,7 @@
                     <% transactionList.forEach(function(transactionList){ %>
                     <tr align="center">
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.id %></td>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.t_hash %></td>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><a href="javascript:getTransacionss('<%=transactionList.t_hash %>')"><%=transactionList.t_hash %></a></td>
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.from %></td>
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.to %></td>
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.ether %></td>
@@ -117,3 +117,4 @@
 </script>
 
 <% include ../footer.ejs %>
+<% include ../SC_import.ejs %>

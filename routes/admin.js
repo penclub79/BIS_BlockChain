@@ -254,6 +254,7 @@ router.get('/products/productslist', paginate.middleware(5, 50), async (req,res)
 // 수수료 납부 시, 플래그 업데이트
 router.post('/updateLog', function(req, res){
     // 수정 된 내 정보 데이터 받기
+    console.log(req.body.seq);
     console.log("ffffffffffffefefefefe");
     var seq = req.body.seq;
     
@@ -276,6 +277,7 @@ router.post('/updateLog', function(req, res){
             // }
         }
     );
+    console.log("ffffffffffffefefefefe");
     
 });
 
