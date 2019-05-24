@@ -10,8 +10,14 @@
     // const provider = 'http://220.76.95.91:8546';
     const provider = 'http://220.76.95.91:8545';
     var Web3 = require('web3');
-    var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
-    var addr = '0xd0146B2cBBc5e7F1d2b7247787c9Cd4ee8d40972';
+    //private abi
+    // var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
+    //testnet abi
+    var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}]
+    //private addr
+    // var addr = '0xd0146B2cBBc5e7F1d2b7247787c9Cd4ee8d40972';
+    //testnet addr
+    var addr = '0x84f3f07bf259288bb253f0218e8118d32d88b581';
     const web3 = new Web3(new Web3.providers.HttpProvider(provider));
     const contract = web3.eth.contract(abi).at(addr);
     
@@ -107,7 +113,7 @@
             createXML(getFileName());
 
             // saveSysLog();
-            // location.href='/accounts/acceptList';
+            location.href='/accounts/acceptList';
         }
     }
 

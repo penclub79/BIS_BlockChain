@@ -25,6 +25,7 @@
                         <th width="15%" style="vertical-align: middle;">승인여부</th>
                         <th width="10%" style="vertical-align: middle;">시간</th>
                         <th width="5%" style="vertical-align: middle;">신청</th>
+                        <th width="5%" style="vertical-align: middle;">신청서보기</th>
                         <!-- <th width="1%" style="vertical-align: middle;">GasPrice</th> -->
                     </tr>
                 </thead>
@@ -36,6 +37,7 @@
                         <th>승인여부</th>
                         <th>시간</th>
                         <th>신청</th>
+                        <th>신청서보기</th>
                         <!-- <th>GasPrice</th> -->
                     </tr>
                 </tfoot>
@@ -62,7 +64,7 @@
                         <% if (requestdetail.fee_yn=='N'){ %>
                             <td style="vertical-align: middle; font-size: 0.7em;"><input type="button" value="납부"  onclick="sendFee(<%=requestdetail.seq%>)" />  </td>
                         <%}else{%>
-                            <td style="vertical-align: middle; font-size: 0.7em;"></td>
+                            <td style="vertical-align: middle; font-size: 0.7em;">신청완료</td>
                         <%}%>
                         
                     </tr>
