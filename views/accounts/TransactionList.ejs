@@ -1,6 +1,5 @@
 <% include ../header.ejs %>
 
-<% include ./sidebar.ejs %>
     <br/>   
     
 
@@ -31,15 +30,6 @@
                     </tr>
                 </thead>
                 <tfoot>
-                    <tr align="center">
-                        <th>번호</th>
-                        <th>트랜젝션 Hash</th>
-                        <th>내 계정</th>
-                        <th>관리자 계정</th>
-                        <th>eth</th>
-                        <th>잔고</th>
-                        <th>생성시간</th>
-                    </tr>
                 </tfoot>
                     <tbody>
                     <% transactionList.forEach(function(transactionList){ %>
@@ -50,7 +40,7 @@
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.to %></td>
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.ether %></td>
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.cur_balance %></td>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.created_at %></td>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.getDate.year%>.<%=transactionList.getDate.month%>.<%=transactionList.getDate.day %>. <%=transactionList.getDate.hour%>:<%=transactionList.getDate.minute%>:<%=transactionList.getDate.second%></td>
                         <!-- <td style="vertical-align: middle; font-size: 0.7em;">
                             <a href="/accounts/history/<%= transactionList.id %>">
                             <%= transactionList.t_hash.replace(/\"/gi, ""); %>
