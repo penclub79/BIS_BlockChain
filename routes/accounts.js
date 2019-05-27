@@ -21,6 +21,8 @@ var paginate = require('express-paginate');
 //엔진 API호출 및 파일생성을 위한 모듈 호출
 var request = require('request');
 var fs = require('fs');
+// var ipfsClient = require('ipfs-http-client');
+var ipfs = require('IPFS');
 
 // serialize, deserialize : 실질적으로 session은 done에 담긴다.
 // 시리얼, 디시리얼은 나누는 이유는 시리얼에서 아이디를 받아와서 디시리얼에서 분기정책을 정해준다.
@@ -365,7 +367,7 @@ router.post('/createTranLog', function(req,res){
         console.log(err);
     });
 });
-
+ 
 //신청내역 조회 화면 로드
 router.get('/transactionList', paginate.middleware(100, 100), async (req,res) => {
 
@@ -417,13 +419,10 @@ router.post('/updateLog', function(req, res){
 //트랜젝션 내역 저장
 router.post('/callAPI', function(req,res){
     
-    console.log('Congraturation!! called API!!');
-    console.log(req.body.s_inXML);
-    console.log(req.body.s_calXML);
-
     var s_inXML = req.body.s_inXML;
     var s_calXML = req.body.s_calXML;
     var file_name = req.body.file_name;
+
 
     request({
         uri: "http://xmlapi.datafarm.co.kr/soaxmlEngineApi.jsp?apiKey=5acda40a5de6a72c70b12679",
@@ -432,18 +431,48 @@ router.post('/callAPI', function(req,res){
             s_inXML: s_inXML,
             s_calXML: s_calXML
         }
-    }, function(error, response, body){
+    }, function(error, response, xmlString){
             fs.exists(file_name, function(exists){
                 if(!exists){
-                        fs.writeFile('./xmldata/'+file_name, body.trim(), 'utf8', function(error){
+                        fs.writeFile('./xmldata/'+file_name, xmlString.trim(), 'utf8', function(error){
                             if (error) {throw error};
                         });
+
+                        var node = new ipfs();
+
+                        // var ipfs = ipfsClient({
+                        //             host: '220:76.95.91',
+                        //             port: 8080,
+                        //             protocol: 'http',
+                        //             // headers: {
+                        //             //   authorization: 'Bearer ' + TOKEN
+                        //             // }
+                        //         });
+                        // ipfs.add('./ipfsfile/'+file_name, xmlString, function(err, res){
+                        //     console.log(res);
+                        // });
+
+
+                        node.on('ready', async () => {
+                            // const version = await node.version()
+                          
+                            // console.log('Version:', version.version)
+                          
+                            const filesAdded = await node.add({
+                              path: './xmldata/'+file_name,
+                              content: Buffer.from(xmlString.trim())
+                            })
+                          
+                            console.log('Added file:', filesAdded[0].path, filesAdded[0].hash)
+                          })
+                        
+                        
                 }else{
                     console.log('동일한 파일명이 있습니다.');
                 }
         });
         // console.log(body);
-    });
+    }); 
 
 });
 

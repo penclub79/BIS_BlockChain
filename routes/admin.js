@@ -223,24 +223,15 @@ router.post('/products/productsregist', loginRequired, upload.single('thumbnail'
 
 
 // 제품 목록페이지
-router.get('/products/productslist', paginate.middleware(5, 50), async (req,res) => {
-    console.log('A');
-
+router.get('/products/productslist', paginate.middleware(10, 50), async (req,res) => {
     const [ results, itemCount ] = await Promise.all([
         // sort : minus 하면 내림차순(날짜명)이다.
         RequestDetailModel.find({"fee_yn" : 'Y'}).sort('-seq').limit(req.query.limit).skip(req.skip).exec(),
         RequestDetailModel.count({"fee_yn" : 'Y'})
     ]);
 
-    console.log('B');
-
     const pageCount = Math.ceil(itemCount / req.query.limit);
-
-    console.log('C');
-    
     const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
-
-    console.log('D');
 
     res.render('admin/adminproductslist', 
         { 
