@@ -367,11 +367,11 @@ router.post('/createTranLog', function(req,res){
 });
 
 //신청내역 조회 화면 로드
-router.get('/transactionList', paginate.middleware(10, 50), async (req,res) => {
+router.get('/transactionList', paginate.middleware(100, 100), async (req,res) => {
 
     const [ results, itemCount ] = await Promise.all([
         // sort : minus 하면 내림차순(날짜명)이다.
-        TransactionListModel.find({"user_id" : req.user.user_id}).sort('-id').limit(req.query.limit).skip(req.skip).exec(),
+        TransactionListModel.find({"user_id" : req.user.user_id}).sort('-create_at').limit(req.query.limit).skip(req.skip).exec(),
         TransactionListModel.count({"user_id" : req.user.user_id})
     ]);
     const pageCount = Math.ceil(itemCount / req.query.limit);
