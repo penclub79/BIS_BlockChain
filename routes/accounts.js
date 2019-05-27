@@ -21,7 +21,8 @@ var paginate = require('express-paginate');
 //엔진 API호출 및 파일생성을 위한 모듈 호출
 var request = require('request');
 var fs = require('fs');
-var ipfsClient = require('ipfs-http-client');
+// var ipfsClient = require('ipfs-http-client');
+var ipfs = require('IPFS');
 
 // serialize, deserialize : 실질적으로 session은 done에 담긴다.
 // 시리얼, 디시리얼은 나누는 이유는 시리얼에서 아이디를 받아와서 디시리얼에서 분기정책을 정해준다.
@@ -366,7 +367,7 @@ router.post('/createTranLog', function(req,res){
         console.log(err);
     });
 });
-
+ 
 //신청내역 조회 화면 로드
 router.get('/transactionList', paginate.middleware(10, 50), async (req,res) => {
 
@@ -436,17 +437,34 @@ router.post('/callAPI', function(req,res){
                         fs.writeFile('./xmldata/'+file_name, xmlString.trim(), 'utf8', function(error){
                             if (error) {throw error};
                         });
-                        var ipfs = ipfsClient({
-                                    host: '220:76.95.91',
-                                    port: 8080,
-                                    protocol: 'http',
-                                    // headers: {
-                                    //   authorization: 'Bearer ' + TOKEN
-                                    // }
-                                });
-                        ipfs.add('./xmldata/'+file_name, xmlString, function(err, res){
-                            console.log(res);
-                        });
+
+                        var node = new ipfs();
+
+                        // var ipfs = ipfsClient({
+                        //             host: '220:76.95.91',
+                        //             port: 8080,
+                        //             protocol: 'http',
+                        //             // headers: {
+                        //             //   authorization: 'Bearer ' + TOKEN
+                        //             // }
+                        //         });
+                        // ipfs.add('./ipfsfile/'+file_name, xmlString, function(err, res){
+                        //     console.log(res);
+                        // });
+
+
+                        node.on('ready', async () => {
+                            // const version = await node.version()
+                          
+                            // console.log('Version:', version.version)
+                          
+                            const filesAdded = await node.add({
+                              path: './xmldata/'+file_name,
+                              content: Buffer.from(xmlString.trim())
+                            })
+                          
+                            console.log('Added file:', filesAdded[0].path, filesAdded[0].hash)
+                          })
                         
                         
                 }else{
@@ -455,10 +473,6 @@ router.post('/callAPI', function(req,res){
         });
         // console.log(body);
     }); 
-
-    
-
-
 
 });
 

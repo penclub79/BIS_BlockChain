@@ -294,6 +294,7 @@
                       <%=requestdetail.getDate.hour%>:
                       <%=requestdetail.getDate.minute%>:
                       <%=requestdetail.getDate.second%></td>
+                      
                     <% if (requestdetail.accept_yn=='N'){ %>
                         <td style="vertical-align: middle; font-size: 0.7em;"><input type="button" value="승인"  onclick="accept_(<%=requestdetail.seq%>)" />  </td>
                     <%}else{%>
@@ -308,6 +309,7 @@
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
     </div>
+
 
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
@@ -340,6 +342,7 @@
         </div>
       </div>
     </div>
+    
     <!-- Bootstrap core JavaScript-->
     <script src="../../../public/vendor/jquery/jquery.min.js"></script>
     <script src="../../../public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
