@@ -5,9 +5,9 @@ var autoIncrement = require('mongoose-auto-increment');
 // 트랜잭션 스키마를 정의한다.
 var RequestSchema = new Schema({
     user_id : String,
+    name : String,
     form_type: String,
     form_name: String,
-    name : String,
     created_at : {
         type : Date,
         default : Date.now()
@@ -26,7 +26,9 @@ var RequestSchema = new Schema({
     accept_at:{
         type : Date,
         default : Date.now()
-    }
+    },
+    file_name:String,
+    xml_string:String
 });
 
 // 회원정보 id 자동증가

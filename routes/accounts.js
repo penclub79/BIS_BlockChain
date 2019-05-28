@@ -471,13 +471,15 @@ router.post('/callAPI', function(req,res){
                         // }catch(err){
                         //     console.error('Node failed to start!', err);
                         // }
-                        
+                        console.log(req.user);
                         var RequestDetail = new RequestDetailModel({
                             user_id : req.user.user_id,
-                            name : req.user.name,
+                            name : req.user.user_name,
                             form_type : req.body.form_type,
                             form_name : '졸업증명서',
-                            ipfs_hash : filesAdded[0].hash
+                            ipfs_hash : filesAdded[0].hash,
+                            file_name : file_name,
+                            xml_string: xmlString.trim()
                         });
                         await RequestDetail.save(function(err){
                             

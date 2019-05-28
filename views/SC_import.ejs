@@ -1,4 +1,4 @@
-<script src="../EAO/web3.js"></script>
+<script src="http://220.76.95.91:3000/EAO/web3.js"></script>
 
 <!-- <script type="text/javascript">
     // var url = "http://220.76.95.91:8546"; // 서버 URL
@@ -154,22 +154,29 @@
         accept_hash = contract.issue(fileName, web3.sha3(xmlString), {from:web3.eth.accounts[0], gas: 500000});
         alert(accept_hash);
 
-        callback('success');
+        callback(accept_hash);
     }
 
-
-    function accept_(recodeSeq){
+    // 관리자 승인 메서드
+    function accept_(seq, file_name){
        
-        alert("accept function!!!!!!!!!");
-    
-        //admin 플래그 'N'->'Y' 업데이트
-        var prams1 = 'seq='+recodeSeq;
-        var client1 = new XMLHttpRequest();
-        client1.open("POST",'/admin/updateLog',true);
-        client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        client1.send(prams1);
-        alert('정상적으로 승인처리를 완료하셨습니다.');
-        location.href='/admin/products/productslist';
+        var answer = confirm('승인하겠습니까?');
+        if(answer){
+            // createContract(fileName, xmlString, function(status){
+
+            //     if(accept_hash!=''){
+                    //admin 플래그 'N'->'Y' 업데이트
+                    var prams1 = 'seq='+seq+'&file_name='+file_name;
+                    var client1 = new XMLHttpRequest();
+                    client1.open("POST",'/admin/acceptContract',true);
+                    client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    client1.send(prams1);
+                    alert('정상적으로 승인처리를 완료하였습니다.');
+                    location.href='/admin/products/productslist';
+                    
+            //     }
+            // });
+        }
     }
 
 

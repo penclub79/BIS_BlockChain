@@ -241,12 +241,13 @@ router.get('/products/productslist', paginate.middleware(10, 50), async (req,res
 });
 
 // 수수료 납부 시, 플래그 업데이트
-router.post('/updateLog', function(req, res){
+router.post('/acceptContract', function(req, res){
     // 수정 된 내 정보 데이터 받기
-    console.log(req.body.seq);
-    console.log("ffffffffffffefefefefe");
     var seq = req.body.seq;
+    var file_naem = req.body.file_name;
+
     
+
         // 업데이트 처리 
     RequestDetailModel.update(
         {
@@ -254,20 +255,17 @@ router.post('/updateLog', function(req, res){
         },
         {   // seq를 키로 fee_yn을 업데이트 한다.
             $set : {
-                accept_yn : 'Y'
+                accept_yn : 'Y',
+                accept_hash: req.body.accept_hash
             }
         }, function(err){
             // 에러가 발생하면 Error
             if(err){
                 throw err;
             }
-            // else{  
-                // res.redirect('/accounts/acceptList');
-            // }
         }
     );
-    console.log("ffffffffffffefefefefe");
-    
+
 });
 
 
