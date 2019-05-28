@@ -60,9 +60,13 @@
             }
         });   
     }
-
-    //authXML 엔진에 입력데이터와 구조데이터를 post방식의 파라미터로 request & response
-    function createXML(file_name){
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    //1.authXML 엔진에 입력데이터와 구조데이터를 post로 request
+    //2.서버사이드:  - autoxml 엔진 request & response
+    //              - 결과값으로 파일생성
+    //              - 해당 파일을 IPFS에 업로드
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   function createXML(file_name){
 
         bxfXmlSaveCspPrepare();
         bxfSearchTextPrepare();
@@ -86,17 +90,20 @@
         // client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         // client.send(prams);
         // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+        
+        //API 호출!
         client.open('POST','callAPI', true);
         client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         client.send(params);
 
         client.onreadystatechange = function(){
             if(client.readyState == 4 && client.status == 200){
-                var result = client.response;
-                callback(result);
+                var result = client.responseText;
+                alert(result);
+
+                // callback(result);
             }
-        }
+        };
     }
 
     // 승인버튼을 누를 때마다, 아래의 업무가 있다.
@@ -107,7 +114,6 @@
 
         var answer = confirm('신청서를 제출하겠습니까?');
         if(answer){
-
             // >>>>>>>>>>>>>>>>>>>관리자 승인 시, 스마트 컨트렉트 생성>>>>>>>>>>>>>>>>>>>
             // createContract(fileName, xmlString, function(result){
             //     console.log('createContract: ',xmlString);
@@ -121,18 +127,20 @@
             //     }
             // });>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-            //1. authXML엔진을 통해 xml파일생성
-            createXML(getFileName());
-
-            saveSysLog();
+            //1. authXML엔진을 통해 xml파일생성 및 IPFS 업로드
+            var filename = getFileName()
+            createXML(filename);
+            // alert(ipfs_hash);
+            // saveSysLog(ipfs_hash);
             location.href='/accounts/acceptList';
+
         }
     }
 
     //신청내역 저장
-    function saveSysLog(){
+    function saveSysLog(ipfs_hash){
         var url = new URL($(location).attr('href'));
-        var prams = 'form_type='+url.pathname+'&user_id='+$('#user_id').val()+'&name='+$('#name').val();
+        var prams = 'form_type='+url.pathname+'&ipfs_hash='+ipfs_hash;
         var client = new XMLHttpRequest();
         client.open("POST",'saveLog',true);
         client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -143,7 +151,8 @@
     function createContract(fileName, xmlString, callback){
 
         web3.eth.defaultAccount = web3.eth.accounts[0];
-        contract.issue(fileName, web3.sha3(xmlString), {from:web3.eth.accounts[0], gas: 500000});
+        accept_hash = contract.issue(fileName, web3.sha3(xmlString), {from:web3.eth.accounts[0], gas: 500000});
+        alert(accept_hash);
 
         callback('success');
     }
@@ -153,14 +162,14 @@
        
         alert("accept function!!!!!!!!!");
     
-                //admin 플래그 'N'->'Y' 업데이트
-                var prams1 = 'seq='+recodeSeq;
-                var client1 = new XMLHttpRequest();
-                client1.open("POST",'/admin/updateLog',true);
-                client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                client1.send(prams1);
-                alert('정상적으로 승인처리를 완료하셨습니다.');
-                location.href='/admin/products/productslist';
+        //admin 플래그 'N'->'Y' 업데이트
+        var prams1 = 'seq='+recodeSeq;
+        var client1 = new XMLHttpRequest();
+        client1.open("POST",'/admin/updateLog',true);
+        client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        client1.send(prams1);
+        alert('정상적으로 승인처리를 완료하셨습니다.');
+        location.href='/admin/products/productslist';
     }
 
 
@@ -173,32 +182,32 @@
                 alert('계정이 유효하지 않습니다. 관리자에게 문의하세요.');
             }else{
                 //2. 관리자 계정으로 수수료 송부
-                var t_hash = web3.eth.sendTransaction({
+                var fee_tx = web3.eth.sendTransaction({
                             from: blockchainid,         //로그인한 사용자 계정
                             to: web3.eth.accounts[0],   //관리자 계정
                             value: web3.toWei(0.1,'ether')
                             });
                 
-                if(t_hash !=''){
+                if(fee_tx !=''){
                     //3. 수수료납부여부 업데이트
-                    var prams1 = 'seq='+recodeSeq;
+                    var prams1 = 'seq='+recodeSeq+'&fee_tx='+fee_tx;
                     var client1 = new XMLHttpRequest();
                     client1.open("POST",'updateLog',true);
                     client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                     client1.send(prams1);
 
                     //4. 트랜젝션 내역 저장
-                    var cur_balance = web3.eth.getBalance(blockchainid);
-                    var prams2 = 't_hash='+t_hash+'&from='+blockchainid+'&to='+web3.eth.accounts[0]+'&cur_balance='+cur_balance+'&ether=0.1';
-                    var client2 = new XMLHttpRequest();
-                    client2.open("POST",'createTranLog',true);
-                    client2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    client2.send(prams2);
+                    // var cur_balance = web3.eth.getBalance(blockchainid);
+                    // var prams2 = 'fee_tx='+fee_tx+'&from='+blockchainid+'&to='+web3.eth.accounts[0]+'&cur_balance='+cur_balance+'&ether=0.1';
+                    // var client2 = new XMLHttpRequest();
+                    // client2.open("POST",'createTranLog',true);
+                    // client2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    // client2.send(prams2);
 
                     alert('정상적으로 수수료를 납부하였습니다.');
                     location.href='/accounts/acceptList';
                 }else{
-                    alert('수수료가 납부되지 않았습니다. 관리자에게 문의하세요.')
+                    alert('수수료가 납부되지 않았습니다. 관리자에게 문의하세요.');
                     location.href='/accounts/acceptList';
                 }
             }

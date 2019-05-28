@@ -66,11 +66,11 @@
                         <%}else{%>
                             <td style="vertical-align: middle; font-size: 0.7em;">신청완료</td>
                         <%}%>
-                        <% if (requestdetail.fee_yn=='N'){ %>
-                            <td style="vertical-align: middle; font-size: 0.7em;"><input type="button" value="보기"  onclick="sendFee(<%=requestdetail.seq%>)" />  </td>
-                        <%}else{%>
-                            <td style="vertical-align: middle; font-size: 0.7em;">신청완료</td>
-                        <%}%>
+                        <!-- <% if (requestdetail.fee_yn=='Y'){ %> -->
+                            <td style="vertical-align: middle; font-size: 0.7em;"><a href="http://220.76.95.91:8080/ipfs/<%=requestdetail.ipfs_hash%>">보기</a>  </td>
+                        <!-- <%}else{%> -->
+                            <!-- <td style="vertical-align: middle; font-size: 0.7em;"></td> -->
+                        <!-- <%}%> -->
                     </tr>
                     <% }); %>
                 </tbody>

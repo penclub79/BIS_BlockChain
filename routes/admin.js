@@ -220,8 +220,6 @@ router.post('/products/productsregist', loginRequired, upload.single('thumbnail'
     // });
 });
 
-
-
 // 제품 목록페이지
 router.get('/products/productslist', paginate.middleware(10, 50), async (req,res) => {
     const [ results, itemCount ] = await Promise.all([

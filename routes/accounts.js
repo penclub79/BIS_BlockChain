@@ -21,8 +21,9 @@ var paginate = require('express-paginate');
 //엔진 API호출 및 파일생성을 위한 모듈 호출
 var request = require('request');
 var fs = require('fs');
-// var ipfsClient = require('ipfs-http-client');
-var ipfs = require('IPFS');
+
+// var async = require('async');
+// const ipfsAPI = require('ipfs-api');
 
 // serialize, deserialize : 실질적으로 session은 done에 담긴다.
 // 시리얼, 디시리얼은 나누는 이유는 시리얼에서 아이디를 받아와서 디시리얼에서 분기정책을 정해준다.
@@ -340,11 +341,14 @@ router.post('/saveLog', function(req,res){
         form_name = '졸업증명서 신청';
     }
 
+    // console.log(req.body.ipfs_hash);
+
     var RequestDetail = new RequestDetailModel({
-        user_id : req.body.user_id,
-        name : req.body.name,
+        user_id : req.user.user_id,
+        name : req.user.name,
         form_type : req.body.form_type,
-        form_name : form_name
+        form_name : form_name,
+        ifps_hash : req.body.ifps_hash
     });
     RequestDetail.save(function(err){
         
@@ -391,17 +395,15 @@ router.get('/transactionList', paginate.middleware(10, 50), async (req,res) => {
 
 // 수수료 납부 시, 플래그 업데이트
 router.post('/updateLog', function(req, res){
-    // 수정 된 내 정보 데이터 받기
-    var seq = req.body.seq;
-    
         // 업데이트 처리 
     RequestDetailModel.update(
         {
-            seq : seq
+            seq : req.body.seq
         },
         {   // seq를 키로 fee_yn을 업데이트 한다.
             $set : {
-                fee_yn : 'Y'
+                fee_yn : 'Y',
+                fee_tx : req.body.fee_tx
             }
         }, function(err){
             // 에러가 발생하면 Error
@@ -416,14 +418,14 @@ router.post('/updateLog', function(req, res){
     
 });
 
-//트랜젝션 내역 저장
 router.post('/callAPI', function(req,res){
     
     var s_inXML = req.body.s_inXML;
     var s_calXML = req.body.s_calXML;
     var file_name = req.body.file_name;
-
-
+    var IPFS = require('IPFS');
+    var node = new IPFS({start:false});
+    console.log('0');
     request({
         uri: "http://xmlapi.datafarm.co.kr/soaxmlEngineApi.jsp?apiKey=5acda40a5de6a72c70b12679",
         method: "POST",
@@ -434,38 +436,54 @@ router.post('/callAPI', function(req,res){
     }, function(error, response, xmlString){
             fs.exists(file_name, function(exists){
                 if(!exists){
-                        fs.writeFile('./xmldata/'+file_name, xmlString.trim(), 'utf8', function(error){
-                            if (error) {throw error};
+                    fs.writeFile('./xmldata/'+file_name, xmlString.trim(), 'utf8', function(error){
+                        if (error) {throw error};
+                    });
+
+                    // var ipfs = ipfsClient({
+                    //             host: '220:76.95.91',
+                    //             port: 8080,
+                    //             protocol: 'http',
+                    //             // headers: {
+                    //             //   authorization: 'Bearer ' + TOKEN
+                    //             // }
+                    //         });
+                    // ipfs.add('./ipfsfile/'+file_name, xmlString, function(err, res){
+                    //     console.log(res);
+                    // });
+                    console.log('0.1111');
+                    node.on('ready', async () => {
+                        // try{
+                            await node.start();
+                            console.log('1');
+                            const filesAdded = await node.add({
+                                path: './xmldata/'+file_name,
+                                content: Buffer.from(xmlString.trim())
+                            });
+                            console.log('Added file:', filesAdded[0].path, filesAdded[0].hash);
+                            console.log('2');
+                            await node.stop();
+                            console.log('3');
+
+                            const fileBuffer = await node.cat(filesAdded[0].hash)
+                            console.log('Added file contents:', fileBuffer.toString())
+
+                        // }catch(err){
+                        //     console.error('Node failed to start!', err);
+                        // }
+                        
+                        var RequestDetail = new RequestDetailModel({
+                            user_id : req.user.user_id,
+                            name : req.user.name,
+                            form_type : req.body.form_type,
+                            form_name : '졸업증명서',
+                            ipfs_hash : filesAdded[0].hash
+                        });
+                        await RequestDetail.save(function(err){
+                            
                         });
 
-                        var node = new ipfs();
-
-                        // var ipfs = ipfsClient({
-                        //             host: '220:76.95.91',
-                        //             port: 8080,
-                        //             protocol: 'http',
-                        //             // headers: {
-                        //             //   authorization: 'Bearer ' + TOKEN
-                        //             // }
-                        //         });
-                        // ipfs.add('./ipfsfile/'+file_name, xmlString, function(err, res){
-                        //     console.log(res);
-                        // });
-
-
-                        node.on('ready', async () => {
-                            // const version = await node.version()
-                          
-                            // console.log('Version:', version.version)
-                          
-                            const filesAdded = await node.add({
-                              path: './xmldata/'+file_name,
-                              content: Buffer.from(xmlString.trim())
-                            })
-                          
-                            console.log('Added file:', filesAdded[0].path, filesAdded[0].hash)
-                          })
-                        
+                    });
                         
                 }else{
                     console.log('동일한 파일명이 있습니다.');

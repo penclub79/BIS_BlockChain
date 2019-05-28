@@ -20,7 +20,13 @@ var RequestSchema = new Schema({
         type: String,
         default: 'N'
     },
-    ipfs_hash:String
+    ipfs_hash:String,
+    fee_tx:String,
+    accept_tx:String,
+    accept_at:{
+        type : Date,
+        default : Date.now()
+    }
 });
 
 // 회원정보 id 자동증가
