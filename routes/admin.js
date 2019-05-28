@@ -516,7 +516,7 @@ router.post('/products/edit/:id', loginRequired, upload.single('thumbnail'), csr
 });
 
 // 학생 삭제 처리
-router.get('/adminstudentslist/delete/:id', function(req, res){
+router.get('/adminstudentlist/delete/:id', function(req, res){
     // 모델객체에서 데이터 삭제
     UserModel.remove(
         {   // 페이지에서 제품 아이디값 전달받는다
@@ -524,7 +524,7 @@ router.get('/adminstudentslist/delete/:id', function(req, res){
         }, function(err){
             // 삭제 후 제품목록으로 이동
             // res.redirect('/admin/products');
-            res.redirect('/admin/adminstudentslist');
+            res.redirect('/admin/adminstudentlist');
         }
     );
 });
