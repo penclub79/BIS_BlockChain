@@ -1,17 +1,5 @@
 <script src="http://220.76.95.91:3000/EAO/web3.js"></script>
 
-<!-- <script type="text/javascript">
-    // var url = "http://220.76.95.91:8546"; // 서버 URL
-    var url = "http://220.76.95.91:8545"; // 서버 URL
-    var web3 = new Web3();
-    // console.log(web3);
-    var provider = new web3.providers.HttpProvider(url); // 블록체인 노드접속
-    // console.log(provider);
-    web3.setProvider(provider);
-    var blockchainid = $("#blockchainid").val();
-    var blockchainpwd = $("#blockchainpwd").val();
-</script> -->
-
 <script type="text/javascript">
 
     //세션정보
@@ -22,16 +10,7 @@
     // const provider = 'http://220.76.95.91:8546';
     const provider = 'http://220.76.95.91:8545';
     var Web3 = require('web3');
-    //private abi
-    // var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
-    //testnet abi
-    var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}]
-    //private addr
-    // var addr = '0xd0146B2cBBc5e7F1d2b7247787c9Cd4ee8d40972';
-    //testnet addr
-    var addr = '0x84f3f07bf259288bb253f0218e8118d32d88b581';
     var web3 = new Web3(new Web3.providers.HttpProvider(provider));
-    var contract = web3.eth.contract(abi).at(addr);
     
 
     // 이더리움 계정 언락
@@ -66,8 +45,8 @@
     //              - 결과값으로 파일생성
     //              - 해당 파일을 IPFS에 업로드
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-   function createXML(file_name){
-
+    function createXML(file_name){
+       
         bxfXmlSaveCspPrepare();
         bxfSearchTextPrepare();
 
@@ -76,21 +55,6 @@
         var params = 's_inXML='+inXML+'&s_calXML='+calXML+'&file_name='+file_name;
         var client = new XMLHttpRequest();
 
-        // >>>>>>>>>>>>>서버사이드에서 엔진 API 호출할 수 있도록 임시 주석처리>>>>>>>>>>>>>>
-        // var apiKey= '5acda40a5de6a72c70b12679';
-        // var prams = 'apiKey='+apiKey+'&s_inXML='+inXML+'&s_calXML='+calXML;
-        // var url = 'http://xmlapi.datafarm.co.kr/soaxmlEngineApi.jsp';
-        // client.onreadystatechange = function(){
-        //     if(client.readyState == 4 && client.status == 200) {
-        //         var result = client.responseText.trim();
-        //         callback(result);
-        //     }
-        // }
-        // client.open("POST",url,true) ;
-        // client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        // client.send(prams);
-        // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        
         //API 호출!
         client.open('POST','callAPI', true);
         client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -100,40 +64,21 @@
             if(client.readyState == 4 && client.status == 200){
                 var result = client.responseText;
                 alert(result);
-
                 // callback(result);
             }
         };
     }
 
-    // 승인버튼을 누를 때마다, 아래의 업무가 있다.
-        // 1. 생성된 xml을 파일로 저장
-        // 2. 
-        // 3. 트랜젝션 로그 기록
     function ontx(){
 
         var answer = confirm('신청서를 제출하겠습니까?');
         if(answer){
-            // >>>>>>>>>>>>>>>>>>>관리자 승인 시, 스마트 컨트렉트 생성>>>>>>>>>>>>>>>>>>>
-            // createContract(fileName, xmlString, function(result){
-            //     console.log('createContract: ',xmlString);
-            //     if(result =='success'){
-            //         //수수료 송금
-            //         // sendFee();
-            //         saveLog();
-            //         alert('신청서를 성공적으로 제출하였습니다.');
-            //     }else{
-            //         alert('신청서 제출 실패!');
-            //     }
-            // });>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
             //1. authXML엔진을 통해 xml파일생성 및 IPFS 업로드
             var filename = getFileName()
             createXML(filename);
             // alert(ipfs_hash);
             // saveSysLog(ipfs_hash);
             location.href='/accounts/acceptList';
-
         }
     }
 
@@ -145,16 +90,6 @@
         client.open("POST",'saveLog',true);
         client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         client.send(prams);
-    }
-
-    // 컨트렉트 생성
-    function createContract(fileName, xmlString, callback){
-
-        web3.eth.defaultAccount = web3.eth.accounts[0];
-        accept_hash = contract.issue(fileName, web3.sha3(xmlString), {from:web3.eth.accounts[0], gas: 500000});
-        alert(accept_hash);
-
-        callback(accept_hash);
     }
 
     // 관리자 승인 메서드
@@ -188,34 +123,32 @@
             if(result=='fail auth'){
                 alert('계정이 유효하지 않습니다. 관리자에게 문의하세요.');
             }else{
-                //2. 관리자 계정으로 수수료 송부
-                var fee_tx = web3.eth.sendTransaction({
-                            from: blockchainid,         //로그인한 사용자 계정
-                            to: web3.eth.accounts[0],   //관리자 계정
-                            value: web3.toWei(0.1,'ether')
-                            });
-                
-                if(fee_tx !=''){
-                    //3. 수수료납부여부 업데이트
-                    var prams1 = 'seq='+recodeSeq+'&fee_tx='+fee_tx;
-                    var client1 = new XMLHttpRequest();
-                    client1.open("POST",'updateLog',true);
-                    client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    client1.send(prams1);
+                var answer = confirm('수수료는 0.1eth 입니다. 진행하겠습니까?');
+                if(answer){
+                    //2. 관리자 계정으로 수수료 송부
+                    var fee_tx = web3.eth.sendTransaction({
+                                from: blockchainid,         //로그인한 사용자 계정
+                                to: web3.eth.accounts[0],   //관리자 계정
+                                value: web3.toWei(0.1,'ether')
+                                });
+                    
+                    if(fee_tx !=''){
 
-                    //4. 트랜젝션 내역 저장
-                    // var cur_balance = web3.eth.getBalance(blockchainid);
-                    // var prams2 = 'fee_tx='+fee_tx+'&from='+blockchainid+'&to='+web3.eth.accounts[0]+'&cur_balance='+cur_balance+'&ether=0.1';
-                    // var client2 = new XMLHttpRequest();
-                    // client2.open("POST",'createTranLog',true);
-                    // client2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    // client2.send(prams2);
+                        //3. 수수료납부여부 업데이트
+                        var prams1 = 'seq='+recodeSeq+'&fee_tx='+fee_tx;
+                        var client1 = new XMLHttpRequest();
+                        client1.open("POST",'updateLog',true);
+                        client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                        client1.send(prams1);
 
-                    alert('정상적으로 수수료를 납부하였습니다.');
-                    location.href='/accounts/acceptList';
+                        alert('정상적으로 수수료를 납부하였습니다.');
+                        location.href='/accounts/acceptList';
+                    }else{
+                        alert('수수료가 납부되지 않았습니다. 관리자에게 문의하세요.');
+                        location.href='/accounts/acceptList';
+                    }
                 }else{
-                    alert('수수료가 납부되지 않았습니다. 관리자에게 문의하세요.');
-                    location.href='/accounts/acceptList';
+                    alert('취소했습니다.');
                 }
             }
         });
@@ -229,32 +162,16 @@
         return file_name;
     }
 
-    function getTransacionss(transactionHash){
-        alert(transactionHash);
-        var result = web3.eth.getTransaction(transactionHash);
-        // alert(web3.eth.accounts[0]);
-        alert(result);
+    // function getTransacionss(transactionHash){
+    //     alert(transactionHash);
+    //     var result = web3.eth.getTransaction(transactionHash);
+    //     // alert(web3.eth.accounts[0]);
+    //     alert(result);
 
-    }
-
-
+    // }
     function pad(n, width) {
         n = n + '';//string 변환
         return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
     }   
-
-    function saveSoaxml(){
-
-        unlockAccount(function(error){
-            if(error == 'fail auth') {
-                alert('인증정보가 올바르지 않습니다.');
-            } else if(error) {
-                throw error;
-            } else {
-                // createXML();
-                requestSave();
-            }
-        });
-    }
 
 </script>

@@ -240,7 +240,7 @@ router.get('/products/productslist', paginate.middleware(10, 50), async (req,res
         });
 });
 
-// 수수료 납부 시, 플래그 업데이트
+// 관라자 승인 시, accept_yn, accept_tx 업데이트
 router.post('/acceptContract', async (req,res) =>{
     var Web3 = require('web3');
     var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
@@ -248,26 +248,39 @@ router.post('/acceptContract', async (req,res) =>{
     var provider = 'http://220.76.95.91:8545';
     var web3 = new Web3(new Web3.providers.HttpProvider(provider));
     var contract = new web3.eth.Contract(abi,addr);
-
+    web3.eth.defaultAccount = '0xf963d99d7635c604b132dc495476d931ac642ed1'; //Fixed 관리자 계정 
+    //request prams
     var seq = req.body.seq;
     var file_name = req.body.file_name;
-    // console.log(req.body.blockchainid);
-    web3.eth.defaultAccount = '0xf963d99d7635c604b132dc495476d931ac642ed1';
-    console.log('web3.eth.defaultAccount: '+web3.eth.defaultAccount);
 
-    //데이터 가져오기
+    //1.xmlString 가져오기
     const results = await Promise.all(
         // sort : minus 하면 내림차순(날짜명)이다.
         [RequestDetailModel.findOne({"seq" : seq}).limit(req.query.limit).skip(req.skip).exec()]
     );
-    var unlocked = web3.eth.personal.unlockAccount('0xf963d99d7635c604b132dc495476d931ac642ed1','moonki',600).then(console.log('Account unlocked!'));
+    
+    //2.이더리움 계정 unlock
+    var unlocked = await web3.eth.personal.unlockAccount('0xf963d99d7635c604b132dc495476d931ac642ed1','moonki',600).then(console.log('Account unlocked!'));
+
+    //3.블록체인 write
     if(unlocked){
-        console.log('qqqqqqqqqqqqqqqqq');
-        var accept_hash = contract.methods.issue(file_name, web3.utils.sha3(results[0].xml_string)).send({from:web3.eth.defaultAccount, gas: 500000});
-        console.log(accept_hash);
+        await contract.methods.issue(file_name, web3.utils.sha3(results[0].xml_string)).send({from:web3.eth.defaultAccount, gas: 500000}, function(err, hash){
+            console.log(hash);
+
+            // 4.hash값 update!
+            RequestDetailModel.update(
+            {seq : seq},
+            {   // seq를 키로 fee_yn을 업데이트 한다.
+                $set : {
+                    accept_yn : 'Y',
+                    accept_tx: hash
+                }
+            }, function(err){
+                if(err){ throw err;}
+            });
+        });
     }
     
-
 
     // web3.eth.defaultAccount
 

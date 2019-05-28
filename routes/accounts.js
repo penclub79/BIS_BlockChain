@@ -418,14 +418,14 @@ router.post('/updateLog', function(req, res){
     
 });
 
-router.post('/callAPI', function(req,res){
+router.post('/callAPI',  function (req,res) {
     
     var s_inXML = req.body.s_inXML;
     var s_calXML = req.body.s_calXML;
     var file_name = req.body.file_name;
-    var IPFS = require('IPFS');
-    var node = new IPFS({start:false});
-    console.log('0');
+    var ipfsClient = require('ipfs-http-client');
+    var ipfs = ipfsClient('220.76.95.91', '5001', {protocol:'http'});
+    
     request({
         uri: "http://xmlapi.datafarm.co.kr/soaxmlEngineApi.jsp?apiKey=5acda40a5de6a72c70b12679",
         method: "POST",
@@ -434,64 +434,36 @@ router.post('/callAPI', function(req,res){
             s_calXML: s_calXML
         }
     }, function(error, response, xmlString){
-            fs.exists(file_name, function(exists){
-                if(!exists){
-                    fs.writeFile('./xmldata/'+file_name, xmlString.trim(), 'utf8', function(error){
-                        if (error) {throw error};
-                    });
-
-                    // var ipfs = ipfsClient({
-                    //             host: '220:76.95.91',
-                    //             port: 5001,
-                    //             protocol: 'http',
-                    //             // headers: {
-                    //             //   authorization: 'Bearer ' + TOKEN
-                    //             // }
-                    //         });
-                    // ipfs.add('./ipfsfile/'+file_name, xmlString, function(err, res){
-                    //     console.log(res);
+            // fs.exists(file_name, async(exists)=>{
+                // if(!exists){
+                    // await fs.writeFile('./xmldata/'+file_name, xmlString.trim(), 'utf8', function(error){
+                    //     if (error) {throw error};
+                    //     console.log('1111111111');
                     // });
-                    // console.log('0.1111');
-                    node.on('ready', async () => {
-                        // try{
-                            await node.start();
-                            console.log('1');
-                            const filesAdded = await node.add({
-                                path: './xmldata/'+file_name,
-                                content: Buffer.from(xmlString.trim())
+
+                    ipfs.add({
+                        // path: './xmldata/'+file_name,
+                        content: Buffer.from(xmlString.trim())
+                    },async (err,res)=>{
+                        await console.log(res[0].hash);
+                        if(err==null){ 
+                            var RequestDetail = new RequestDetailModel({
+                                user_id : req.user.user_id,
+                                name : req.user.user_name,
+                                // form_type : req.body.form_type,
+                                form_name : '졸업증명서',
+                                ipfs_hash : res[0].hash,
+                                file_name : file_name,
+                                xml_string: xmlString.trim()
                             });
-                            console.log('Added file:', filesAdded[0].path, filesAdded[0].hash);
-                            console.log('2');
-                            await node.stop();
-                            console.log('3');
-
-                            // const fileBuffer = await node.cat(filesAdded[0].hash)
-                            // console.log('Added file contents:', fileBuffer.toString())
-
-                        // }catch(err){
-                        //     console.error('Node failed to start!', err);
-                        // }
-                        console.log(req.user);
-                        var RequestDetail = new RequestDetailModel({
-                            user_id : req.user.user_id,
-                            name : req.user.user_name,
-                            form_type : req.body.form_type,
-                            form_name : '졸업증명서',
-                            ipfs_hash : filesAdded[0].hash,
-                            file_name : file_name,
-                            xml_string: xmlString.trim()
+                            await RequestDetail.save(function(err){
                         });
-                        await RequestDetail.save(function(err){
-                            
-                        });
-
+                        }
                     });
-                        
-                }else{
-                    console.log('동일한 파일명이 있습니다.');
-                }
-        });
-        // console.log(body);
+                // }else{
+                //     console.error('동일한 파일명이 있습니다.');
+                // }
+        // });
     }); 
 
 });
