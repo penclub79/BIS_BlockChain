@@ -442,7 +442,7 @@ router.post('/callAPI', function(req,res){
 
                     // var ipfs = ipfsClient({
                     //             host: '220:76.95.91',
-                    //             port: 8080,
+                    //             port: 5001,
                     //             protocol: 'http',
                     //             // headers: {
                     //             //   authorization: 'Bearer ' + TOKEN
@@ -451,7 +451,7 @@ router.post('/callAPI', function(req,res){
                     // ipfs.add('./ipfsfile/'+file_name, xmlString, function(err, res){
                     //     console.log(res);
                     // });
-                    console.log('0.1111');
+                    // console.log('0.1111');
                     node.on('ready', async () => {
                         // try{
                             await node.start();
@@ -465,8 +465,8 @@ router.post('/callAPI', function(req,res){
                             await node.stop();
                             console.log('3');
 
-                            const fileBuffer = await node.cat(filesAdded[0].hash)
-                            console.log('Added file contents:', fileBuffer.toString())
+                            // const fileBuffer = await node.cat(filesAdded[0].hash)
+                            // console.log('Added file contents:', fileBuffer.toString())
 
                         // }catch(err){
                         //     console.error('Node failed to start!', err);

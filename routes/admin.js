@@ -241,30 +241,58 @@ router.get('/products/productslist', paginate.middleware(10, 50), async (req,res
 });
 
 // 수수료 납부 시, 플래그 업데이트
-router.post('/acceptContract', function(req, res){
-    // 수정 된 내 정보 데이터 받기
-    var seq = req.body.seq;
-    var file_naem = req.body.file_name;
+router.post('/acceptContract', async (req,res) =>{
+    var Web3 = require('web3');
+    var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
+    var addr = '0xEF61b96F9dE577af72fD4FfcA1dB999B3E2Eb521';
+    var provider = 'http://220.76.95.91:8545';
+    var web3 = new Web3(new Web3.providers.HttpProvider(provider));
+    var contract = new web3.eth.Contract(abi,addr);
 
+    var seq = req.body.seq;
+    var file_name = req.body.file_name;
+    // console.log(req.body.blockchainid);
+    web3.eth.defaultAccount = '0xf963d99d7635c604b132dc495476d931ac642ed1';
+    console.log('web3.eth.defaultAccount: '+web3.eth.defaultAccount);
+
+    //데이터 가져오기
+    const results = await Promise.all(
+        // sort : minus 하면 내림차순(날짜명)이다.
+        [RequestDetailModel.findOne({"seq" : seq}).limit(req.query.limit).skip(req.skip).exec()]
+    );
+    var unlocked = web3.eth.personal.unlockAccount('0xf963d99d7635c604b132dc495476d931ac642ed1','moonki',600).then(console.log('Account unlocked!'));
+    if(unlocked){
+        console.log('qqqqqqqqqqqqqqqqq');
+        var accept_hash = contract.methods.issue(file_name, web3.utils.sha3(results[0].xml_string)).send({from:web3.eth.defaultAccount, gas: 500000});
+        console.log(accept_hash);
+    }
     
 
-        // 업데이트 처리 
-    RequestDetailModel.update(
-        {
-            seq : seq
-        },
-        {   // seq를 키로 fee_yn을 업데이트 한다.
-            $set : {
-                accept_yn : 'Y',
-                accept_hash: req.body.accept_hash
-            }
-        }, function(err){
-            // 에러가 발생하면 Error
-            if(err){
-                throw err;
-            }
-        }
-    );
+
+    // web3.eth.defaultAccount
+
+    // console.log(results[0].xml_string);
+    // console.log(contract.issue(file_name, web3.sha3(results[0].xml_string)), {from:req.body.blockchainid, gas: 500000});
+    // web3.eth.defaultAccount = web3.eth.accounts[0];
+    // var accept_hash = contract.issue(file_name, web3.sha3(xml_string), {from:web3.eth.accounts[0], gas: 500000});
+    // console.log(accept_hash);
+    //     // 업데이트 처리 
+    // RequestDetailModel.update(
+    //     {
+    //         seq : seq
+    //     },
+    //     {   // seq를 키로 fee_yn을 업데이트 한다.
+    //         $set : {
+    //             accept_yn : 'Y',
+    //             accept_hash: req.body.accept_hash
+    //         }
+    //     }, function(err){
+    //         // 에러가 발생하면 Error
+    //         if(err){
+    //             throw err;
+    //         }
+    //     }
+    // );
 
 });
 

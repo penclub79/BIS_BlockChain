@@ -296,7 +296,7 @@
                       <%=requestdetail.getDate.second%></td>
                       
                     <% if (requestdetail.accept_yn=='N'){ %>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><input type="button" value="승인"  onclick="accept_(<%=requestdetail.seq%>, <%=requestdetail.file_name%>)" />  </td>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><input type="button" value="승인"  onclick="accept_(<%=requestdetail.seq%>, '<%=requestdetail.file_name%>')" />  </td>
                     <%}else{%>
                         <td style="vertical-align: middle; font-size: 0.7em;"></td>
                     <%}%>
