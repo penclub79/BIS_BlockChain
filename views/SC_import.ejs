@@ -116,6 +116,7 @@
                 alert('계정이 유효하지 않습니다. 관리자에게 문의하세요.');
             }else{
                 var answer = confirm('수수료는 0.1eth 입니다. 진행하겠습니까?');
+                // alert('blockchainid: '+blockchainid);
                 if(answer){
                     //2. 관리자 계정으로 수수료 송부
                     web3.eth.sendTransaction({
@@ -124,7 +125,9 @@
                         value: web3.toWei(0.1,'ether')
                         }, 
                         function(err, res){
-                            if(res != undefined && res!=null){
+                            // alert(err);
+                            // alert(res);
+                            if(err == null){
                                 //3. 수수료납부여부 업데이트
                                 var prams1 = 'seq='+recodeSeq+'&fee_tx='+res;
                                 var client1 = new XMLHttpRequest();
