@@ -28,7 +28,11 @@ var UserSchema = new Schema({
     user_addr : String,
     user_addr2 : String,
     user_post : String,
-    cart: Array
+    cur_balance:{
+        type: Number,
+        default:0
+    }
+    // cart: Array
 });
 
 // 회원정보 id 자동증가

@@ -182,6 +182,7 @@ router.post('/myinfo', loginRequired, function(req, res){
         var user_addr = req.body.user_addr;
         var user_addr2 = req.body.user_addr2;
         var user_post = req.body.user_post;
+        // var cur_balance = req.body.cur_balance;
     
         // 업데이트 처리 
     UserModel.update(
@@ -303,7 +304,7 @@ router.get('/studentlist', loginRequired, function(req, res){
         }else{
             res.render('accounts/studentlist.ejs', { user : req.user });
         }
-    }   
+    }
 });
 
 
@@ -404,6 +405,26 @@ router.post('/updateLog', function(req, res){
             $set : {
                 fee_yn : 'Y',
                 fee_tx : req.body.fee_tx
+                // cur_balance: req.body.cur_balance
+            }
+        }, function(err){
+            // 에러가 발생하면 Error
+            if(err){
+                throw err;
+            }
+            // else{  
+                // res.redirect('/accounts/acceptList');
+            // }
+        }
+    );
+
+    UserModel.update(
+        {
+            user_id : req.user.user_id
+        },
+        {
+            $set : {
+                cur_balance: (req.body.cur_balance)/1000000000000000000 //wei->Ether로 환산
             }
         }, function(err){
             // 에러가 발생하면 Error
@@ -445,8 +466,8 @@ router.post('/callAPI',  function (req,res) {
                         // path: './xmldata/'+file_name,
                         content: Buffer.from(xmlString.trim())
                     },function (err,res){
-                        console.log(res[0].hash);
-                        if(err==null){ 
+                        // console.log(res[0].hash);
+                        if(err==null){
                             var RequestDetail = new RequestDetailModel({
                                 user_id : req.user.user_id,
                                 name : req.user.user_name,
@@ -457,7 +478,7 @@ router.post('/callAPI',  function (req,res) {
                                 xml_string: xmlString.trim()
                             });
                             RequestDetail.save(function(err){
-                        });
+                            });
                         }
                     });
                 // }else{

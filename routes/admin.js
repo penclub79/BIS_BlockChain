@@ -240,7 +240,7 @@ router.get('/products/productslist', paginate.middleware(10, 50), async (req,res
         });
 });
 
-// 관라자 승인 시, accept_yn, accept_tx 업데이트
+// 관라자 승인 시, 스마트 컨트랙트 생성 및 accept_yn, accept_tx 업데이트
 router.post('/acceptContract', async (req,res) =>{
 
     var Web3 = require('web3');
@@ -706,7 +706,8 @@ router.get('/adminhome', adminRequired, function(req, res) {
             return {
                 
                 requestdetails : await RequestDetailModel.find( { "fee_yn" : 'Y' }).exec(),
-                stulist : await UserModel.find( { 'user_name' :  req.user.user_name }).exec(),
+                // stulist : await UserModel.find( { 'user_name' :  req.user.user_name }).exec(),
+                stulist : await UserModel.find().exec(),
             };
         };
         getData().then( function(result){
@@ -755,14 +756,6 @@ router.post('/studentregedit', function(req, res){
         location.href="/admin/adminstudentslist";</script>');
     });
 });
-
-
-
-
-
-
-
-
 
 module.exports = router;
 
