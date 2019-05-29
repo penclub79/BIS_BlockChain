@@ -270,6 +270,7 @@
                     <th width="15%" style="vertical-align: middle;">승인여부</th>
                     <th width="15%" style="vertical-align: middle;">신청시간</th>
                     <th width="10%" style="vertical-align: middle;">승인</th>
+                    <th width="10%" style="vertical-align: middle;">view</th>
                     <!-- <th width="7%" style="vertical-align: middle;">삭제</th> -->
                 </tr>
             </thead>
@@ -296,10 +297,11 @@
                       <%=requestdetail.getDate.second%></td>
                       
                     <% if (requestdetail.accept_yn=='N'){ %>
-                        <td style="vertical-align: middle; font-size: 0.7em;"><input type="button" value="승인"  onclick="accept_(<%=requestdetail.seq%>, '<%=requestdetail.file_name%>')" />  </td>
+                        <td style="vertical-align: middle; font-size: 0.7em;"><input type="button" value="승인"  onclick="adminAccept(<%=requestdetail.seq%>, '<%=requestdetail.file_name%>')" />  </td>
                     <%}else{%>
                         <td style="vertical-align: middle; font-size: 0.7em;"></td>
                     <%}%>
+                    <td style="vertical-align: middle; font-size: 0.7em;"><a href="http://220.76.95.91:8080/ipfs/<%=requestdetail.ipfs_hash%>">보기</a>  </td>
                 </tr> 
                 <% }); %>
               </tbody>

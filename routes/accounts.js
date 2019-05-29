@@ -433,7 +433,7 @@ router.post('/callAPI',  function (req,res) {
             s_inXML: s_inXML,
             s_calXML: s_calXML
         }
-    }, function(error, response, xmlString){
+    }, function (error, response, xmlString){
             // fs.exists(file_name, async(exists)=>{
                 // if(!exists){
                     // await fs.writeFile('./xmldata/'+file_name, xmlString.trim(), 'utf8', function(error){
@@ -444,8 +444,8 @@ router.post('/callAPI',  function (req,res) {
                     ipfs.add({
                         // path: './xmldata/'+file_name,
                         content: Buffer.from(xmlString.trim())
-                    },async (err,res)=>{
-                        await console.log(res[0].hash);
+                    },function (err,res){
+                        console.log(res[0].hash);
                         if(err==null){ 
                             var RequestDetail = new RequestDetailModel({
                                 user_id : req.user.user_id,
@@ -456,7 +456,7 @@ router.post('/callAPI',  function (req,res) {
                                 file_name : file_name,
                                 xml_string: xmlString.trim()
                             });
-                            await RequestDetail.save(function(err){
+                            RequestDetail.save(function(err){
                         });
                         }
                     });
