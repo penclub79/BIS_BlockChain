@@ -41,14 +41,6 @@
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.ether %></td>
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.cur_balance %></td>
                         <td style="vertical-align: middle; font-size: 0.7em;"><%=transactionList.getDate.year%>.<%=transactionList.getDate.month%>.<%=transactionList.getDate.day %>. <%=transactionList.getDate.hour%>:<%=transactionList.getDate.minute%>:<%=transactionList.getDate.second%></td>
-                        <!-- <td style="vertical-align: middle; font-size: 0.7em;">
-                            <a href="/accounts/history/<%= transactionList.id %>">
-                            <%= transactionList.t_hash.replace(/\"/gi, ""); %>
-                            </a>
-                        </td> -->
-                        <!-- <td style="vertical-align: middle; font-size: 0.7em;">
-                            </a><%= transactionList.from %></a>
-                        </td> -->
                     </tr>
                     <% }); %>
                 </tbody>
@@ -56,9 +48,6 @@
           </div>
         </div>
       </div>
-
-      
-
 
     <div class="container">
         <div class="row">
