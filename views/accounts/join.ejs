@@ -86,15 +86,12 @@ function etherjoin(){
         }
     // const urdl = "http://220.76.95.91:8546"; //외부 포트220.76.95.91 내부 192.168.0.159
     const urdl = "http://220.76.95.91:8545"; //외부 포트220.76.95.91 내부 192.168.0.159
-    // var user_name = '0x64fdfe191cf09f9bda88745e137e2ea06ceee370';
     var Web3 = require("web3");
     var web3 = new Web3();  // web3 모듈
     var provider = new web3.providers.HttpProvider(urdl); // 블록체인 노드접속
     web3.setProvider(provider);
     //계정 newaccount 코드
     
-    
-
     $.ajax({
         url: urdl,
         type: 'post',
@@ -116,7 +113,6 @@ function etherjoin(){
 
         error: function(error) {
             callback(error);
-            // alert('fail!!!!!!');
         }
     });
 
@@ -143,11 +139,7 @@ function etherjoin(){
             contentType : 'application/JSON',
             dataType : 'JSON',
             scriptCharset : 'utf-8',
-            //scriptCharset : 'euc-kr',
             success : function(data) {
-                //alert(data);
-                //alert(data.code);
-                //alert(data.result);
                 success(data);
             },
             error : function(data) {
@@ -160,14 +152,9 @@ function etherjoin(){
         //var JSONdata = createJSONdata("eth_getTransactionByHash", ["0x9faa7817dd5e926a5fec6adecc3d73d4dc1f3d97d7b8278786aa794646d8c974"]);
         var JSONdata = createJSONdata("eth_getTransactionByHash", [hashVal]);
         executeJsonRpc(url, JSONdata, function success(data) {
-            //alert(data.error);
             // 로그인 성공
             if (data.error == null) {
-                //alert(data);
-                //alert(data.result.blockNumber);ccc
                 var rst = parseInt(data.result.blockNumber, 16);
-                //alert(rst);
-                ///return rst;
                 console.log("Result Check success!");
             } else {
                 // 로그인 실패
@@ -223,40 +210,40 @@ function etherjoin(){
                 // var $user_addr = $('#join_form input[name=user_addr]');
                 // var $user_addr2 = $('#join_form input[name=user_addr2]');
                 // var $user_post = $('#join_form input[name=user_post]');
-                // if(!$useridInput.val()){
-                //     alert("아이디를 입력해주세요.");
-                //     $useridInput.focus();
-                //     return false;
-                // }
-                // if(!$passwordInput.val()){
-                //     alert("확인 패스워드를 입력해주세요.");
-                //     $passwordInput2.focus();
-                //     return false;
-                // }
-                // if(!$passwordInput2.val()){
-                //     alert("확인 패스워드를 입력해주세요.");
-                //     $passwordInput2.focus();
-                //     return false;
-                // }
-                // if(!$major.val()){
-                //     alert("전공을 입력해주세요.");
-                //     $major.focus();
-                //     return false;
-                // }
-                // if($passwordInput.val() !== $passwordInput2.val()){
-                //     alert("패스워드와 확인용패스워드를 똑같이 입력해주세요.");
-                //     return false;
-                // }
+                if(!$useridInput.val()){
+                    alert("아이디를 입력해주세요.");
+                    $useridInput.focus();
+                    return false;
+                }
+                if(!$passwordInput.val()){
+                    alert("확인 패스워드를 입력해주세요.");
+                    $passwordInput2.focus();
+                    return false;
+                }
+                if(!$passwordInput2.val()){
+                    alert("확인 패스워드를 입력해주세요.");
+                    $passwordInput2.focus();
+                    return false;
+                }
+                if(!$major.val()){
+                    alert("전공을 입력해주세요.");
+                    $major.focus();
+                    return false;
+                }
+                if($passwordInput.val() !== $passwordInput2.val()){
+                    alert("패스워드와 확인용패스워드를 똑같이 입력해주세요.");
+                    return false;
+                }
                 if(!$blockchainid.val()){
                     alert("블록체인계정 생성을 먼저해주세요.");
                     $blockchainid.focus();
                     return false;
                 }
-                // if(!$blockchainpwd.val()){
-                //     alert("블록체인 비밀번호를 입력해주세요.");
-                //     $blockchainpwd.focus();
-                //     return false;
-                // }
+                if(!$blockchainpwd.val()){
+                    alert("블록체인 비밀번호를 입력해주세요.");
+                    $blockchainpwd.focus();
+                    return false;
+                }
                 // if(!$user_name.val()){
                 //     alert("이름을 입력해주세요.");
                 //     $$user_name.focus();
