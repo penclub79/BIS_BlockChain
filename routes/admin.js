@@ -282,77 +282,8 @@ router.post('/acceptContract', async (req,res) =>{
     }
     
 
-    // web3.eth.defaultAccount
-
-    // console.log(results[0].xml_string);
-    // console.log(contract.issue(file_name, web3.sha3(results[0].xml_string)), {from:req.body.blockchainid, gas: 500000});
-    // web3.eth.defaultAccount = web3.eth.accounts[0];
-    // var accept_hash = contract.issue(file_name, web3.sha3(xml_string), {from:web3.eth.accounts[0], gas: 500000});
-    // console.log(accept_hash);
-    //     // 업데이트 처리 
-    // RequestDetailModel.update(
-    //     {
-    //         seq : seq
-    //     },
-    //     {   // seq를 키로 fee_yn을 업데이트 한다.
-    //         $set : {
-    //             accept_yn : 'Y',
-    //             accept_hash: req.body.accept_hash
-    //         }
-    //     }, function(err){
-    //         // 에러가 발생하면 Error
-    //         if(err){
-    //             throw err;
-    //         }
-    //     }
-    // );
-
 });
 
-
-// router.get('/products', function(req, res){
-
-//     if(!req.isAuthenticated()){
-
-//         res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/accounts/login"</script>');
-//     }else{
-        
-//         ProductsModel.find(function(err, products){
-
-//             res.render('admin/products', 
-//                 {
-//                     products : products
-//                 }
-//             );
-//         });
-//     }
-// });
-
-// 제품 목록페이지
-// router.get('/students/studentslist', paginate.middleware(5, 50), async (req,res) => {
-
-//     if(!req.isAuthenticated()){
-
-//         res.send('<script>alert("로그인이 필요한 서비스입니다.");location.href="/accounts/login"</script>');
-//     }else{
-
-//         const [ results, itemCount ] = await Promise.all([
-//             // sort : minus 하면 내림차순(날짜명)이다.
-//             StudentsModel.find().sort('-created_at').limit(req.query.limit).skip(req.skip).exec(),
-//             StudentsModel.count({})
-//         ]);
-//         const pageCount = Math.ceil(itemCount / req.query.limit);
-        
-//         const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
-
-//         res.render('admin/adminstudentlist', 
-//             { 
-//                 students : results , 
-//                 pages: pages,
-//                 pageCount : pageCount,
-//             });
-//     }
-// });
 
 
 // GET 어드민 홈 전체 학생목록 불러오기 
@@ -386,34 +317,6 @@ router.get('/products/detail/:id' , function(req, res){
     });
 });
 
-    // 두 번째 코딩
-    // 디비에서 제품정보를 id값으로 받아온다.
-    // ProductsModel.findOne(
-    //     {   
-    //         'id' : req.params.id
-    //     }, function(err, products){
-            
-    //             CommentsModel.find(
-    //                 {   // 댓글디비의 id를 제품정보 id로 조회
-    //                     product_id : req.params.id
-    //                 }, 
-    //                 function(err, comments){
-    //                     // url로 키값을 보낸다.
-    //                     res.render('admin/productsDetail', 
-    //                     {
-    //                         product : products,
-    //                         comments : comments    
-    //                     }
-    //                 );  
-            
-            // 첫 번째 코딩          
-            // res.render로 해당 ejs 파일에 보내준다.
-            // res.render('admin/productsDetail', 
-            // {
-            //     product : product
-            // });
-    //     });
-    // });
 
 // GET 어드민 등록제품 상세페이지
 router.get('/products/productsdetail/:id' , function(req, res){
@@ -772,67 +675,51 @@ router.get('/statistics', function(req, res){
 
 // GET 어드민 홈 통계
 router.get('/adminhome', adminRequired, function(req, res) {
-var date = new Date();
-  date.setDate(date.getDate() - 7);
-  date.setHours(0, 0, 0);
-    // 체크아웃 모델에서 검색, orderList 파라미터로 전달
-    CheckoutModel.find(
-      {
-        created_at: {
-          '$gte': date
-        }
-      },
-      function(err, orderList){
 
-    // 체크아웃 모델에서 검색, orderList 파라미터로 전달
-    // CheckoutModel.find( function(err, orderList){ 
-
-        var barData = [];   // 넘겨줄 막대그래프 데이터 초기값 선언
-        var pieData = [];   // 원차트에 넣어줄 데이터 삽입
-        var cnt = 1;
-
-        
-        // orderList에서 반복문을 돌려 order 파라미터로 전달
-        orderList.forEach(function(order){
-            // 08-10 형식으로 날짜를 받아온다
-            var date = new Date(order.created_at); // 현재 대한민국 표준시
-            var monthDay = (date.getMonth()+1) + '-' + date.getDate();
-            
-            // 날짜에 해당하는 키값으로 조회
-            if(monthDay in barData){
-                cnt++;
-                barData[monthDay]++; // 있으면 더한다
-                console.log('barData[monthDay]++' + barData[monthDay]++);
-            }else{
-
-                barData[monthDay] = 1; // 없으면 초기값 1넣어준다.
-                console.log('barData[monthDay] = 1');
-                console.log(barData[monthDay] = 1);
-            }
-
-            // 결제 상태를 검색해서 조회
-            if(order.status in pieData){
-
-                pieData[order.status]++; // 있으면 더한다
-                console.log('pieData[order.status]++' + pieData[order.status]++);
-            }else{
-
-                pieData[order.status] = 1; // 없으면 결제상태+1
-                console.log(pieData[order.status] = 1);
-            }
-
-        });
         // 어드민 홈에 보낼 데이터 (통계, 등록제품 목록)
-        StudentsModel.find(function(err, products){
+        // StudentsModel.find(function(err, products){
+            
+        //     res.render('admin/adminhome', 
+        //         { 
+        //             products : products 
+        //         } );
+        // });
+        // const [ results, itemCount ] = await Promise.all([
+        //     // sort : minus 하면 내림차순(날짜명)이다.
+        //     RequestDetailModel.find({"fee_yn" : 'Y'}).sort('-seq').limit(req.query.limit).skip(req.skip).exec(),
+        //     RequestDetailModel.count({"fee_yn" : 'Y'})
+        // ]);
+    
+        // const pageCount = Math.ceil(itemCount / req.query.limit);
+        // const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
+    
+        // res.render('admin/adminproductslist', 
+        //     { 
+        //         requestdetail : results , 
+        //         pages: pages,
+        //         pageCount : pageCount,
+        //         user: req.user
+        //     });
+
+        var getData = async() => {
+            // async()함수를 만들고 return반환 후 처리가 다 되면 getData().then이 실행된다.
+            return {
+                
+                requestdetails : await RequestDetailModel.find( { "fee_yn" : 'Y' }).exec()
+                // StudentsModel : await StudentsModel.find( { 'user_name' :  req.user.user_name }).exec(),
+            };
+        };
+        getData().then( function(result){
             
             res.render('admin/adminhome', 
                 { 
-                    barData : barData, cnt : cnt, 
-                    pieData:pieData, 
-                    products : products 
-                } );
-        }); 
-    });  
+                    requestdetail: result.requestdetails
+                });
+        });
+
+        
+
+
 });
 
 // 회원가입 페이지
