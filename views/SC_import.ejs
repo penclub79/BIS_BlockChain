@@ -93,27 +93,19 @@
     }
 
     // 관리자 승인 메서드
-    function accept_(seq, file_name){
+    function adminAccept(seq, file_name) {
        
-        var answer = confirm('승인하겠습니까?');
+        var answer = confirm('해당 신청서를 승인하겠습니까?');
         if(answer){
-            // createContract(fileName, xmlString, function(status){
+            var prams = 'seq='+seq+'&file_name='+file_name;
+            var client1 = new XMLHttpRequest();
+            client1.open("POST",'/admin/acceptContract',true);
+            client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            client1.send(prams);
 
-            //     if(accept_hash!=''){
-                    //admin 플래그 'N'->'Y' 업데이트
-                    var prams1 = 'seq='+seq+'&file_name='+file_name;
-                    var client1 = new XMLHttpRequest();
-                    client1.open("POST",'/admin/acceptContract',true);
-                    client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    client1.send(prams1);
-                    // alert('정상적으로 승인처리를 완료하였습니다.');
-                    // location.href='/admin/products/productslist';
-                    
-            //     }
-            // });
+            location.href='productslist';
         }
     }
-
 
     //수수료를 관리자 계정으로 이체
     function sendFee(recodeSeq){
@@ -124,29 +116,33 @@
                 alert('계정이 유효하지 않습니다. 관리자에게 문의하세요.');
             }else{
                 var answer = confirm('수수료는 0.1eth 입니다. 진행하겠습니까?');
+                // alert('blockchainid: '+blockchainid);
                 if(answer){
                     //2. 관리자 계정으로 수수료 송부
-                    var fee_tx = web3.eth.sendTransaction({
-                                from: blockchainid,         //로그인한 사용자 계정
-                                to: web3.eth.accounts[0],   //관리자 계정
-                                value: web3.toWei(0.1,'ether')
-                                });
-                    
-                    if(fee_tx !=''){
+                    web3.eth.sendTransaction({
+                        from: blockchainid,         //로그인한 사용자 계정
+                        to: web3.eth.accounts[0],   //관리자 계정
+                        value: web3.toWei(0.1,'ether')
+                        }, 
+                        function(err, res){
+                            // alert(err);
+                            // alert(res);
+                            if(err == null){ 
+                                //3. 수수료납부여부 업데이트
+                                var prams1 = 'seq='+recodeSeq+'&fee_tx='+res;
+                                var client1 = new XMLHttpRequest();
+                                client1.open("POST",'updateLog',true);
+                                client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                                client1.send(prams1);
 
-                        //3. 수수료납부여부 업데이트
-                        var prams1 = 'seq='+recodeSeq+'&fee_tx='+fee_tx;
-                        var client1 = new XMLHttpRequest();
-                        client1.open("POST",'updateLog',true);
-                        client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                        client1.send(prams1);
+                                alert('정상적으로 수수료를 납부하였습니다.');
+                                location.href='/accounts/acceptList';
 
-                        alert('정상적으로 수수료를 납부하였습니다.');
-                        location.href='/accounts/acceptList';
-                    }else{
-                        alert('수수료가 납부되지 않았습니다. 관리자에게 문의하세요.');
-                        location.href='/accounts/acceptList';
-                    }
+                            }else{
+                                alert('이더가 충분하지 않습니다. 관리자에게 문의하세요.');
+                            }
+
+                        });
                 }else{
                     alert('취소했습니다.');
                 }
