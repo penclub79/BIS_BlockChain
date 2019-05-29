@@ -705,22 +705,25 @@ router.get('/adminhome', adminRequired, function(req, res) {
             // async()함수를 만들고 return반환 후 처리가 다 되면 getData().then이 실행된다.
             return {
                 
-                requestdetails : await RequestDetailModel.find( { "fee_yn" : 'Y' }).exec()
-                // StudentsModel : await StudentsModel.find( { 'user_name' :  req.user.user_name }).exec(),
+                requestdetails : await RequestDetailModel.find( { "fee_yn" : 'Y' }).exec(),
+                stulist : await UserModel.find( { 'user_name' :  req.user.user_name }).exec(),
             };
         };
         getData().then( function(result){
             
             res.render('admin/adminhome', 
                 { 
-                    requestdetail: result.requestdetails
+                    requestdetail : result.requestdetails,
+                    stulist : result.stulist
                 });
         });
+        // UserModel.find( function(err, stuList){ //첫번째 인자는 err, 두번째는 받을 변수명
+    
+        //     res.render( 'admin/adminhome' ,   
+        //         { stulist : stuList }
+        //     );
+    });
 
-        
-
-
-});
 
 // 회원가입 페이지
 router.get('/studentregedit', function(req, res){
