@@ -8,7 +8,7 @@
 
     //web3 정보
     // const provider = 'http://220.76.95.91:8546';
-    const provider = 'http://220.76.95.91:8545';
+    const provider = 'http://220.76.95.91:8485';
     var Web3 = require('web3');
     var web3 = new Web3(new Web3.providers.HttpProvider(provider));
     
@@ -46,31 +46,34 @@
     //              - 해당 파일을 IPFS에 업로드
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     function createXML(file_name){
-       
         bxfXmlSaveCspPrepare();
         bxfSearchTextPrepare();
 
         var inXML = $('#inXMLcontent').val();
         var calXML= $('#calXMLcontent').val();
         var params = 's_inXML='+inXML+'&s_calXML='+calXML+'&file_name='+file_name;
+        // console.log('----------------+++++++++++++++++++++++++++++++++++++++++++');
+        // console.log(calXML);
         var client = new XMLHttpRequest();
+        // alert(inXML);
+        // alert(calXML);
 
         //API 호출!
-        client.open('POST','callAPI', true);
+        client.open('POST','/accounts/callAPI/', true);
         client.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        // client.setRequestHeader('Content-type', 'multipart/form-data; charset=utf8;' );
         client.send(params);
 
-        client.onreadystatechange = function(){
-            if(client.readyState == 4 && client.status == 200){
-                var result = client.responseText;
-                alert(result);
-                // callback(result);
-            }
-        };
+        // client.onreadystatechange = function(){
+        //     if(client.readyState == 4 && client.status == 200){
+        //         var result = client.responseText;
+        //         alert(result);
+        //         // callback(result);
+        //     }
+        // };
     }
 
     function ontx(){
-
         var answer = confirm('신청서를 제출하겠습니까?');
         if(answer){
             //1. authXML엔진을 통해 xml파일생성 및 IPFS 업로드
@@ -103,7 +106,7 @@
             client1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             client1.send(prams);
 
-            location.href='productslist';
+            // location.href='productslist';
         }
     }
 
@@ -116,7 +119,6 @@
                 alert('계정이 유효하지 않습니다. 관리자에게 문의하세요.');
             }else{
                 var answer = confirm('수수료는 0.1eth 입니다. 진행하겠습니까?');
-                // alert('blockchainid: '+blockchainid);
 
                 if(answer){
                     //2. 관리자 계정으로 수수료 송부
@@ -126,8 +128,6 @@
                         value: web3.toWei(0.1,'ether')
                         }, 
                         function(err, res){
-                            // alert(err);
-                            // alert(res);
                             if(err == null){ //에러가 발생하지 않을 때,
 
                                 //3. 수수료납부여부 업데이트
@@ -142,9 +142,8 @@
                                 location.href='/accounts/acceptList';
 
                             }else{
-                                alert('이더가 충분하지 않습니다. 관리자에게 문의하세요.');
+                                alert('이더가 충분하지 않습니다.');
                             }
-
                         });
                 }else{
                     alert('취소했습니다.');

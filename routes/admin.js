@@ -244,9 +244,69 @@ router.get('/products/productslist', paginate.middleware(10, 50), async (req,res
 router.post('/acceptContract', async (req,res) =>{
 
     var Web3 = require('web3');
-    var abi = [{"constant":false,"inputs":[{"name":"_contractFile","type":"string"},{"name":"_contractHash","type":"bytes32"}],"name":"issue","outputs":[],"payable":false,"type":"function","stateMutability":"nonpayable"},{"constant":true,"inputs":[],"name":"getContracts","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"type":"function","stateMutability":"view"},{"constant":true,"inputs":[{"name":"_contractHash","type":"bytes32"}],"name":"getContract","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"bytes32"}],"payable":false,"type":"function","stateMutability":"view"}];
+    var abi = [
+                {
+                    "constant": false,
+                    "inputs": [
+                        {
+                            "name": "_contractFile",
+                            "type": "string"
+                        },
+                        {
+                            "name": "_contractHash",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "name": "issue",
+                    "outputs": [],
+                    "payable": false,
+                    "type": "function",
+                    "stateMutability": "nonpayable"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "getContracts",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "bytes32[]"
+                        }
+                    ],
+                    "payable": false,
+                    "type": "function",
+                    "stateMutability": "view"
+                },
+                {
+                    "constant": true,
+                    "inputs": [
+                        {
+                            "name": "_contractHash",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "name": "getContract",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "address"
+                        },
+                        {
+                            "name": "",
+                            "type": "string"
+                        },
+                        {
+                            "name": "",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "payable": false,
+                    "type": "function",
+                    "stateMutability": "view"
+                }
+            ];
     var addr = '0xEF61b96F9dE577af72fD4FfcA1dB999B3E2Eb521';
-    var provider = 'http://220.76.95.91:8545';
+    var provider = 'http://220.76.95.91:8485';
     var web3 = new Web3(new Web3.providers.HttpProvider(provider));
     var contract = new web3.eth.Contract(abi,addr);
     web3.eth.defaultAccount = '0xf963d99d7635c604b132dc495476d931ac642ed1'; //Fixed 관리자 계정

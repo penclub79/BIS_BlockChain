@@ -308,12 +308,16 @@ router.get('/studentlist', loginRequired, function(req, res){
 });
 
 
+// 서식 호출
+router.get('/apply/:type', loginRequired, function(req, res){
+    console.log(req.params.type);
+    res.render('formats/D190524PCapp_form', { user : req.user, property:req.params.type }); 
+});
 // 졸업증명서 호출
 router.get('/graduate', loginRequired, function(req, res){
-    console.log(req.user)
-    res.render('formats/BOKSOO.ejs', { user : req.user });
+    console.log(req.params.type);
+    res.render('formats/BOKSOO', { user : req.user, property:req.params.type }); 
 });
-
 //신청내역 조회 화면 로드
 router.get('/acceptList', paginate.middleware(10, 50), async (req,res) => {
 
@@ -431,53 +435,58 @@ router.post('/updateLog', function(req, res){
             if(err){
                 throw err;
             }
-            // else{  
-                // res.redirect('/accounts/acceptList');
-            // }
         }
     );
     
 });
 
 router.post('/callAPI',  function (req,res) {
-    
     var s_inXML = req.body.s_inXML;
-    var s_calXML = req.body.s_calXML;
+    var s_calXML = req.body.s_calXML.replace(/ /gi, "+");
     var file_name = req.body.file_name;
     var ipfsClient = require('ipfs-http-client');
     var ipfs = ipfsClient('220.76.95.91', '5001', {protocol:'http'});
-    
+
+    // console.log('-----------------------------------------------s_inXML Start!!!!');
+    // console.log(s_inXML);
+    // console.log('-----------------------------------------------s_inXML End!!!!');
+    // console.log('-----------------------------------------------s_calXML Start!!!');
+    // console.log(s_calXML);
+    // console.log('-----------------------------------------------s_calXML End!!!');
     request({
         uri: "http://xmlapi.datafarm.co.kr/soaxmlEngineApi.jsp?apiKey=5acda40a5de6a72c70b12679",
         method: "POST",
+        enctype: 'multipart/form-data',
         form: {
             s_inXML: s_inXML,
             s_calXML: s_calXML
         }
-    }, function (error, response, xmlString){
+    }, function (error, response, xmlResult){
             // fs.exists(file_name, async(exists)=>{
                 // if(!exists){
                     // await fs.writeFile('./xmldata/'+file_name, xmlString.trim(), 'utf8', function(error){
                     //     if (error) {throw error};
                     //     console.log('1111111111');
                     // });
-
+                    var xmlString = xmlResult.trim();
+                    // console.log('-----------------------------------------------XML 완성');
+                    // console.log(xmlString);
                     ipfs.add({
                         // path: './xmldata/'+file_name,
-                        content: Buffer.from(xmlString.trim())
-                    },function (err,res){
+                        content: Buffer.from(xmlString)
+                    },async (err,res)=>{
                         // console.log(res[0].hash);
                         if(err==null){
-                            var RequestDetail = new RequestDetailModel({
+                            var RequestDetail = await new RequestDetailModel({
                                 user_id : req.user.user_id,
                                 name : req.user.user_name,
                                 // form_type : req.body.form_type,
                                 form_name : '졸업증명서',
                                 ipfs_hash : res[0].hash,
                                 file_name : file_name,
-                                xml_string: xmlString.trim()
+                                xml_string: xmlString
                             });
-                            RequestDetail.save(function(err){
+                            await RequestDetail.save(function(err){
                             });
                         }
                     });

@@ -73,6 +73,7 @@ app.use(cookieParser());
 
 // 업로드일 때 정적 path 추가 
 app.use('/accounts', express.static('formats'));
+app.use('/accounts/apply', express.static('formats'));
 app.use('/images', express.static('images'));
 app.use('/EAO', express.static('EAO'));
 app.use('/xmldata', express.static('xmldata'));

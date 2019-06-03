@@ -1,0 +1,319 @@
+<% include ../SC_header.ejs %>
+<form name="D190524PCapp_form" enctype="multipart/form-data">
+	<textarea id="calXMLcontent" name="calXMLcontent" style="display:none"></textarea>
+	<textarea id="inXMLcontent" name="inXMLcontent" style="display:none"></textarea>
+	<textarea id="calTextcontent" name="calTextcontent" style="display:none"></textarea>
+	<textarea id="outXMLcontent" name="outXMLcontent" style="display:none"></textarea>
+	<textarea id="outXMLurl" name="outXMLurl" style="display:none"></textarea>
+	<input type="hidden" name="xmlFileLink" id="xmlFileLink" value=""/>
+	<input type="hidden" name="title" id="title" value="D190524PCapp_form"/>
+	<input type="hidden" name="savefilepath" value="">
+	<input type="hidden" name="imagesavepath" value="">
+	<input type="hidden" name="imagematchinfo" value="">
+	<input type="hidden" name="H_DownloadFilePath" value="">
+	<input type="hidden" name="DownloadFilePath" value="">
+	<input type="hidden" name="H_root/contents/name" value=""/>
+<input type="hidden" name="H_root/contents/major_department" value=""/>
+<input type="hidden" name="H_root/contents/Year_of_graduation" value=""/>
+<input type="hidden" name="H_root/contents/class_of" value=""/>
+<input type="hidden" name="H_root/contents/purpose" value=""/>
+<input type="hidden" name="H_root/contents/date" value=""/>
+<input type="hidden" name="H_root/contents/Other_matters" value=""/>
+<input type="hidden" name="H_root/contents/sign" value=""/>
+<input type="hidden" name="H_root/contents/TITLE" value=""/>
+<P>
+<TABLE style="WIDTH: 700px" borderColor=#000000 cellSpacing=0 cellPadding=3 align=center border=1>
+<COLGROUP>
+<COL width=700>
+</COL>
+</COLGROUP>
+<TBODY>
+<TR>
+<TD>
+<P>
+<TABLE id=20190524_173729 style="WIDTH: 95%" borderColor=#000000 cellSpacing=0 cellPadding=3 align=center border=0>
+<COLGROUP>
+<COL>
+</COL>
+</COLGROUP>
+<TBODY>
+<TR>
+<TD>
+<P align=center>
+<SPAN style="FONT-SIZE: 18pt">
+<SELECT id='form_type' name=root/contents/TITLE>
+<OPTION selected value="graduate">졸업 증명
+</OPTION>
+<OPTION value="attend">재학 증명
+</OPTION>
+<OPTION value="3">성적 증명
+</OPTION>
+</SELECT>&nbsp;
+<STRONG>신청서
+</STRONG>
+</SPAN>
+</P>
+</TD>
+</TR>
+<TR style="HEIGHT: 30px">
+<TD>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</P>
+<P>
+<TABLE style="WIDTH: 95%" borderColor=#000000 cellSpacing=0 cellPadding=3 align=center border=1>
+<COLGROUP>
+<COL width="18%">
+</COL>
+<COL width="32%">
+</COL>
+<COL width="18%">
+</COL>
+<COL width="32%">
+</COL>
+</COLGROUP>
+<TBODY>
+<TR>
+<TD bgColor=#afeeee colSpan=4>
+<P align=center>
+<STRONG>
+<SPAN style="FONT-SIZE: 12pt">신청 내역
+</SPAN>
+</STRONG>
+</P>
+</TD>
+</TR>
+<TR>
+<TD bgColor=#e9e9e9>
+<P align=center>
+<STRONG>이름*
+</STRONG>
+</P>
+</TD>
+<TD>
+<P>
+<INPUT style="WIDTH: 95%" name=root/contents/name value="<%=user.user_name%>"/>
+</P>
+</TD>
+<TD bgColor=#e9e9e9>
+<P align=center>
+<STRONG>전공학과*
+</STRONG>
+</P>
+</TD>
+<TD>
+<P>
+<INPUT style="WIDTH: 95%" name=root/contents/major_department value="<%=user.major%>"/>
+</P>
+</TD>
+</TR>
+<TR>
+<TD bgColor=#e9e9e9>
+<P align=center>
+<STRONG>졸업(수료)년도
+</STRONG>
+</P>
+</TD>
+<TD>
+<P>
+<INPUT id='datepicker_20190526_142300' style="WIDTH: 100px" name=root/contents/Year_of_graduation value="2019">
+</P>
+</TD>
+<TD bgColor=#e9e9e9>
+<P align=center>
+<STRONG>학번*
+</STRONG>
+</P>
+</TD>
+<TD>
+<P>
+<INPUT style="WIDTH: 95%" name=root/contents/class_of value="<%=user.user_id%>"/>
+</P>
+</TD>
+</TR>
+<TR>
+<TD bgColor=#e9e9e9>
+<P align=center>
+<STRONG>용도*
+</STRONG>
+</P>
+</TD>
+<TD>
+<P>
+<INPUT style="WIDTH: 95%" name=root/contents/purpose>
+</P>
+</TD>
+<TD bgColor=#e9e9e9>
+<P align=center>
+<STRONG>신청일
+</STRONG>
+</P>
+</TD>
+<TD>
+<P>
+<INPUT id=datepicker_20190526_142502 style="WIDTH: 100px" name=root/contents/date>
+</P>
+</TD>
+</TR>
+<TR style="HEIGHT: 60px">
+<TD bgColor=#e9e9e9>
+<P align=center>
+<STRONG>기타사항
+</STRONG>
+</P>
+</TD>
+<TD colSpan=3>
+<P>
+<TEXTAREA style="HEIGHT: 100px; WIDTH: 95%" name=root/contents/Other_matters>
+</TEXTAREA>&nbsp;
+</P>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</P>
+<TABLE id=20190526_142833 style="WIDTH: 95%" borderColor=#000000 cellSpacing=0 cellPadding=3 align=center border=0>
+<COLGROUP>
+<COL>
+</COL>
+</COLGROUP>
+<TBODY>
+<TR style="HEIGHT: 30px">
+<TD>
+<P>&nbsp;
+</P>
+</TD>
+</TR>
+<TR>
+<TD>
+<P align=center>
+<SPAN style="FONT-SIZE: 11pt">상기 본인은&nbsp;증명서 발급을 요청 합니다.
+</SPAN>
+</P>
+</TD>
+</TR>
+<TR style="HEIGHT: 100px">
+<TD>
+<P>&nbsp;
+</P>
+</TD>
+</TR>
+<TR>
+<TD>
+<TABLE id=1 style="WIDTH: 40%" borderColor=#e0e0e0 cellSpacing=0 cellPadding=1 align=right border=1>
+<COLGROUP>
+<COL>
+</COL>
+</COLGROUP>
+<TBODY>
+<TR>
+<TD>
+<P align=center>신청자
+</P>
+</TD>
+</TR>
+<TR style="HEIGHT: 205px">
+<TD>
+<DIV align=center>
+<DIV id=div_root_contents_sign class=signature style="HEIGHT: 200px; WIDTH: 95%; POSITION: relative">
+<DIV align=left>&nbsp;
+</DIV>
+</DIV>
+</DIV>
+<DIV align=center>&nbsp;
+</DIV>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</TD>
+</TR>
+<TR style="HEIGHT: 30px">
+<TD>
+<P align=center>
+<STRONG>
+<SPAN style="FONT-SIZE: 16pt">
+</SPAN>
+</STRONG>&nbsp;
+</P>
+</TD>
+</TR>
+<TR>
+<TD>
+<P align=center>
+<STRONG>
+<SPAN style="FONT-SIZE: 16pt">3K BICAS 대학교 교무처 귀중
+</SPAN>
+</STRONG>
+</P>
+</TD>
+</TR>
+<TR style="HEIGHT: 30px">
+<TD>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</P>
+	<div class="docBtn_list">
+		<input type="button" value="Apply" onclick="ontx()" /> &#160;
+		<!-- <input type="button" value="List" onclick="javascript:bxfXmlListMongodb();" /> &#160; -->
+		<!-- <input type="button" value="Search" onclick="javascript:bxfXmlSearchMongodb();" /> -->
+	</div>
+<input type="hidden" name="root/contents/sign" id="root_contents_sign">
+</form>
+<script type="text/javascript" src="http://www.uccxml.com/xdrp/sys/lib/bxComponent/tinymce/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="http://www.uccxml.com/xdrp/sys/lib/bxComponent/bxComponent.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		loaded();
+	});
+</script>
+<script LANGUAGE="JavaScript" FOR="XMLfile" EVENT="XMLdown(lFile)">
+	if(lFile != "" ) {
+		document.forms[0].outXMLcontent.value=lFile;
+		document.title=lFile;
+	}
+</script>
+<script LANGUAGE="JScript" FOR="XMLfile" EVENT="XMLupdate(lFile)">
+	if(lFile != "" ) {
+		bxfXmlDisplay(lFile);
+	}
+</script>
+<script>
+	$(document).ready(function(){
+		MakeInputSign($("#div_root_contents_sign"), $("#root_contents_sign"));
+	});
+</script>
+<script>
+	
+    function pad(n, width) {
+        n = n.toString();//string 변환
+        return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+    }   
+
+	var date = new Date();
+	$("#form_type").val('<%=property%>');
+	$('#datepicker_20190526_142502').val(
+		date.getFullYear()+
+		pad(date.getMonth(),2)+
+		pad(date.getDate(),2)
+	);
+</script>
+</body>
+</html>
+
+  <!-- 세션 정보 받아오기 user_id, blockChainid, blockChainpw -->
+  <input type="hidden" id='user_id' 		value="<%=user.user_id%>"/>
+  <input type="hidden" id='name' 			value="<%= user.user_name %>"/>
+  <input type="hidden" id='blockchainid' 	value="<%= user.blockchainid %>"/>
+  <input type="hidden" id='blockchainpwd' 	value="<%= user.blockchainpwd %>"/>
+  <!-- 세션 정보 받아오기 user_id, blockChainid, blockChainpw -->
+
+<% include ../SC_import.ejs %>
