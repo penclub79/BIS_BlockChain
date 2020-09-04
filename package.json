@@ -30,7 +30,7 @@
     "iamporter": "^1.4.2",
     "ipfs": "^0.36.1",
     "ipfs-http-client": "^32.0.1",
-    "mongodb": "^3.0.5",
+    "mongodb": "^3.1.13",
     "mongoose": "^4.11.2",
     "mongoose-auto-increment": "^5.0.1",
     "morgan": "^1.9.1",
